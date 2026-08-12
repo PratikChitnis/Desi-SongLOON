@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
-import { getChannel } from "@/lib/channels";
 import { nowPlaying } from "@/lib/scheduler";
+import { station } from "@/lib/station";
 
 export const dynamic = "force-dynamic";
 
@@ -8,11 +8,10 @@ export const dynamic = "force-dynamic";
 const MAX_ADVANCE_SEC = 3600;
 
 export function GET(request: Request) {
-  const params = new URL(request.url).searchParams;
-  const advance = Number(params.get("advance")) || 0;
+  const advance = Number(new URL(request.url).searchParams.get("advance")) || 0;
   const advanceSec = Math.min(Math.max(advance, 0), MAX_ADVANCE_SEC);
 
-  const state = nowPlaying(getChannel(params.get("channel")), Date.now() + advanceSec * 1000);
+  const state = nowPlaying(station, Date.now() + advanceSec * 1000);
 
   return NextResponse.json(state, {
     headers: { "cache-control": "no-store" },

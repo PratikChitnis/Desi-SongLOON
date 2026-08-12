@@ -2,15 +2,9 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import YouTubePlayer, { type PlayerHandle } from "./YouTubePlayer";
-import type { Channel, ChannelId, NowPlaying } from "@/lib/types";
+import type { NowPlaying } from "@/lib/types";
 
-interface Props {
-  channels: Pick<Channel, "id" | "name" | "tagline">[];
-  initialChannel: ChannelId;
-}
-
-export default function Station({ channels, initialChannel }: Props) {
-  const [channel, setChannel] = useState<ChannelId>(initialChannel);
+export default function Station({ tagline }: { tagline: string }) {
   const [state, setState] = useState<NowPlaying | null>(null);
   const [tunedIn, setTunedIn] = useState(false);
   const [playing, setPlaying] = useState(false);
@@ -23,11 +17,10 @@ export default function Station({ channels, initialChannel }: Props) {
   /** Seconds the listener has been fast-forwarded past unplayable tracks. */
   const advanceSec = useRef(0);
 
-  const tune = useCallback(async (channelId: ChannelId, autoplay: boolean) => {
-    const res = await fetch(
-      `/api/now-playing?channel=${channelId}&advance=${Math.round(advanceSec.current)}`,
-      { cache: "no-store" },
-    );
+  const tune = useCallback(async (autoplay: boolean) => {
+    const res = await fetch(`/api/now-playing?advance=${Math.round(advanceSec.current)}`, {
+      cache: "no-store",
+    });
     if (!res.ok) {
       setError("Could not reach the station. Retrying shortly.");
       return;
@@ -40,8 +33,8 @@ export default function Station({ channels, initialChannel }: Props) {
   }, []);
 
   useEffect(() => {
-    void tune(channel, tunedIn);
-  }, [channel, tunedIn, tune]);
+    void tune(false);
+  }, [tune]);
 
   useEffect(() => {
     if (!playing) return;
@@ -70,12 +63,12 @@ export default function Station({ channels, initialChannel }: Props) {
     skipped.current += 1;
     advanceSec.current += (state?.remainingSec ?? 0) + 1;
     if (skipped.current > 3) {
-      setError("Several tracks are unavailable here. Try another channel.");
+      setError("Several tracks in a row are unavailable here. Try again later.");
       return;
     }
     setError("That track is unavailable — skipping ahead.");
-    void tune(channel, true);
-  }, [channel, state, tune]);
+    void tune(true);
+  }, [state, tune]);
 
   const startListening = () => {
     setTunedIn(true);
@@ -85,16 +78,15 @@ export default function Station({ channels, initialChannel }: Props) {
   const togglePlay = () => {
     if (playing) {
       handle.current?.pause();
-    } else if (state) {
+    } else {
       advanceSec.current = 0;
       // Resyncing rather than resuming keeps every listener on the station clock.
-      void tune(channel, true);
+      void tune(true);
     }
   };
 
   const current = state?.track;
   const progress = current ? Math.min(100, (elapsed / current.durationSec) * 100) : 0;
-  const activeChannel = channels.find((c) => c.id === channel);
 
   return (
     <div className="mx-auto flex min-h-screen w-full max-w-3xl flex-col items-center justify-center gap-8 px-4 py-10">
@@ -102,36 +94,13 @@ export default function Station({ channels, initialChannel }: Props) {
         <h1 className="font-mono text-3xl font-black tracking-[0.2em] text-amber-300 drop-shadow-[0_2px_12px_rgba(0,0,0,0.6)] sm:text-5xl">
           DESI SONGLOON
         </h1>
-        <p className="mt-2 text-sm text-amber-100/70 sm:text-base">
-          90s Bollywood, playing round the clock
-        </p>
+        <p className="mt-2 text-sm text-amber-100/70 sm:text-base">{tagline}</p>
       </header>
-
-      <nav className="flex flex-wrap justify-center gap-2">
-        {channels.map((c) => (
-          <button
-            key={c.id}
-            onClick={() => {
-              skipped.current = 0;
-              advanceSec.current = 0;
-              setError(null);
-              setChannel(c.id);
-            }}
-            className={`rounded-full border px-4 py-1.5 text-sm backdrop-blur-sm transition ${
-              c.id === channel
-                ? "border-amber-300 bg-amber-300 font-semibold text-stone-900"
-                : "border-white/20 bg-black/25 text-amber-100/80 hover:border-white/50 hover:text-amber-100"
-            }`}
-          >
-            {c.name}
-          </button>
-        ))}
-      </nav>
 
       <div className="w-full max-w-xl rounded-3xl border border-white/10 bg-black/45 p-8 text-center shadow-2xl backdrop-blur-md">
         <p className="flex items-center justify-center gap-2 text-xs uppercase tracking-[0.3em] text-amber-300/80">
           <span className="inline-block h-2 w-2 animate-pulse rounded-full bg-red-500" />
-          On air · {activeChannel?.name}
+          On air
         </p>
 
         <h2 className="mt-5 text-3xl font-semibold leading-snug text-amber-50 sm:text-4xl">
@@ -176,19 +145,14 @@ export default function Station({ channels, initialChannel }: Props) {
         {error && <p className="mt-4 text-xs text-red-300">{error}</p>}
       </div>
 
-      {/*
-        YouTube's terms require the player to stay visible, so it sits in the
-        corner as a small window rather than being hidden behind the artwork.
-      */}
-      <div className="fixed bottom-4 left-4 z-10 w-[200px] overflow-hidden rounded-xl border border-white/15 opacity-40 shadow-lg transition hover:opacity-100">
-        <div className="aspect-video">
-          <YouTubePlayer
-            onReady={onReady}
-            onEnded={() => void tune(channel, true)}
-            onError={onError}
-            onPlayingChange={setPlaying}
-          />
-        </div>
+      {/* The player only supplies audio; it is parked offscreen rather than unmounted. */}
+      <div className="pointer-events-none fixed -left-[9999px] top-0 h-[240px] w-[320px]">
+        <YouTubePlayer
+          onReady={onReady}
+          onEnded={() => void tune(true)}
+          onError={onError}
+          onPlayingChange={setPlaying}
+        />
       </div>
     </div>
   );

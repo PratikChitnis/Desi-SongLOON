@@ -1,5 +1,3 @@
-export type ChannelId = "romantic" | "dance" | "soulful" | "retro-mix";
-
 export interface Track {
   /** YouTube video id of an official label upload. */
   youtubeId: string;
@@ -9,15 +7,14 @@ export interface Track {
   durationSec: number;
 }
 
-export interface Channel {
-  id: ChannelId;
+export interface Station {
+  id: string;
   name: string;
   tagline: string;
   tracks: Track[];
 }
 
 export interface NowPlaying {
-  channel: ChannelId;
   track: Track;
   /** Seconds already elapsed in the current track at `serverTime`. */
   offsetSec: number;
@@ -25,5 +22,4 @@ export interface NowPlaying {
   remainingSec: number;
   /** Epoch millis on the server when this response was computed. */
   serverTime: number;
-  upNext: Track[];
 }
