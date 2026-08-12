@@ -1,0 +1,350 @@
+{
+  "id": "library-07",
+  "name": "Library 7",
+  "tagline": "Expanded 90s catalogue",
+  "tracks": [
+    {
+      "youtubeId": "3gaFG_TbZJM",
+      "title": "Chane Ke Khet Mein",
+      "film": "Anjaam",
+      "year": 1994,
+      "durationSec": 382
+    },
+    {
+      "youtubeId": "FKbX2c2UkjY",
+      "title": "Badi Mushkil Hai",
+      "film": "Anjaam",
+      "year": 1994,
+      "durationSec": 323
+    },
+    {
+      "youtubeId": "IfjXZJ-YKt0",
+      "title": "Dil Ne Dil Ko Pukara",
+      "film": "Insaniyat",
+      "year": 1994,
+      "durationSec": 465
+    },
+    {
+      "youtubeId": "qFkNATtc3mc",
+      "title": "Ghungroo Toot Gaye",
+      "film": "Suhaag",
+      "year": 1994,
+      "durationSec": 146
+    },
+    {
+      "youtubeId": "sdlOZxmOpBM",
+      "title": "Sarkai Lo Khatiya",
+      "film": "Raja Babu",
+      "year": 1994,
+      "durationSec": 253
+    },
+    {
+      "youtubeId": "fdE3R8ojF5w",
+      "title": "A Aa I Ee",
+      "film": "Raja Babu",
+      "year": 1994,
+      "durationSec": 283
+    },
+    {
+      "youtubeId": "ijGumwamEQU",
+      "title": "Chumma Chumma",
+      "film": "Amaanat",
+      "year": 1994,
+      "durationSec": 464
+    },
+    {
+      "youtubeId": "zFbFU7lZZ-Y",
+      "title": "Dil Diya Hai Jaan Bhi Denge",
+      "film": "Ekka Raja Rani",
+      "year": 1994,
+      "durationSec": 400
+    },
+    {
+      "youtubeId": "zZasH6qkn8M",
+      "title": "Tere Naam Se Jee Loon",
+      "film": "Naaraaz",
+      "year": 1994,
+      "durationSec": 321
+    },
+    {
+      "youtubeId": "tA1aa0DHQNs",
+      "title": "Aaina Mujhse Meri Pehli Si Surat Mange",
+      "film": "Aaina",
+      "year": 1993,
+      "durationSec": 266
+    },
+    {
+      "youtubeId": "ntUJ3X_dBzE",
+      "title": "Pehli Baar Mile Do Ajnabi",
+      "film": "Aaina",
+      "year": 1993,
+      "durationSec": 262
+    },
+    {
+      "youtubeId": "iSUK1QoK9-E",
+      "title": "Pehla Nasha Pehla Khumar",
+      "film": "Pehla Nasha",
+      "year": 1993,
+      "durationSec": 303
+    },
+    {
+      "youtubeId": "eARlAKhwGXs",
+      "title": "Ana Mere Pyar Ko",
+      "film": "Kabhi Haan Kabhi Naa",
+      "year": 1993,
+      "durationSec": 239
+    },
+    {
+      "youtubeId": "PppKbgzfm68",
+      "title": "Deewana Dil Deewana",
+      "film": "Kabhi Haan Kabhi Naa",
+      "year": 1993,
+      "durationSec": 452
+    },
+    {
+      "youtubeId": "OWXi6JlkX3k",
+      "title": "Woh To Hai Albela",
+      "film": "Kabhi Haan Kabhi Naa",
+      "year": 1993,
+      "durationSec": 283
+    },
+    {
+      "youtubeId": "vo7vkwDvBEM",
+      "title": "Ye Kaisi Mohabbat Hai",
+      "film": "Tadipaar",
+      "year": 1993,
+      "durationSec": 357
+    },
+    {
+      "youtubeId": "0lRbM2AYvC8",
+      "title": "Rukmani Rukmani Shaadi Ke Baad",
+      "film": "Waqt Hamara Hai",
+      "year": 1993,
+      "durationSec": 318
+    },
+    {
+      "youtubeId": "YCuhzjK11iA",
+      "title": "Saanson Ki Zaroorat Hai Jaise",
+      "film": "Divya Shakti",
+      "year": 1993,
+      "durationSec": 357
+    },
+    {
+      "youtubeId": "amML_UjltQI",
+      "title": "Dil Deewana Na Jaane",
+      "film": "Sangram",
+      "year": 1993,
+      "durationSec": 378
+    },
+    {
+      "youtubeId": "JKqh5dmCax0",
+      "title": "Mausam Ki Tarah Tum",
+      "film": "Sainik",
+      "year": 1993,
+      "durationSec": 224
+    },
+    {
+      "youtubeId": "NsoMrPlE_o8",
+      "title": "Main Aashiq Awara",
+      "film": "Aashiq Awara",
+      "year": 1993,
+      "durationSec": 365
+    },
+    {
+      "youtubeId": "cGzLgiXEimI",
+      "title": "Dil Deta Hai Ro Ro Duhai",
+      "film": "Chandra Mukhi",
+      "year": 1993,
+      "durationSec": 502
+    },
+    {
+      "youtubeId": "KYkY6-Oeyoc",
+      "title": "Aiye Aapka Intezaar Tha",
+      "film": "Salaami",
+      "year": 1994,
+      "durationSec": 201
+    },
+    {
+      "youtubeId": "_jQaes9v0G8",
+      "title": "Kya Karte The Sajna",
+      "film": "Andolan",
+      "year": 1995,
+      "durationSec": 416
+    },
+    {
+      "youtubeId": "G7AdjVDBLO8",
+      "title": "Achha Sila Diya Tune Mere Pyar Ka",
+      "film": "Bewafa Sanam",
+      "year": 1995,
+      "durationSec": 312
+    },
+    {
+      "youtubeId": "M-nM8f27zWs",
+      "title": "Kisi Ki Zindagi",
+      "film": "Bewafa Sanam",
+      "year": 1995,
+      "durationSec": 286
+    },
+    {
+      "youtubeId": "IVeGCYxT_IU",
+      "title": "Dil Hai Ke Manta Nahin",
+      "film": "Rock Dancer",
+      "year": 1995,
+      "durationSec": 356
+    },
+    {
+      "youtubeId": "s5v2M-zcYIU",
+      "title": "Kali Nagin Ke Jaisi",
+      "film": "Kartavya",
+      "year": 1995,
+      "durationSec": 279
+    },
+    {
+      "youtubeId": "s5v2M-zcYIU",
+      "title": "Kali Nagin Ke Jaisi Zulfen",
+      "film": "Guddu",
+      "year": 1995,
+      "durationSec": 279
+    },
+    {
+      "youtubeId": "LQlEt6l3bj0",
+      "title": "Chura Ke Dil Mera Goriya",
+      "film": "Sabse Bada Khiladi",
+      "year": 1995,
+      "durationSec": 338
+    },
+    {
+      "youtubeId": "rRx88tN2LYo",
+      "title": "Sukoon Mila",
+      "film": "Naajayaz",
+      "year": 1995,
+      "durationSec": 234
+    },
+    {
+      "youtubeId": "atxnig2Uxqk",
+      "title": "Kabhi Tum Aao",
+      "film": "Prem",
+      "year": 1995,
+      "durationSec": 259
+    },
+    {
+      "youtubeId": "FEvBiayarlc",
+      "title": "Meri Nazar Hai Tujhpe",
+      "film": "Papa Kehte Hain",
+      "year": 1996,
+      "durationSec": 367
+    },
+    {
+      "youtubeId": "ZJwtc3SB83o",
+      "title": "Bin Tere Sanam",
+      "film": "Tere Mere Sapne",
+      "year": 1996,
+      "durationSec": 295
+    },
+    {
+      "youtubeId": "ylgJUsFEWqk",
+      "title": "Jaanam Samjha Karo",
+      "film": "English Babu Desi Mem",
+      "year": 1996,
+      "durationSec": 224
+    },
+    {
+      "youtubeId": "vGi_no1k9ps",
+      "title": "Sapne Mein Aana",
+      "film": "Sapoot",
+      "year": 1996,
+      "durationSec": 397
+    },
+    {
+      "youtubeId": "wyLbbE0a0ig",
+      "title": "Zindagi Ki Talash Mein",
+      "film": "Rakshak",
+      "year": 1996,
+      "durationSec": 349
+    },
+    {
+      "youtubeId": "_jQaes9v0G8",
+      "title": "Kya Karte The Saajna",
+      "film": "Bal Bramhachari",
+      "year": 1996,
+      "durationSec": 416
+    },
+    {
+      "youtubeId": "dSfTln5klcA",
+      "title": "Sun Beliya",
+      "film": "Army",
+      "year": 1996,
+      "durationSec": 449
+    },
+    {
+      "youtubeId": "_IcVb6hFhPs",
+      "title": "Ghar Se Nikalte Hi Kuch Door",
+      "film": "Dushman Duniya Ka",
+      "year": 1996,
+      "durationSec": 424
+    },
+    {
+      "youtubeId": "Ijre0k0MsPg",
+      "title": "Chachi 420 Title",
+      "film": "Chachi 420",
+      "year": 1997,
+      "durationSec": 389
+    },
+    {
+      "youtubeId": "rwxGkb4PFR4",
+      "title": "Ishq Mein Jeena",
+      "film": "Ishq Mein Jeena Ishq Mein Marna",
+      "year": 1994,
+      "durationSec": 360
+    },
+    {
+      "youtubeId": "7252XPCZfjI",
+      "title": "Dil Kya Kare Jab Kisi Ko",
+      "film": "Dil Kya Kare",
+      "year": 1999,
+      "durationSec": 373
+    },
+    {
+      "youtubeId": "txEPjAe8Vh0",
+      "title": "Mujhe Raat Din",
+      "film": "Sangharsh",
+      "year": 1999,
+      "durationSec": 297
+    },
+    {
+      "youtubeId": "xKx_80QM2LU",
+      "title": "Hum Tumhare Hain Sanam",
+      "film": "Hum Tumhare Hain Sanam",
+      "year": 2002,
+      "durationSec": 473
+    },
+    {
+      "youtubeId": "xKx_80QM2LU",
+      "title": "Gaao Sabhi Mil Ke",
+      "film": "Hum Tumhare Hain Sanam",
+      "year": 2002,
+      "durationSec": 473
+    },
+    {
+      "youtubeId": "ylgJUsFEWqk",
+      "title": "Jaanam Samjha Karo",
+      "film": "Jaanam Samjha Karo",
+      "year": 1999,
+      "durationSec": 224
+    },
+    {
+      "youtubeId": "LWRnW7ueP6Q",
+      "title": "Jab Se Tumhe Dekha Hai",
+      "film": "Laawaris",
+      "year": 1999,
+      "durationSec": 328
+    },
+    {
+      "youtubeId": "yREUdX4gW94",
+      "title": "Tumse Milne Ki Tamanna Hai",
+      "film": "International Khiladi",
+      "year": 1999,
+      "durationSec": 552
+    }
+  ]
+}

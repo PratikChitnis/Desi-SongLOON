@@ -1,0 +1,336 @@
+{
+  "id": "library-02",
+  "name": "Library 2",
+  "tagline": "Expanded 90s catalogue",
+  "tracks": [
+    {
+      "youtubeId": "4C1jh8ND3DA",
+      "title": "Gore Gore Mukhde Pe",
+      "film": "Anari",
+      "year": 1993,
+      "durationSec": 305
+    },
+    {
+      "youtubeId": "pDQd5fHGcTs",
+      "title": "Dil Ki Baat",
+      "film": "Anari",
+      "year": 1993,
+      "durationSec": 193
+    },
+    {
+      "youtubeId": "CLGEV7CqvBs",
+      "title": "Jab Se Tumko Dekha Hai Sanam",
+      "film": "Damini",
+      "year": 1993,
+      "durationSec": 335
+    },
+    {
+      "youtubeId": "dKIjbCYiwP4",
+      "title": "Sun Sun Sun Barsaat Ki Dhun",
+      "film": "Sir",
+      "year": 1993,
+      "durationSec": 342
+    },
+    {
+      "youtubeId": "lqwMs3Swcls",
+      "title": "Hum Na Samjhe The",
+      "film": "Gardish",
+      "year": 1993,
+      "durationSec": 274
+    },
+    {
+      "youtubeId": "TRkLyJsoqIU",
+      "title": "Ghungat Ki Aad Se",
+      "film": "Hum Hain Rahi Pyar Ke",
+      "year": 1993,
+      "durationSec": 333
+    },
+    {
+      "youtubeId": "u9ODJgpf-Hk",
+      "title": "Yeh Kaali Kaali Ankhen Nahi",
+      "film": "Hum Hain Rahi Pyar Ke",
+      "year": 1993,
+      "durationSec": 248
+    },
+    {
+      "youtubeId": "XthDsBQDt4o",
+      "title": "Bambai Se Gayi Poona",
+      "film": "Hum Hain Rahi Pyar Ke",
+      "year": 1993,
+      "durationSec": 283
+    },
+    {
+      "youtubeId": "4fSZ6oC7fhI",
+      "title": "Meri Chhoti Si Behen",
+      "film": "Roop Ki Rani Choron Ka Raja",
+      "year": 1993,
+      "durationSec": 248
+    },
+    {
+      "youtubeId": "KXkmrco12hI",
+      "title": "Pehla Pehla Pyar Hai",
+      "film": "Hum Aapke Hain Koun",
+      "year": 1994,
+      "durationSec": 288
+    },
+    {
+      "youtubeId": "uLhGOUtPfFQ",
+      "title": "Joote Do Paise Lo",
+      "film": "Hum Aapke Hain Koun",
+      "year": 1994,
+      "durationSec": 301
+    },
+    {
+      "youtubeId": "0dZrOnf-vmo",
+      "title": "Maye Ni Maye",
+      "film": "Hum Aapke Hain Koun",
+      "year": 1994,
+      "durationSec": 284
+    },
+    {
+      "youtubeId": "LMfxvd9w3Uc",
+      "title": "Dhiktana",
+      "film": "Hum Aapke Hain Koun",
+      "year": 1994,
+      "durationSec": 510
+    },
+    {
+      "youtubeId": "1pd9Dq5rcQg",
+      "title": "Chocolate Lime Juice",
+      "film": "Hum Aapke Hain Koun",
+      "year": 1994,
+      "durationSec": 293
+    },
+    {
+      "youtubeId": "AMz6mnBo4Kc",
+      "title": "Rimjhim Rimjhim",
+      "film": "1942 A Love Story",
+      "year": 1994,
+      "durationSec": 322
+    },
+    {
+      "youtubeId": "goidtvB-O54",
+      "title": "Pyar Hua Chupke Se",
+      "film": "1942 A Love Story",
+      "year": 1994,
+      "durationSec": 288
+    },
+    {
+      "youtubeId": "y2kVkpK9H8Q",
+      "title": "Yeh Safar Bahut Hai Kathin",
+      "film": "1942 A Love Story",
+      "year": 1994,
+      "durationSec": 224
+    },
+    {
+      "youtubeId": "aWB3XB6jYsk",
+      "title": "Subah Se Lekar",
+      "film": "Mohra",
+      "year": 1994,
+      "durationSec": 334
+    },
+    {
+      "youtubeId": "zuVEZzkMeIQ",
+      "title": "Love Rap",
+      "film": "Krantiveer",
+      "year": 1994,
+      "durationSec": 334
+    },
+    {
+      "youtubeId": "XiFu2wonHVg",
+      "title": "Yeh Raat Aur Yeh Doori",
+      "film": "Andaz Apna Apna",
+      "year": 1994,
+      "durationSec": 320
+    },
+    {
+      "youtubeId": "qCWfxLPHIQE",
+      "title": "Do Mastane Chale Zindagi Banane",
+      "film": "Andaz Apna Apna",
+      "year": 1994,
+      "durationSec": 251
+    },
+    {
+      "youtubeId": "-HefkOSBME4",
+      "title": "Elo Ji Sanam Hum Aa Gaye",
+      "film": "Andaz Apna Apna",
+      "year": 1994,
+      "durationSec": 378
+    },
+    {
+      "youtubeId": "FOioh0Hbzgo",
+      "title": "Aaj Kal Yaad Kuch",
+      "film": "Laadla",
+      "year": 1994,
+      "durationSec": 263
+    },
+    {
+      "youtubeId": "qrNbG2W6IRE",
+      "title": "Lagi Aaj Sawan Ki",
+      "film": "Yeh Dillagi",
+      "year": 1994,
+      "durationSec": 234
+    },
+    {
+      "youtubeId": "ZbvI3wKJ6p4",
+      "title": "Dekho Zara Dekho",
+      "film": "Yeh Dillagi",
+      "year": 1994,
+      "durationSec": 398
+    },
+    {
+      "youtubeId": "W49bb08RErg",
+      "title": "Tumse Milne Ko Dil",
+      "film": "Main Khiladi Tu Anari",
+      "year": 1994,
+      "durationSec": 310
+    },
+    {
+      "youtubeId": "jBpRItrod-Q",
+      "title": "Ruk Ja O Dil Deewane",
+      "film": "Dilwale Dulhania Le Jayenge",
+      "year": 1995,
+      "durationSec": 237
+    },
+    {
+      "youtubeId": "hw_HpTI_Wkw",
+      "title": "Na Jaane Mere Dil Ko Kya Ho Gaya",
+      "film": "Dilwale Dulhania Le Jayenge",
+      "year": 1995,
+      "durationSec": 337
+    },
+    {
+      "youtubeId": "tLTNNBMOaC0",
+      "title": "Ghar Aaja Pardesi",
+      "film": "Dilwale Dulhania Le Jayenge",
+      "year": 1995,
+      "durationSec": 453
+    },
+    {
+      "youtubeId": "nKKVCaPbS3M",
+      "title": "Jaati Hoon Main",
+      "film": "Karan Arjun",
+      "year": 1995,
+      "durationSec": 401
+    },
+    {
+      "youtubeId": "gRlAdFGZyk8",
+      "title": "Bhangda Paale",
+      "film": "Karan Arjun",
+      "year": 1995,
+      "durationSec": 377
+    },
+    {
+      "youtubeId": "9JYT_dyGW7k",
+      "title": "Ye Bandhan To Pyar Ka Bandhan Hai",
+      "film": "Karan Arjun",
+      "year": 1995,
+      "durationSec": 302
+    },
+    {
+      "youtubeId": "svZPpCAxTQM",
+      "title": "Husn Hai Suhana",
+      "film": "Coolie No 1",
+      "year": 1995,
+      "durationSec": 225
+    },
+    {
+      "youtubeId": "T6iE8pJOg44",
+      "title": "Main Toh Raste Se Ja Raha Tha",
+      "film": "Coolie No 1",
+      "year": 1995,
+      "durationSec": 212
+    },
+    {
+      "youtubeId": "3h97bQsMBjc",
+      "title": "Nazrein Mili Dil Dhadka",
+      "film": "Raja",
+      "year": 1995,
+      "durationSec": 323
+    },
+    {
+      "youtubeId": "QmEWg3P1GUQ",
+      "title": "Ankhiyan Milaoon Kabhi",
+      "film": "Raja",
+      "year": 1995,
+      "durationSec": 403
+    },
+    {
+      "youtubeId": "f-lBXIF1m4Y",
+      "title": "Hum Kya Karein",
+      "film": "Barsaat",
+      "year": 1995,
+      "durationSec": 350
+    },
+    {
+      "youtubeId": "tX8N9CvXLMQ",
+      "title": "Hai Rama",
+      "film": "Rangeela",
+      "year": 1995,
+      "durationSec": 223
+    },
+    {
+      "youtubeId": "gSzWH7lI-Wo",
+      "title": "Yaaron Sun Lo Zara",
+      "film": "Rangeela",
+      "year": 1995,
+      "durationSec": 320
+    },
+    {
+      "youtubeId": "jjaXiOfnZ-U",
+      "title": "Mangta Hai Kya",
+      "film": "Rangeela",
+      "year": 1995,
+      "durationSec": 203
+    },
+    {
+      "youtubeId": "r8IYn3_1McY",
+      "title": "Pyar Ye Jaane Kaisa Hai",
+      "film": "Rangeela",
+      "year": 1995,
+      "durationSec": 323
+    },
+    {
+      "youtubeId": "ZgNNumpTdPk",
+      "title": "Dil Mera Churaya Kyun",
+      "film": "Akele Hum Akele Tum",
+      "year": 1995,
+      "durationSec": 433
+    },
+    {
+      "youtubeId": "t5JSLRB9ZAU",
+      "title": "Raja Ko Rani Se Pyar Ho Gaya",
+      "film": "Akele Hum Akele Tum",
+      "year": 1995,
+      "durationSec": 284
+    },
+    {
+      "youtubeId": "xnxvRtzJLbM",
+      "title": "Chandi Ki Daal Par",
+      "film": "Gundaraj",
+      "year": 1995,
+      "durationSec": 240
+    },
+    {
+      "youtubeId": "0vXTVXM6HEE",
+      "title": "Ho Nahi Sakta",
+      "film": "Diljale",
+      "year": 1996,
+      "durationSec": 349
+    },
+    {
+      "youtubeId": "WkGqevlRJ8o",
+      "title": "Kadi Aaja Kadi Aaja",
+      "film": "Diljale",
+      "year": 1996,
+      "durationSec": 365
+    },
+    {
+      "youtubeId": "p1BqT2YBJgo",
+      "title": "Pardesi Pardesi",
+      "film": "Raja Hindustani",
+      "year": 1996,
+      "durationSec": 510
+    }
+  ]
+}
