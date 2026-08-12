@@ -25,9 +25,14 @@ export default function Station({ channels, initialChannel }: Props) {
 
   const handle = useRef<PlayerHandle | null>(null);
   const skipped = useRef(0);
+  /** Seconds the listener has been fast-forwarded past unplayable tracks. */
+  const advanceSec = useRef(0);
 
   const tune = useCallback(async (channelId: ChannelId, autoplay: boolean) => {
-    const res = await fetch(`/api/now-playing?channel=${channelId}`, { cache: "no-store" });
+    const res = await fetch(
+      `/api/now-playing?channel=${channelId}&advance=${Math.round(advanceSec.current)}`,
+      { cache: "no-store" },
+    );
     if (!res.ok) {
       setError("Could not reach the station. Retrying shortly.");
       return;
@@ -61,16 +66,21 @@ export default function Station({ channels, initialChannel }: Props) {
     [volume],
   );
 
-  /** A pulled or region-blocked video must not stall the station. */
+  /**
+   * A pulled or region-blocked video must not stall the station. The schedule is
+   * derived from the clock, so re-querying the current instant would return the
+   * same track: advance the query past the rest of it to reach the next one.
+   */
   const onError = useCallback(() => {
     skipped.current += 1;
+    advanceSec.current += (state?.remainingSec ?? 0) + 1;
     if (skipped.current > 3) {
       setError("Several tracks are unavailable here. Try another channel.");
       return;
     }
     setError("That track is unavailable — skipping ahead.");
     void tune(channel, true);
-  }, [channel, tune]);
+  }, [channel, state, tune]);
 
   const startListening = () => {
     setTunedIn(true);
@@ -81,6 +91,7 @@ export default function Station({ channels, initialChannel }: Props) {
     if (playing) {
       handle.current?.pause();
     } else if (state) {
+      advanceSec.current = 0;
       // Resyncing rather than resuming keeps every listener on the station clock.
       void tune(channel, true);
     }
@@ -107,6 +118,8 @@ export default function Station({ channels, initialChannel }: Props) {
             key={c.id}
             onClick={() => {
               skipped.current = 0;
+              advanceSec.current = 0;
+              setError(null);
               setChannel(c.id);
             }}
             className={`rounded-full border px-4 py-1.5 text-sm transition ${
@@ -178,7 +191,10 @@ export default function Station({ channels, initialChannel }: Props) {
               {playing ? "❚❚" : "▶"}
             </button>
             <button
-              onClick={() => void tune(channel, tunedIn)}
+              onClick={() => {
+                advanceSec.current = 0;
+                void tune(channel, tunedIn);
+              }}
               className="text-sm text-amber-100/60 underline-offset-4 hover:text-amber-100 hover:underline"
             >
               Sync to live
