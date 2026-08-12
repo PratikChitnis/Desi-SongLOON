@@ -1,14 +1,15 @@
 # Desi SongLOON
 
-A 24/7 online radio station for 90s Hindi film music. One continuous stream; every listener who
-tunes in hears the same song at the same position, like a real broadcast.
+A 24/7 online radio station for 90s Hindi film music: one continuous stream of 440 tracks that never
+needs a playlist to be picked.
 
 ## How it works
 
 The station is a **clock, not a queue**. There is no background worker and no playback state on the
-server: given the current time, `src/lib/scheduler.ts` derives which track is playing and how far
-into it we are, by walking the day's playlist durations. That makes playback synchronised across
-listeners, free to host on serverless, and immune to restarts.
+server: `src/lib/scheduler.ts` derives the day's running order and how far the schedule has got from
+the current time alone, so the station is free to host on serverless and immune to restarts. The
+clock picks where a listener joins the order; playback then walks it sequentially, each song from
+its beginning.
 
 The running order is reshuffled deterministically once per UTC day, so the station doesn't sound
 identical every morning.
