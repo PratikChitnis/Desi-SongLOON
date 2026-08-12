@@ -40,30 +40,38 @@ export function dailyOrder(tracks: Track[], stationId: string, atMs: number): Tr
 }
 
 /**
- * The station is a clock, not a queue: the current track is derived from the
- * time elapsed since the station epoch, so the stream is stateless and every
- * listener is synchronised to the same position.
+ * Which track the schedule has reached at `atMs`, by walking today's running
+ * order. Used to pick the entry point for a listener tuning in; playback then
+ * continues sequentially from the start of each track.
  */
-export function nowPlaying(station: Station, atMs: number = Date.now()): NowPlaying {
-  if (station.tracks.length === 0) {
-    throw new Error(`Station ${station.id} has no tracks`);
-  }
-  const order = dailyOrder(station.tracks, station.id, atMs);
-  const total = order.reduce((sum, t) => sum + t.durationSec, 0);
-
+function scheduledIndex(order: Track[], atMs: number): number {
+  const totalSec = order.reduce((sum, t) => sum + t.durationSec, 0);
   const dayStart = STATION_EPOCH_MS + Math.floor((atMs - STATION_EPOCH_MS) / DAY_MS) * DAY_MS;
-  let elapsed = Math.floor((atMs - dayStart) / 1000) % total;
+  let elapsed = Math.floor((atMs - dayStart) / 1000) % totalSec;
 
   let index = 0;
   while (elapsed >= order[index].durationSec) {
     elapsed -= order[index].durationSec;
     index = (index + 1) % order.length;
   }
+  return index;
+}
 
-  return {
-    track: order[index],
-    offsetSec: elapsed,
-    remainingSec: order[index].durationSec - elapsed,
-    serverTime: atMs,
-  };
+/**
+ * Resolves a track from the day's running order. Without `index` the station
+ * clock decides where a new listener joins; with one, the client is walking the
+ * order itself so that every song plays from its beginning.
+ */
+export function nowPlaying(
+  station: Station,
+  index?: number,
+  atMs: number = Date.now(),
+): NowPlaying {
+  if (station.tracks.length === 0) {
+    throw new Error(`Station ${station.id} has no tracks`);
+  }
+  const order = dailyOrder(station.tracks, station.id, atMs);
+  const at = index === undefined ? scheduledIndex(order, atMs) : index % order.length;
+
+  return { track: order[at], index: at, total: order.length };
 }

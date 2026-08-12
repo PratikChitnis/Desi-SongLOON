@@ -4,16 +4,12 @@ import { station } from "@/lib/station";
 
 export const dynamic = "force-dynamic";
 
-/** Bounds `advance` so a client can't ask the station to run days ahead. */
-const MAX_ADVANCE_SEC = 3600;
-
 export function GET(request: Request) {
-  const advance = Number(new URL(request.url).searchParams.get("advance")) || 0;
-  const advanceSec = Math.min(Math.max(advance, 0), MAX_ADVANCE_SEC);
+  const raw = new URL(request.url).searchParams.get("index");
+  const parsed = Number(raw);
+  const index = raw !== null && Number.isInteger(parsed) && parsed >= 0 ? parsed : undefined;
 
-  const state = nowPlaying(station, Date.now() + advanceSec * 1000);
-
-  return NextResponse.json(state, {
+  return NextResponse.json(nowPlaying(station, index), {
     headers: { "cache-control": "no-store" },
   });
 }

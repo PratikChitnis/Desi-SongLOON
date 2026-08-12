@@ -16,10 +16,8 @@ export interface Station {
 
 export interface NowPlaying {
   track: Track;
-  /** Seconds already elapsed in the current track at `serverTime`. */
-  offsetSec: number;
-  /** Seconds until the next track starts. */
-  remainingSec: number;
-  /** Epoch millis on the server when this response was computed. */
-  serverTime: number;
+  /** Position of the track in today's running order. */
+  index: number;
+  /** Number of tracks in today's running order. */
+  total: number;
 }

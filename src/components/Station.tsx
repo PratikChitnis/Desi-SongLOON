@@ -13,14 +13,15 @@ export default function Station({ tagline }: { tagline: string }) {
   const [error, setError] = useState<string | null>(null);
 
   const handle = useRef<PlayerHandle | null>(null);
-  const skipped = useRef(0);
-  /** Seconds the listener has been fast-forwarded past unplayable tracks. */
-  const advanceSec = useRef(0);
+  const failures = useRef(0);
 
-  const tune = useCallback(async (autoplay: boolean) => {
-    const res = await fetch(`/api/now-playing?advance=${Math.round(advanceSec.current)}`, {
-      cache: "no-store",
-    });
+  /**
+   * Loads a track from the day's running order. Omitting `index` lets the
+   * station clock pick the entry point; every track then plays from 0s.
+   */
+  const load = useCallback(async (index: number | undefined, autoplay: boolean) => {
+    const query = index === undefined ? "" : `?index=${index}`;
+    const res = await fetch(`/api/now-playing${query}`, { cache: "no-store" });
     if (!res.ok) {
       setError("Could not reach the station. Retrying shortly.");
       return;
@@ -28,13 +29,13 @@ export default function Station({ tagline }: { tagline: string }) {
     const next: NowPlaying = await res.json();
     setError(null);
     setState(next);
-    setElapsed(next.offsetSec);
-    if (autoplay) handle.current?.play(next.track.youtubeId, next.offsetSec);
+    setElapsed(0);
+    if (autoplay) handle.current?.play(next.track.youtubeId, 0);
   }, []);
 
   useEffect(() => {
-    void tune(false);
-  }, [tune]);
+    void load(undefined, false);
+  }, [load]);
 
   useEffect(() => {
     if (!playing) return;
@@ -54,35 +55,32 @@ export default function Station({ tagline }: { tagline: string }) {
     [volume],
   );
 
-  /**
-   * A pulled or region-blocked video must not stall the station. The schedule is
-   * derived from the clock, so re-querying the current instant would return the
-   * same track: advance the query past the rest of it to reach the next one.
-   */
+  const next = useCallback(() => {
+    if (!state) return;
+    failures.current = 0;
+    void load((state.index + 1) % state.total, true);
+  }, [state, load]);
+
+  /** A pulled or region-blocked video must not stall the station. */
   const onError = useCallback(() => {
-    skipped.current += 1;
-    advanceSec.current += (state?.remainingSec ?? 0) + 1;
-    if (skipped.current > 3) {
+    if (!state) return;
+    failures.current += 1;
+    if (failures.current > 3) {
       setError("Several tracks in a row are unavailable here. Try again later.");
       return;
     }
     setError("That track is unavailable — skipping ahead.");
-    void tune(true);
-  }, [state, tune]);
+    void load((state.index + 1) % state.total, true);
+  }, [state, load]);
 
   const startListening = () => {
     setTunedIn(true);
-    if (state) handle.current?.play(state.track.youtubeId, state.offsetSec);
+    if (state) handle.current?.play(state.track.youtubeId, 0);
   };
 
   const togglePlay = () => {
-    if (playing) {
-      handle.current?.pause();
-    } else {
-      advanceSec.current = 0;
-      // Resyncing rather than resuming keeps every listener on the station clock.
-      void tune(true);
-    }
+    if (playing) handle.current?.pause();
+    else handle.current?.resume();
   };
 
   const current = state?.track;
@@ -130,6 +128,13 @@ export default function Station({ tagline }: { tagline: string }) {
             >
               {playing ? "❚❚" : "▶"}
             </button>
+            <button
+              onClick={next}
+              className="h-12 w-12 rounded-full border border-white/20 text-lg text-amber-100 transition hover:border-white/50"
+              aria-label="Next song"
+            >
+              ▶▶
+            </button>
             <input
               type="range"
               min={0}
@@ -149,7 +154,7 @@ export default function Station({ tagline }: { tagline: string }) {
       <div className="pointer-events-none fixed -left-[9999px] top-0 h-[240px] w-[320px]">
         <YouTubePlayer
           onReady={onReady}
-          onEnded={() => void tune(true)}
+          onEnded={next}
           onError={onError}
           onPlayingChange={setPlaying}
         />
