@@ -89,7 +89,7 @@ export default function Station({ tagline }: { tagline: string }) {
   const progress = current ? Math.min(100, (elapsed / current.durationSec) * 100) : 0;
 
   return (
-    <div className="mx-auto flex min-h-screen w-full max-w-3xl flex-col items-center justify-center gap-8 px-4 py-10">
+    <div className="mx-auto flex min-h-screen w-full max-w-3xl flex-col items-center gap-8 px-4 py-10">
       <header className="text-center">
         <h1 className="font-mono text-3xl font-black tracking-[0.2em] text-amber-300 drop-shadow-[0_2px_12px_rgba(0,0,0,0.6)] sm:text-5xl">
           DESI SONGLOON
@@ -97,7 +97,7 @@ export default function Station({ tagline }: { tagline: string }) {
         <p className="mt-2 text-sm text-amber-100/70 sm:text-base">{tagline}</p>
       </header>
 
-      <div className="w-full max-w-xl rounded-3xl border border-white/10 bg-black/45 p-8 text-center shadow-2xl backdrop-blur-md">
+      <div className="my-auto w-full max-w-xl rounded-3xl border border-white/10 bg-black/45 p-8 text-center shadow-2xl backdrop-blur-md">
         <p className="flex items-center justify-center gap-2 text-xs uppercase tracking-[0.3em] text-amber-300/80">
           <span className="inline-block h-2 w-2 animate-pulse rounded-full bg-red-500" />
           On air
