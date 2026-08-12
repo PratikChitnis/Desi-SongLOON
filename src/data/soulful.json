@@ -1,0 +1,133 @@
+{
+  "id": "soulful",
+  "name": "Soulful & Sad",
+  "tagline": "For the late nights and long drives",
+  "tracks": [
+    {
+      "youtubeId": "KwiDJclWo44",
+      "title": "Tadap Tadap Ke Is Dil Se",
+      "film": "Hum Dil De Chuke Sanam",
+      "year": 1999,
+      "durationSec": 344
+    },
+    {
+      "youtubeId": "17LL_iqlHE8",
+      "title": "Sochenge Tumhe Pyar",
+      "film": "Deewana",
+      "year": 1992,
+      "durationSec": 369
+    },
+    {
+      "youtubeId": "djX5akV9la8",
+      "title": "Ek Ghar Banaunga",
+      "film": "Ek Duuje Ke Liye",
+      "year": 1981,
+      "durationSec": 361
+    },
+    {
+      "youtubeId": "8tUtWSVZAXQ",
+      "title": "Tum Mile Dil Khile",
+      "film": "Criminal",
+      "year": 1995,
+      "durationSec": 231
+    },
+    {
+      "youtubeId": "pKRK6AmQeGs",
+      "title": "Jaane Jigar Jaaneman",
+      "film": "Aashiqui",
+      "year": 1990,
+      "durationSec": 188
+    },
+    {
+      "youtubeId": "rTatsmUgmiA",
+      "title": "Ab Tere Bin Jee Lenge Hum",
+      "film": "Aashiqui",
+      "year": 1990,
+      "durationSec": 340
+    },
+    {
+      "youtubeId": "KeyfUuXPOcY",
+      "title": "Dheere Dheere Se Meri Zindagi",
+      "film": "Aashiqui",
+      "year": 1990,
+      "durationSec": 296
+    },
+    {
+      "youtubeId": "U0qBRoeQa-g",
+      "title": "Tu Pyar Hai Kisi Aur Ka",
+      "film": "Dil Hai Ke Manta Nahin",
+      "year": 1991,
+      "durationSec": 406
+    },
+    {
+      "youtubeId": "W6dKaCV-mJQ",
+      "title": "Kya Hua Tera Wada",
+      "film": "Hum Kisise Kum Naheen",
+      "year": 1977,
+      "durationSec": 265
+    },
+    {
+      "youtubeId": "eN6AYHAT8UM",
+      "title": "Yaad Piya Ki Aane Lagi",
+      "film": "Falguni Pathak",
+      "year": 1999,
+      "durationSec": 419
+    },
+    {
+      "youtubeId": "Kjkg9NlUpeM",
+      "title": "Chhup Gaye Saare Nazare",
+      "film": "Do Raaste",
+      "year": 1969,
+      "durationSec": 317
+    },
+    {
+      "youtubeId": "sWqjZpBtcxc",
+      "title": "Ae Mere Humsafar",
+      "film": "Qayamat Se Qayamat Tak",
+      "year": 1988,
+      "durationSec": 314
+    },
+    {
+      "youtubeId": "FEvBiayarlc",
+      "title": "Papa Kehte Hain",
+      "film": "Qayamat Se Qayamat Tak",
+      "year": 1988,
+      "durationSec": 367
+    },
+    {
+      "youtubeId": "05o4kCUY2Ys",
+      "title": "Tere Dar Par Sanam",
+      "film": "Phir Teri Kahani Yaad Aayee",
+      "year": 1993,
+      "durationSec": 306
+    },
+    {
+      "youtubeId": "eFcs3p1moMA",
+      "title": "Dil Cheez Kya Hai",
+      "film": "Umrao Jaan",
+      "year": 1981,
+      "durationSec": 389
+    },
+    {
+      "youtubeId": "96YVQBjrtWE",
+      "title": "Zara Sa Jhoom Loon Main",
+      "film": "Dilwale Dulhania Le Jayenge",
+      "year": 1995,
+      "durationSec": 274
+    },
+    {
+      "youtubeId": "OxamnTFg3gw",
+      "title": "Hum Tere Bin Kahin",
+      "film": "Sadak",
+      "year": 1991,
+      "durationSec": 468
+    },
+    {
+      "youtubeId": "IkIw6M-T5sQ",
+      "title": "Saanson Ki Mala Pe",
+      "film": "Koyla",
+      "year": 1997,
+      "durationSec": 273
+    }
+  ]
+}

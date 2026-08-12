@@ -1,0 +1,112 @@
+{
+  "channels": [
+    {
+      "id": "romantic",
+      "name": "90s Romantic",
+      "tagline": "Melodies from the golden age of Bollywood romance",
+      "songs": [
+        { "title": "Kuch Kuch Hota Hai Title Track", "film": "Kuch Kuch Hota Hai", "year": 1998 },
+        { "title": "Tujhe Dekha To Ye Jana Sanam", "film": "Dilwale Dulhania Le Jayenge", "year": 1995 },
+        { "title": "Ho Gaya Hai Tujhko To Pyar Sajna", "film": "Dilwale Dulhania Le Jayenge", "year": 1995 },
+        { "title": "Pehla Nasha", "film": "Jo Jeeta Wohi Sikandar", "year": 1992 },
+        { "title": "Kuch Na Kaho", "film": "1942 A Love Story", "year": 1994 },
+        { "title": "Ek Ladki Ko Dekha", "film": "1942 A Love Story", "year": 1994 },
+        { "title": "Tu Cheez Badi Hai Mast Mast", "film": "Mohra", "year": 1994 },
+        { "title": "Dil Ne Yeh Kaha Hai Dil Se", "film": "Dhadkan", "year": 2000 },
+        { "title": "Aankhon Ki Gustakhiyan", "film": "Hum Dil De Chuke Sanam", "year": 1999 },
+        { "title": "Chand Chupa Badal Mein", "film": "Hum Dil De Chuke Sanam", "year": 1999 },
+        { "title": "Taal Se Taal Mila", "film": "Taal", "year": 1999 },
+        { "title": "Ishq Bina", "film": "Taal", "year": 1999 },
+        { "title": "Jaadu Teri Nazar", "film": "Darr", "year": 1993 },
+        { "title": "Tu Mere Samne", "film": "Darr", "year": 1993 },
+        { "title": "Kitaben Bahut Si", "film": "Baazigar", "year": 1993 },
+        { "title": "Chaand Taare", "film": "Yes Boss", "year": 1997 },
+        { "title": "Main Koi Aisa Geet Gaoon", "film": "Yes Boss", "year": 1997 },
+        { "title": "Sandese Aate Hain", "film": "Border", "year": 1997 },
+        { "title": "Aye Kaash Ke Hum", "film": "Kabhi Haan Kabhi Naa", "year": 1994 },
+        { "title": "Yeh Kaali Kaali Aankhen", "film": "Baazigar", "year": 1993 }
+      ]
+    },
+    {
+      "id": "dance",
+      "name": "90s Dance Floor",
+      "tagline": "Shaadi-season bangers and disco nights",
+      "songs": [
+        { "title": "Didi Tera Devar Deewana", "film": "Hum Aapke Hain Koun", "year": 1994 },
+        { "title": "Ole Ole", "film": "Yeh Dillagi", "year": 1994 },
+        { "title": "Chura Ke Dil Mera", "film": "Main Khiladi Tu Anari", "year": 1994 },
+        { "title": "Ruk Ruk Ruk", "film": "Vijaypath", "year": 1994 },
+        { "title": "Akhiyan Milaoon Kabhi", "film": "Raja", "year": 1995 },
+        { "title": "Aati Kya Khandala", "film": "Ghulam", "year": 1998 },
+        { "title": "Dholna", "film": "Dil To Pagal Hai", "year": 1997 },
+        { "title": "Le Gayi Le Gayi", "film": "Dil To Pagal Hai", "year": 1997 },
+        { "title": "Koi Mil Gaya", "film": "Kuch Kuch Hota Hai", "year": 1998 },
+        { "title": "Yeh Ladka Hai Deewana", "film": "Kuch Kuch Hota Hai", "year": 1998 },
+        { "title": "Mehndi Laga Ke Rakhna", "film": "Dilwale Dulhania Le Jayenge", "year": 1995 },
+        { "title": "Chaiyya Chaiyya", "film": "Dil Se", "year": 1998 },
+        { "title": "Dil Dhadakne Do", "film": "Kaho Naa Pyaar Hai", "year": 2000 },
+        { "title": "Ek Pal Ka Jeena", "film": "Kaho Naa Pyaar Hai", "year": 2000 },
+        { "title": "It's The Time To Disco", "film": "Kal Ho Naa Ho", "year": 2003 },
+        { "title": "Kay Sera Sera", "film": "Pukar", "year": 2000 },
+        { "title": "Urvashi Urvashi", "film": "Hum Se Hai Muqabala", "year": 1994 },
+        { "title": "Muqabala Muqabala", "film": "Hum Se Hai Muqabala", "year": 1994 },
+        { "title": "Radha Kaise Na Jale", "film": "Lagaan", "year": 2001 },
+        { "title": "What Is Mobile Number", "film": "Haseena Maan Jaayegi", "year": 1999 }
+      ]
+    },
+    {
+      "id": "soulful",
+      "name": "Soulful & Sad",
+      "tagline": "For the late nights and long drives",
+      "songs": [
+        { "title": "Tadap Tadap Ke Is Dil Se", "film": "Hum Dil De Chuke Sanam", "year": 1999 },
+        { "title": "Sochenge Tumhe Pyar", "film": "Deewana", "year": 1992 },
+        { "title": "Ek Ghar Banaunga", "film": "Ek Duuje Ke Liye", "year": 1981 },
+        { "title": "Jab Koi Baat Bigad Jaye", "film": "Jurm", "year": 1990 },
+        { "title": "Tum Mile Dil Khile", "film": "Criminal", "year": 1995 },
+        { "title": "Jaane Jigar Jaaneman", "film": "Aashiqui", "year": 1990 },
+        { "title": "Ab Tere Bin Jee Lenge Hum", "film": "Aashiqui", "year": 1990 },
+        { "title": "Dheere Dheere Se Meri Zindagi", "film": "Aashiqui", "year": 1990 },
+        { "title": "Tu Pyar Hai Kisi Aur Ka", "film": "Dil Hai Ke Manta Nahin", "year": 1991 },
+        { "title": "Kya Hua Tera Wada", "film": "Hum Kisise Kum Naheen", "year": 1977 },
+        { "title": "Yaad Piya Ki Aane Lagi", "film": "Falguni Pathak", "year": 1999 },
+        { "title": "Chhup Gaye Saare Nazare", "film": "Do Raaste", "year": 1969 },
+        { "title": "Ae Mere Humsafar", "film": "Qayamat Se Qayamat Tak", "year": 1988 },
+        { "title": "Papa Kehte Hain", "film": "Qayamat Se Qayamat Tak", "year": 1988 },
+        { "title": "Tere Dar Par Sanam", "film": "Phir Teri Kahani Yaad Aayee", "year": 1993 },
+        { "title": "Dil Cheez Kya Hai", "film": "Umrao Jaan", "year": 1981 },
+        { "title": "Zara Sa Jhoom Loon Main", "film": "Dilwale Dulhania Le Jayenge", "year": 1995 },
+        { "title": "Chithi Na Koi Sandesh", "film": "Dushman", "year": 1998 },
+        { "title": "Hum Tere Bin Kahin", "film": "Sadak", "year": 1991 },
+        { "title": "Saanson Ki Mala Pe", "film": "Koyla", "year": 1997 }
+      ]
+    },
+    {
+      "id": "retro-mix",
+      "name": "Retro Mix",
+      "tagline": "Everything from the era, shuffled",
+      "songs": [
+        { "title": "Ae Mere Humsafar", "film": "Baazigar", "year": 1993 },
+        { "title": "Kehna Hi Kya", "film": "Bombay", "year": 1995 },
+        { "title": "Tu Hi Re", "film": "Bombay", "year": 1995 },
+        { "title": "Humma Humma", "film": "Bombay", "year": 1995 },
+        { "title": "Rangeela Re", "film": "Rangeela", "year": 1995 },
+        { "title": "Tanha Tanha", "film": "Rangeela", "year": 1995 },
+        { "title": "Yaaron Dosti", "film": "Pehchaan", "year": 1998 },
+        { "title": "Sona Kitna Sona Hai", "film": "Hero No 1", "year": 1997 },
+        { "title": "Meri Mehbooba", "film": "Pardes", "year": 1997 },
+        { "title": "Do Dil Mil Rahe Hain", "film": "Pardes", "year": 1997 },
+        { "title": "Ghar Se Nikalte Hi", "film": "Papa Kehte Hain", "year": 1996 },
+        { "title": "Aankhon Mein Base Ho Tum", "film": "Takkar", "year": 1995 },
+        { "title": "O O Jaane Jaana", "film": "Pyaar Kiya To Darna Kya", "year": 1998 },
+        { "title": "Bholi Si Surat", "film": "Dil To Pagal Hai", "year": 1997 },
+        { "title": "Aa Ab Laut Chalen", "film": "Aa Ab Laut Chalen", "year": 1999 },
+        { "title": "Mujhe Rang De", "film": "Thakshak", "year": 1999 },
+        { "title": "Piya Haji Ali", "film": "Fiza", "year": 2000 },
+        { "title": "Kholo Kholo", "film": "Taare Zameen Par", "year": 2007 },
+        { "title": "Duniya Haseeno Ka Mela", "film": "Gupt", "year": 1997 },
+        { "title": "Mere Khwabon Mein Jo Aaye", "film": "Dilwale Dulhania Le Jayenge", "year": 1995 }
+      ]
+    }
+  ]
+}
