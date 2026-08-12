@@ -95,13 +95,13 @@ export default function Station({ tagline }: { tagline: string }) {
         <p className="mt-2 text-sm text-amber-100/70 sm:text-base">{tagline}</p>
       </header>
 
-      <div className="my-auto w-full max-w-xl rounded-3xl border border-white/10 bg-black/45 p-8 text-center shadow-2xl backdrop-blur-md">
+      <div className="my-auto w-full max-w-xl rounded-3xl border border-white/10 bg-black/55 p-8 text-center shadow-2xl backdrop-blur-md">
         <p className="flex items-center justify-center gap-2 text-xs uppercase tracking-[0.3em] text-amber-300/80">
           <span className="inline-block h-2 w-2 animate-pulse rounded-full bg-red-500" />
           On air
         </p>
 
-        <h2 className="mt-5 text-3xl font-semibold leading-snug text-amber-50 sm:text-4xl">
+        <h2 className="mt-5 text-3xl font-semibold leading-snug text-amber-50 drop-shadow-[0_2px_10px_rgba(0,0,0,0.9)] sm:text-4xl">
           {current?.title ?? "Tuning in…"}
         </h2>
 

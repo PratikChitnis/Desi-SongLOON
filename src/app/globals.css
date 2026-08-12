@@ -13,12 +13,9 @@ body {
   background: var(--background);
 }
 
-/* Slow drift keeps the backdrop alive without pulling focus from the music. */
-.backdrop-scene {
-  background-size: 160% 160% !important;
-  animation:
-    backdrop-fade 2.5s ease-out,
-    backdrop-drift 48s ease-in-out infinite alternate;
+/* A slow ken-burns drift keeps the photo alive without pulling focus. */
+.backdrop-scene img {
+  animation: backdrop-drift 60s ease-in-out infinite alternate;
 }
 
 .backdrop-grain {
@@ -31,21 +28,12 @@ body {
   animation: backdrop-scan 9s linear infinite;
 }
 
-@keyframes backdrop-fade {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
 @keyframes backdrop-drift {
   from {
-    background-position: 0% 0%;
+    transform: scale(1.05) translate3d(-1.5%, -1%, 0);
   }
   to {
-    background-position: 100% 100%;
+    transform: scale(1.14) translate3d(1.5%, 1%, 0);
   }
 }
 
@@ -59,7 +47,7 @@ body {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .backdrop-scene,
+  .backdrop-scene img,
   .backdrop-grain {
     animation: none;
   }

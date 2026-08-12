@@ -20,9 +20,9 @@ rights holders continue to monetise the plays. `src/components/YouTubePlayer.tsx
 small `PlayerHandle` interface so a licensed audio source can replace it later without touching the
 station logic.
 
-The page itself is deliberately bare — a rotating animated retro backdrop and the name of the song
-currently on air. Backdrops live in `src/lib/backdrops.ts` and are selected from the same clock, so
-they change every two hours and match for everyone. The player is positioned offscreen and used for
+The page itself is deliberately bare — a slowly drifting retro photograph and the name of the song
+currently on air. Backdrops live in `public/backdrops` and are selected from the same clock, so they
+change every four hours and match for everyone. The player is positioned offscreen and used for
 audio only.
 
 ## Development
