@@ -4,11 +4,6 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import YouTubePlayer, { type PlayerHandle } from "./YouTubePlayer";
 import type { Channel, ChannelId, NowPlaying } from "@/lib/types";
 
-const formatTime = (seconds: number) => {
-  const s = Math.max(0, Math.round(seconds));
-  return `${Math.floor(s / 60)}:${String(s % 60).padStart(2, "0")}`;
-};
-
 interface Props {
   channels: Pick<Channel, "id" | "name" | "tagline">[];
   initialChannel: ChannelId;
@@ -102,12 +97,12 @@ export default function Station({ channels, initialChannel }: Props) {
   const activeChannel = channels.find((c) => c.id === channel);
 
   return (
-    <div className="mx-auto flex w-full max-w-5xl flex-col gap-6 px-4 py-8 sm:py-12">
+    <div className="mx-auto flex min-h-screen w-full max-w-3xl flex-col items-center justify-center gap-8 px-4 py-10">
       <header className="text-center">
-        <h1 className="font-mono text-3xl font-black tracking-[0.2em] text-amber-300 sm:text-5xl">
+        <h1 className="font-mono text-3xl font-black tracking-[0.2em] text-amber-300 drop-shadow-[0_2px_12px_rgba(0,0,0,0.6)] sm:text-5xl">
           DESI SONGLOON
         </h1>
-        <p className="mt-2 text-sm text-amber-100/60 sm:text-base">
+        <p className="mt-2 text-sm text-amber-100/70 sm:text-base">
           90s Bollywood, playing round the clock
         </p>
       </header>
@@ -122,10 +117,10 @@ export default function Station({ channels, initialChannel }: Props) {
               setError(null);
               setChannel(c.id);
             }}
-            className={`rounded-full border px-4 py-1.5 text-sm transition ${
+            className={`rounded-full border px-4 py-1.5 text-sm backdrop-blur-sm transition ${
               c.id === channel
                 ? "border-amber-300 bg-amber-300 font-semibold text-stone-900"
-                : "border-amber-200/25 text-amber-100/70 hover:border-amber-200/60 hover:text-amber-100"
+                : "border-white/20 bg-black/25 text-amber-100/80 hover:border-white/50 hover:text-amber-100"
             }`}
           >
             {c.name}
@@ -133,71 +128,38 @@ export default function Station({ channels, initialChannel }: Props) {
         ))}
       </nav>
 
-      <div className="grid gap-6 md:grid-cols-[3fr_2fr]">
-        <div className="overflow-hidden rounded-2xl border border-amber-200/15 bg-black shadow-2xl">
-          <div className="relative aspect-video">
-            <YouTubePlayer
-              onReady={onReady}
-              onEnded={() => void tune(channel, true)}
-              onError={onError}
-              onPlayingChange={setPlaying}
-            />
-            {!tunedIn && (
-              <button
-                onClick={startListening}
-                className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-stone-950/90 text-amber-200 transition hover:bg-stone-950/80"
-              >
-                <span className="text-5xl">▶</span>
-                <span className="font-mono text-lg tracking-[0.3em]">TUNE IN</span>
-                <span className="text-xs text-amber-100/50">
-                  Live since 2024 · you join wherever the station is
-                </span>
-              </button>
-            )}
-          </div>
+      <div className="w-full max-w-xl rounded-3xl border border-white/10 bg-black/45 p-8 text-center shadow-2xl backdrop-blur-md">
+        <p className="flex items-center justify-center gap-2 text-xs uppercase tracking-[0.3em] text-amber-300/80">
+          <span className="inline-block h-2 w-2 animate-pulse rounded-full bg-red-500" />
+          On air · {activeChannel?.name}
+        </p>
+
+        <h2 className="mt-5 text-3xl font-semibold leading-snug text-amber-50 sm:text-4xl">
+          {current?.title ?? "Tuning in…"}
+        </h2>
+
+        <div className="mx-auto mt-6 h-1 max-w-xs overflow-hidden rounded-full bg-white/10">
+          <div
+            className="h-full bg-amber-300 transition-[width] duration-1000 ease-linear"
+            style={{ width: `${progress}%` }}
+          />
         </div>
 
-        <div className="flex flex-col gap-4 rounded-2xl border border-amber-200/15 bg-stone-900/60 p-5">
-          <div>
-            <p className="flex items-center gap-2 text-xs uppercase tracking-[0.25em] text-amber-300/70">
-              <span className="inline-block h-2 w-2 animate-pulse rounded-full bg-red-500" />
-              On air · {activeChannel?.name}
-            </p>
-            <h2 className="mt-3 text-2xl font-semibold text-amber-50">
-              {current?.title ?? "Tuning in…"}
-            </h2>
-            <p className="text-sm text-amber-100/60">
-              {current ? `${current.film} · ${current.year}` : activeChannel?.tagline}
-            </p>
-          </div>
-
-          <div>
-            <div className="h-1.5 overflow-hidden rounded-full bg-amber-100/10">
-              <div className="h-full bg-amber-300 transition-[width] duration-1000 ease-linear" style={{ width: `${progress}%` }} />
-            </div>
-            <div className="mt-1 flex justify-between font-mono text-xs text-amber-100/50">
-              <span>{formatTime(elapsed)}</span>
-              <span>{current ? formatTime(current.durationSec) : "0:00"}</span>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-4">
+        {!tunedIn ? (
+          <button
+            onClick={startListening}
+            className="mt-8 rounded-full bg-amber-300 px-8 py-3 font-mono text-sm tracking-[0.3em] text-stone-900 transition hover:bg-amber-200"
+          >
+            TUNE IN
+          </button>
+        ) : (
+          <div className="mt-8 flex items-center justify-center gap-5">
             <button
               onClick={togglePlay}
-              disabled={!tunedIn}
-              className="h-11 w-11 rounded-full bg-amber-300 text-lg text-stone-900 disabled:opacity-40"
+              className="h-12 w-12 rounded-full bg-amber-300 text-lg text-stone-900 transition hover:bg-amber-200"
               aria-label={playing ? "Pause" : "Play"}
             >
               {playing ? "❚❚" : "▶"}
-            </button>
-            <button
-              onClick={() => {
-                advanceSec.current = 0;
-                void tune(channel, tunedIn);
-              }}
-              className="text-sm text-amber-100/60 underline-offset-4 hover:text-amber-100 hover:underline"
-            >
-              Sync to live
             </button>
             <input
               type="range"
@@ -205,29 +167,29 @@ export default function Station({ channels, initialChannel }: Props) {
               max={100}
               value={volume}
               onChange={(e) => setVolume(Number(e.target.value))}
-              className="ml-auto w-24 accent-amber-300"
+              className="w-32 accent-amber-300"
               aria-label="Volume"
             />
           </div>
+        )}
 
-          {error && <p className="text-xs text-red-300">{error}</p>}
-
-          <div className="mt-auto">
-            <p className="text-xs uppercase tracking-[0.25em] text-amber-300/60">Up next</p>
-            <ul className="mt-2 space-y-1 text-sm text-amber-100/70">
-              {(state?.upNext ?? []).map((t) => (
-                <li key={t.youtubeId} className="truncate">
-                  {t.title} <span className="text-amber-100/40">· {t.film}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
+        {error && <p className="mt-4 text-xs text-red-300">{error}</p>}
       </div>
 
-      <footer className="text-center text-xs text-amber-100/35">
-        All music is streamed from official label uploads on YouTube. No audio is hosted here.
-      </footer>
+      {/*
+        YouTube's terms require the player to stay visible, so it sits in the
+        corner as a small window rather than being hidden behind the artwork.
+      */}
+      <div className="fixed bottom-4 left-4 z-10 w-[200px] overflow-hidden rounded-xl border border-white/15 opacity-40 shadow-lg transition hover:opacity-100">
+        <div className="aspect-video">
+          <YouTubePlayer
+            onReady={onReady}
+            onEnded={() => void tune(channel, true)}
+            onError={onError}
+            onPlayingChange={setPlaying}
+          />
+        </div>
+      </div>
     </div>
   );
 }

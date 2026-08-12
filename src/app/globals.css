@@ -10,8 +10,57 @@
 body {
   min-height: 100vh;
   color: var(--foreground);
-  background:
-    radial-gradient(circle at 15% 0%, rgba(217, 119, 6, 0.18), transparent 45%),
-    radial-gradient(circle at 85% 100%, rgba(190, 24, 93, 0.16), transparent 45%),
-    var(--background);
+  background: var(--background);
+}
+
+/* Slow drift keeps the backdrop alive without pulling focus from the music. */
+.backdrop-scene {
+  background-size: 160% 160% !important;
+  animation:
+    backdrop-fade 2.5s ease-out,
+    backdrop-drift 48s ease-in-out infinite alternate;
+}
+
+.backdrop-grain {
+  background-image: repeating-linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.22) 0 1px,
+    transparent 1px 3px
+  );
+  mix-blend-mode: overlay;
+  animation: backdrop-scan 9s linear infinite;
+}
+
+@keyframes backdrop-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes backdrop-drift {
+  from {
+    background-position: 0% 0%;
+  }
+  to {
+    background-position: 100% 100%;
+  }
+}
+
+@keyframes backdrop-scan {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: 0 120px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .backdrop-scene,
+  .backdrop-grain {
+    animation: none;
+  }
 }

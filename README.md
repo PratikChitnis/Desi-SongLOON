@@ -19,6 +19,11 @@ rights holders continue to monetise the plays. `src/components/YouTubePlayer.tsx
 small `PlayerHandle` interface so a licensed audio source can replace it later without touching the
 station logic.
 
+The page itself is deliberately bare — a rotating animated retro backdrop and the name of the song
+currently on air. Backdrops live in `src/lib/backdrops.ts` and are selected from the same clock, so
+they change every two hours and match for everyone. The YouTube player stays on screen as a small
+corner window because YouTube's terms don't allow hiding it.
+
 ## Development
 
 ```bash
