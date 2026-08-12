@@ -95,59 +95,55 @@ export default function Station({ tagline }: { tagline: string }) {
         <p className="mt-2 text-sm text-amber-100/70 sm:text-base">{tagline}</p>
       </header>
 
-      <div className="my-auto w-full max-w-xl rounded-3xl border border-white/10 bg-black/55 p-8 text-center shadow-2xl backdrop-blur-md">
-        <p className="flex items-center justify-center gap-2 text-xs uppercase tracking-[0.3em] text-amber-300/80">
-          <span className="inline-block h-2 w-2 animate-pulse rounded-full bg-red-500" />
+      <div className="my-auto w-full max-w-md rounded-2xl border border-white/10 bg-black/55 px-5 py-4 shadow-2xl backdrop-blur-md">
+        <p className="flex items-center gap-2 text-[10px] uppercase tracking-[0.3em] text-amber-300/80">
+          <span className="inline-block h-1.5 w-1.5 animate-pulse rounded-full bg-red-500" />
           On air
         </p>
 
-        <h2 className="mt-5 text-3xl font-semibold leading-snug text-amber-50 drop-shadow-[0_2px_10px_rgba(0,0,0,0.9)] sm:text-4xl">
-          {current?.title ?? "Tuning in…"}
-        </h2>
+        <div className="mt-3 flex items-center gap-3">
+          {!tunedIn ? (
+            <button
+              onClick={startListening}
+              className="shrink-0 bg-amber-300 px-4 py-2 font-mono text-xs tracking-[0.2em] text-stone-900 transition hover:bg-amber-200"
+            >
+              TUNE IN
+            </button>
+          ) : (
+            <button
+              onClick={togglePlay}
+              className="shrink-0 bg-amber-300 px-3 py-2 text-sm leading-none text-stone-900 transition hover:bg-amber-200"
+              aria-label={playing ? "Pause" : "Play"}
+            >
+              {playing ? "❚❚" : "▶"}
+            </button>
+          )}
 
-        <div className="mx-auto mt-6 h-1 max-w-xs overflow-hidden rounded-full bg-white/10">
+          <h2 className="truncate text-lg font-semibold text-amber-50 drop-shadow-[0_2px_10px_rgba(0,0,0,0.9)] sm:text-xl">
+            {current?.title ?? "Tuning in…"}
+          </h2>
+        </div>
+
+        <div className="mt-3 h-0.5 overflow-hidden rounded-full bg-white/10">
           <div
             className="h-full bg-amber-300 transition-[width] duration-1000 ease-linear"
             style={{ width: `${progress}%` }}
           />
         </div>
 
-        {!tunedIn ? (
-          <button
-            onClick={startListening}
-            className="mt-8 rounded-full bg-amber-300 px-8 py-3 font-mono text-sm tracking-[0.3em] text-stone-900 transition hover:bg-amber-200"
-          >
-            TUNE IN
-          </button>
-        ) : (
-          <div className="mt-8 flex items-center justify-center gap-5">
-            <button
-              onClick={togglePlay}
-              className="h-12 w-12 rounded-full bg-amber-300 text-lg text-stone-900 transition hover:bg-amber-200"
-              aria-label={playing ? "Pause" : "Play"}
-            >
-              {playing ? "❚❚" : "▶"}
-            </button>
-            <button
-              onClick={next}
-              className="h-12 w-12 rounded-full border border-white/20 text-lg text-amber-100 transition hover:border-white/50"
-              aria-label="Next song"
-            >
-              ▶▶
-            </button>
-            <input
-              type="range"
-              min={0}
-              max={100}
-              value={volume}
-              onChange={(e) => setVolume(Number(e.target.value))}
-              className="w-32 accent-amber-300"
-              aria-label="Volume"
-            />
-          </div>
+        {tunedIn && (
+          <input
+            type="range"
+            min={0}
+            max={100}
+            value={volume}
+            onChange={(e) => setVolume(Number(e.target.value))}
+            className="mt-3 w-full accent-amber-300"
+            aria-label="Volume"
+          />
         )}
 
-        {error && <p className="mt-4 text-xs text-red-300">{error}</p>}
+        {error && <p className="mt-3 text-xs text-red-300">{error}</p>}
       </div>
 
       {/* The player only supplies audio; it is parked offscreen rather than unmounted. */}
