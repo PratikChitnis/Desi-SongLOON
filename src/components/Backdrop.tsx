@@ -57,10 +57,6 @@ export default function Backdrop({ children }: { children: React.ReactNode }) {
       <div className="backdrop-grain absolute inset-0 -z-10" />
 
       <div className="relative z-0">{children}</div>
-
-      <p className="pointer-events-none absolute bottom-3 right-4 z-0 font-mono text-[10px] uppercase tracking-[0.3em] text-white/30">
-        {theme.name}
-      </p>
     </div>
   );
 }
