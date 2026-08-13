@@ -157,24 +157,24 @@ export default function Station({ channels }: { channels: ChannelInfo[] }) {
         <p className="mt-2 text-sm text-amber-100/70 sm:text-base">{channel.tagline}</p>
       </header>
 
-      <nav className="flex flex-wrap justify-center gap-2">
-        {channels.map((option) => (
-          <button
-            key={option.id}
-            onClick={() => setChannelId(option.id)}
-            className={`rounded-full border px-4 py-1.5 text-xs tracking-wide transition sm:text-sm ${
-              option.id === channelId
-                ? "border-white/70 bg-white/85 text-stone-900"
-                : "border-white/25 bg-white/10 text-white/80 hover:bg-white/20"
-            }`}
-            aria-pressed={option.id === channelId}
-          >
-            {option.name}
-          </button>
-        ))}
-      </nav>
-
       <div className="my-auto w-full max-w-3xl">
+        <nav className="mb-4 flex flex-wrap justify-center gap-2">
+          {channels.map((option) => (
+            <button
+              key={option.id}
+              onClick={() => setChannelId(option.id)}
+              className={`rounded-full border px-4 py-1.5 text-xs tracking-wide transition sm:text-sm ${
+                option.id === channelId
+                  ? "border-white/70 bg-white/85 text-stone-900"
+                  : "border-white/25 bg-white/10 text-white/80 hover:bg-white/20"
+              }`}
+              aria-pressed={option.id === channelId}
+            >
+              {option.name}
+            </button>
+          ))}
+        </nav>
+
         <div className="glass-card flex items-center gap-4 rounded-[2rem] px-4 py-4 sm:gap-6 sm:px-6 sm:py-5">
           <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-full ring-1 ring-white/25 sm:h-[5.5rem] sm:w-[5.5rem]">
             {current ? (
