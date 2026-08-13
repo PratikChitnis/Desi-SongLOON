@@ -228,17 +228,18 @@ export default function Station({ channels }: { channels: ChannelInfo[] }) {
 
   return (
     <div className="mx-auto flex min-h-screen w-full max-w-5xl flex-col items-center gap-8 px-4 py-10">
-      <header className="flex w-full items-center justify-between relative">
+      <header className="relative flex w-full items-center justify-center">
         <span
-          className="font-mono text-sm text-white/50 tabular-nums sm:text-base absolute left-4 top-1/2 -translate-y-1/2 bg-white/20 backdrop-blur-sm rounded-full px-3 py-1.5 shadow-sm"
+          className="absolute left-4 top-1/2 -translate-y-1/2 rounded-full bg-white/20 px-3 py-1.5 font-mono text-sm text-white/50 shadow-sm tabular-nums backdrop-blur-sm sm:text-base"
         >
           {timeStr}
         </span>
-        <h1 className="font-mono text-3xl font-black tracking-[0.2em] text-amber-300 drop-shadow-[0_2px_12px_rgba(0,0,0,0.6)] sm:text-5xl text-center">
-          {site.title.toUpperCase()}
-        </h1>
-        <p className="mt-2 text-sm text-amber-100/70 sm:text-base text-center">{channel.tagline}</p>
-        <span className="w-[72px] sm:w-[96px]" />
+        <div className="text-center">
+          <h1 className="font-mono text-3xl font-black tracking-[0.2em] text-amber-300 drop-shadow-[0_2px_12px_rgba(0,0,0,0.6)] sm:text-5xl">
+            {site.title.toUpperCase()}
+          </h1>
+          <p className="mt-2 text-sm text-amber-100/70 sm:text-base">{channel.tagline}</p>
+        </div>
       </header>
 
       <div className="my-auto w-full max-w-3xl">
