@@ -57,6 +57,8 @@ export default function Station({ channels }: { channels: ChannelInfo[] }) {
   const playerReady = useRef(false);
   /** Queued play command, executed once the player fires onReady. */
   const pendingPlay = useRef<{ videoId: string; start: number } | null>(null);
+  /** Guard against rapid duplicate onEnded fires. */
+  const advancing = useRef(false);
 
   const load = useCallback(
     (index: number | undefined, autoplay: boolean) => {
@@ -68,6 +70,7 @@ export default function Station({ channels }: { channels: ChannelInfo[] }) {
       setState(next);
       setElapsed(0);
       if (autoplay) {
+        advancing.current = false;
         if (playerReady.current) {
           handle.current?.play(next.track.youtubeId, 0);
         } else {
@@ -141,6 +144,8 @@ export default function Station({ channels }: { channels: ChannelInfo[] }) {
   }, [elapsed, load, state]);
 
   const onEnded = useCallback(() => {
+    if (advancing.current) return;
+    advancing.current = true;
     failures.current = 0;
     next();
   }, [next]);
