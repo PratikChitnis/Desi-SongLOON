@@ -1,7 +1,8 @@
 import type { NowPlaying, Station, Track } from "./types";
+import { scheduler } from "./config";
 
 /** Station epoch: the moment the schedule is measured from. */
-export const STATION_EPOCH_MS = Date.UTC(2024, 0, 1);
+export const STATION_EPOCH_MS = scheduler.epochMs;
 
 const DAY_MS = 86_400_000;
 

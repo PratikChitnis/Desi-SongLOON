@@ -5,6 +5,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import VolumeControl from "./VolumeControl";
 import YouTubePlayer, { type PlayerHandle } from "./YouTubePlayer";
 import { nowPlaying } from "@/lib/scheduler";
+import { player, site } from "@/lib/config";
 import type { NowPlaying, Track } from "@/lib/types";
 
 /** Seconds as m:ss for the now-playing readout. */
@@ -42,7 +43,7 @@ export default function Station({ channels }: { channels: ChannelInfo[] }) {
 
   const handle = useRef<PlayerHandle | null>(null);
   const failures = useRef(0);
-  const volume = useRef(70);
+  const volume = useRef(player.defaultVolume);
   const queue = useRef<number[]>([]);
   const history = useRef<number[]>([]);
 
@@ -164,7 +165,7 @@ export default function Station({ channels }: { channels: ChannelInfo[] }) {
 
   const previous = useCallback(() => {
     const s = stateRef.current;
-    if (elapsed > 3 || history.current.length === 0) {
+    if (elapsed > player.previousThresholdSec || history.current.length === 0) {
       if (s) load(s.index, true);
       return;
     }
@@ -182,7 +183,7 @@ export default function Station({ channels }: { channels: ChannelInfo[] }) {
 
   const onError = useCallback(() => {
     failures.current += 1;
-    if (failures.current > 3) {
+    if (failures.current > player.maxFailures) {
       setError("Several tracks in a row are unavailable here. Try again later.");
       return;
     }
@@ -217,7 +218,7 @@ export default function Station({ channels }: { channels: ChannelInfo[] }) {
     <div className="mx-auto flex min-h-screen w-full max-w-5xl flex-col items-center gap-8 px-4 py-10">
       <header className="text-center">
         <h1 className="font-mono text-3xl font-black tracking-[0.2em] text-amber-300 drop-shadow-[0_2px_12px_rgba(0,0,0,0.6)] sm:text-5xl">
-          DESI SONGLOON
+          {site.title.toUpperCase()}
         </h1>
         <p className="mt-2 text-sm text-amber-100/70 sm:text-base">{channel.tagline}</p>
       </header>
@@ -261,7 +262,7 @@ export default function Station({ channels }: { channels: ChannelInfo[] }) {
               {current?.title}
             </h2>
             <p className="mt-0.5 truncate text-xs text-white/60 sm:text-sm">
-              {current ? `${current.film} · ${current.year}` : "Desi SongLOON radio"}
+              {current ? `${current.film} · ${current.year}` : site.title}
             </p>
 
             <div className="mt-3 flex items-center gap-3">
@@ -344,8 +345,8 @@ export default function Station({ channels }: { channels: ChannelInfo[] }) {
 
       <footer className="mt-auto pb-6 text-center text-xs text-white/40">
         Contact for Support -{" "}
-        <a href="mailto:pratikppc12@gmail.com" className="underline hover:text-white/70 transition-colors duration-150">
-          pratikppc12@gmail.com
+        <a href={`mailto:${site.contactEmail}`} className="underline hover:text-white/70 transition-colors duration-150">
+          {site.contactEmail}
         </a>
       </footer>
     </div>

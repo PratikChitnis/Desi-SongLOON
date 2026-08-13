@@ -8,6 +8,7 @@ import {
   shuffleBackdrops,
   type Backdrop as BackdropTheme,
 } from "@/lib/backdrops";
+import { backdrops as backdropCfg } from "@/lib/config";
 
 const LAST_SCENE_KEY = "songloon:last-backdrop";
 
@@ -46,9 +47,10 @@ export default function Backdrop({ children }: { children: React.ReactNode }) {
       {backdrops.map((scene) => (
         <div
           key={scene.id}
-          className={`backdrop-scene absolute inset-0 -z-20 transition-opacity duration-[2500ms] ${
+          className={`backdrop-scene absolute inset-0 -z-20 transition-opacity ${
             scene.id === theme?.id ? "opacity-100" : "opacity-0"
           }`}
+          style={{ transitionDuration: `${backdropCfg.crossFadeMs}ms` }}
         >
           {/* Blur and dimming are baked into the files: a live CSS filter over a
               moving layer forces a full-screen re-raster on every frame. */}

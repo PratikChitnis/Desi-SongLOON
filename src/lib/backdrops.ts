@@ -2,7 +2,9 @@
  * Retro backdrops are shuffled per visit, so a listener never opens on the same
  * scene twice in a row, and rotate through that shuffled order every half hour.
  */
-export const BACKDROP_MINUTES = 30;
+import { backdrops as backdropConfig } from "./config";
+
+export const BACKDROP_MINUTES = backdropConfig.rotateMinutes;
 
 export interface Backdrop {
   id: string;
