@@ -296,6 +296,13 @@ export default function Station({ channels }: { channels: ChannelInfo[] }) {
           onPlayingChange={setPlaying}
         />
       </div>
+
+      <footer className="mt-auto pb-6 text-center text-xs text-white/40">
+        Contact for Support -{" "}
+        <a href="mailto:pratikppc12@gmail.com" className="underline hover:text-white/70 transition-colors duration-150">
+          pratikppc12@gmail.com
+        </a>
+      </footer>
     </div>
   );
 }
