@@ -87,7 +87,14 @@ export default function Station({ channels }: { channels: ChannelInfo[] }) {
     setState(initial);
     queue.current = shuffledQueue(initial.total, initial.index);
     setElapsed(0);
-  }, [channelId, getChannel]);
+    if (tunedIn) {
+      if (playerReady.current) {
+        handle.current?.play(initial.track.youtubeId, 0);
+      } else {
+        pendingPlay.current = { videoId: initial.track.youtubeId, start: 0 };
+      }
+    }
+  }, [channelId, getChannel, tunedIn]);
 
   useEffect(() => {
     if (!playing) return;
