@@ -234,12 +234,10 @@ export default function Station({ channels }: { channels: ChannelInfo[] }) {
         >
           {timeStr}
         </span>
-        <div className="text-center">
-          <h1 className="font-mono text-3xl font-black tracking-[0.2em] text-amber-300 drop-shadow-[0_2px_12px_rgba(0,0,0,0.6)] sm:text-5xl">
-            {site.title.toUpperCase()}
-          </h1>
-          <p className="mt-2 text-sm text-amber-100/70 sm:text-base">{channel.tagline}</p>
-        </div>
+        <h1 className="font-mono text-3xl font-black tracking-[0.2em] text-amber-300 drop-shadow-[0_2px_12px_rgba(0,0,0,0.6)] sm:text-5xl text-center">
+          {site.title.toUpperCase()}
+        </h1>
+        <p className="mt-2 text-sm text-amber-100/70 sm:text-base text-center">{channel.tagline}</p>
         <span className="w-[72px] sm:w-[96px]" />
       </header>
 
