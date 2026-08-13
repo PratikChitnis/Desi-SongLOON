@@ -39,7 +39,8 @@ export default function VolumeControl({
       >
         {muted || volume === 0 ? (
           <svg viewBox="0 0 24 24" className="h-5 w-5 fill-white/80">
-            <path d="M4 9v6h4l5 4V5L8 9H4zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z" />
+            <path d="M4 9v6h4l5 4V5L8 9H4zm12.5 3a4.5 4.5 0 0 0-2.5-4v8a4.5 4.5 0 0 0 2.5-4z" />
+            <line x1="3" y1="3" x2="21" y2="21" stroke="currentColor" strokeWidth="2" strokeLinecap="round" className="stroke-white/80" />
           </svg>
         ) : (
           <svg viewBox="0 0 24 24" className="h-5 w-5 fill-white/80">
