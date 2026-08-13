@@ -49,6 +49,9 @@ export default function Station({ channels }: { channels: ChannelInfo[] }) {
   const channelRef = useRef(channelId);
   channelRef.current = channelId;
 
+  const stateRef = useRef<NowPlaying | null>(null);
+  const tunedInRef = useRef(false);
+
   /** Whether the player has fired onReady yet. */
   const playerReady = useRef(false);
   /** Queued play command, executed once the player fires onReady. */
@@ -60,6 +63,13 @@ export default function Station({ channels }: { channels: ChannelInfo[] }) {
     (id: string) => channelsRef.current.find((c) => c.id === id) ?? channelsRef.current[0],
     [],
   );
+
+  const [state, setStateRaw] = useState<NowPlaying | null>(null);
+
+  const setState = useCallback((next: NowPlaying | null) => {
+    stateRef.current = next;
+    setStateRaw(next);
+  }, []);
 
   const load = useCallback(
     (index: number | undefined, autoplay: boolean) => {
@@ -79,10 +89,8 @@ export default function Station({ channels }: { channels: ChannelInfo[] }) {
         }
       }
     },
-    [getChannel],
+    [getChannel, setState],
   );
-
-  const [state, setState] = useState<NowPlaying | null>(null);
 
   useEffect(() => {
     const ch = getChannel(channels[0].id);
@@ -102,6 +110,13 @@ export default function Station({ channels }: { channels: ChannelInfo[] }) {
     setState(initial);
     queue.current = shuffledQueue(initial.total, initial.index);
     setElapsed(0);
+    if (tunedInRef.current) {
+      if (playerReady.current) {
+        handle.current?.play(initial.track.youtubeId, 0);
+      } else {
+        pendingPlay.current = { videoId: initial.track.youtubeId, start: 0 };
+      }
+    }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [channelId]);
 
@@ -130,24 +145,26 @@ export default function Station({ channels }: { channels: ChannelInfo[] }) {
   );
 
   const next = useCallback(() => {
-    if (state) history.current.push(state.index);
+    const s = stateRef.current;
+    if (s) history.current.push(s.index);
     const upcoming = queue.current.shift();
     if (upcoming === undefined) {
       load(undefined, true);
       return;
     }
     load(upcoming, true);
-  }, [load, state]);
+  }, [load]);
 
   const previous = useCallback(() => {
+    const s = stateRef.current;
     if (elapsed > 3 || history.current.length === 0) {
-      if (state) load(state.index, true);
+      if (s) load(s.index, true);
       return;
     }
     const back = history.current.pop();
-    if (state) queue.current.unshift(state.index);
+    if (s) queue.current.unshift(s.index);
     if (back !== undefined) load(back, true);
-  }, [elapsed, load, state]);
+  }, [elapsed, load]);
 
   const onEnded = useCallback(() => {
     if (advancing.current) return;
@@ -168,12 +185,14 @@ export default function Station({ channels }: { channels: ChannelInfo[] }) {
 
   const startListening = () => {
     setTunedIn(true);
+    tunedInRef.current = true;
     failures.current = 0;
-    if (state) {
+    const s = stateRef.current;
+    if (s) {
       if (playerReady.current) {
-        handle.current?.play(state.track.youtubeId, 0);
+        handle.current?.play(s.track.youtubeId, 0);
       } else {
-        pendingPlay.current = { videoId: state.track.youtubeId, start: 0 };
+        pendingPlay.current = { videoId: s.track.youtubeId, start: 0 };
       }
     }
   };
