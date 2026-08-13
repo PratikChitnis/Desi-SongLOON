@@ -87,40 +87,6 @@ body {
   }
 }
 
-/* Circular visualizer bars around album art. */
-.viz-bar {
-  width: 3px;
-  height: 6px;
-  border-radius: 2px;
-  background: rgba(255, 255, 255, 0.7);
-  transform-origin: center center;
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: rotate(var(--angle)) translateY(-38px);
-  animation: bar-pulse 0.8s ease-in-out infinite alternate;
-  animation-delay: var(--delay);
-  animation-play-state: paused;
-}
-
-@keyframes bar-pulse {
-  0% {
-    height: 4px;
-    opacity: 0.3;
-  }
-  100% {
-    height: 14px;
-    opacity: 0.9;
-  }
-}
-
-@media (min-width: 640px) {
-  .viz-bar {
-    width: 4px;
-    transform: rotate(var(--angle)) translateY(-52px);
-  }
-}
-
 @media (prefers-reduced-motion: reduce) {
   .backdrop-scene img {
     animation: none;
