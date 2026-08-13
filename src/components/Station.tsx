@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
 import VolumeControl from "./VolumeControl";
+import Visualizer from "./Visualizer";
 import YouTubePlayer, { type PlayerHandle } from "./YouTubePlayer";
 import { nowPlaying } from "@/lib/scheduler";
 import type { NowPlaying, Track } from "@/lib/types";
@@ -215,20 +216,22 @@ export default function Station({ channels }: { channels: ChannelInfo[] }) {
         </nav>
 
         <div className="glass-card flex items-center gap-4 rounded-[2rem] px-4 py-4 sm:gap-6 sm:px-6 sm:py-5">
-          <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-full ring-1 ring-white/25 sm:h-[5.5rem] sm:w-[5.5rem]">
-            {current ? (
-              <Image
-                src={`https://i.ytimg.com/vi/${current.youtubeId}/mqdefault.jpg`}
-                alt=""
-                fill
-                sizes="88px"
-                unoptimized
-                className="scale-[1.35] object-cover"
-              />
-            ) : (
-              <div className="h-full w-full bg-white/10" />
-            )}
-          </div>
+          <Visualizer playing={playing}>
+            <div className="relative h-16 w-16 overflow-hidden rounded-full ring-1 ring-white/25 sm:h-[5.5rem] sm:w-[5.5rem]">
+              {current ? (
+                <Image
+                  src={`https://i.ytimg.com/vi/${current.youtubeId}/mqdefault.jpg`}
+                  alt=""
+                  fill
+                  sizes="88px"
+                  unoptimized
+                  className="scale-[1.35] object-cover"
+                />
+              ) : (
+                <div className="h-full w-full bg-white/10" />
+              )}
+            </div>
+          </Visualizer>
 
           <div className="min-w-0 flex-1">
             <h2 className="truncate text-lg font-semibold text-white drop-shadow-[0_2px_10px_rgba(0,0,0,0.7)] sm:text-2xl">
