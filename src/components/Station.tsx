@@ -1,8 +1,15 @@
 "use client";
 
+import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
 import YouTubePlayer, { type PlayerHandle } from "./YouTubePlayer";
 import type { NowPlaying } from "@/lib/types";
+
+/** Seconds as m:ss for the now-playing readout. */
+function clock(seconds: number): string {
+  const safe = Math.max(0, Math.floor(seconds));
+  return `${Math.floor(safe / 60)}:${String(safe % 60).padStart(2, "0")}`;
+}
 
 /** Fisher-Yates over 0..total-1, minus `first`, which is played up front. */
 function shuffledQueue(total: number, first: number): number[] {
@@ -118,55 +125,78 @@ export default function Station({ tagline }: { tagline: string }) {
         <p className="mt-2 text-sm text-amber-100/70 sm:text-base">{tagline}</p>
       </header>
 
-      <div className="my-auto w-full max-w-md rounded-2xl border border-white/10 bg-black/55 px-5 py-4 shadow-2xl backdrop-blur-md">
-        <p className="flex items-center gap-2 text-[10px] uppercase tracking-[0.3em] text-amber-300/80">
-          <span className="inline-block h-1.5 w-1.5 animate-pulse rounded-full bg-red-500" />
-          On air
-        </p>
+      <div className="my-auto w-full max-w-2xl">
+        <div className="glass-card flex items-center gap-4 rounded-[2rem] px-4 py-3 sm:gap-6 sm:px-5">
+          <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-full ring-1 ring-white/25 sm:h-[4.5rem] sm:w-[4.5rem]">
+            {current ? (
+              <Image
+                src={`https://i.ytimg.com/vi/${current.youtubeId}/mqdefault.jpg`}
+                alt=""
+                fill
+                sizes="72px"
+                unoptimized
+                className="scale-[1.35] object-cover"
+              />
+            ) : (
+              <div className="h-full w-full bg-white/10" />
+            )}
+          </div>
 
-        <div className="mt-3 flex items-center gap-3">
-          {!tunedIn ? (
-            <button
-              onClick={startListening}
-              className="shrink-0 bg-amber-300 px-4 py-2 font-mono text-xs tracking-[0.2em] text-stone-900 transition hover:bg-amber-200"
-            >
-              TUNE IN
-            </button>
-          ) : (
-            <button
-              onClick={togglePlay}
-              className="shrink-0 bg-amber-300 px-3 py-2 text-sm leading-none text-stone-900 transition hover:bg-amber-200"
-              aria-label={playing ? "Pause" : "Play"}
-            >
-              {playing ? "❚❚" : "▶"}
-            </button>
-          )}
+          <div className="min-w-0 flex-1">
+            <h2 className="truncate text-base font-semibold text-white drop-shadow-[0_2px_10px_rgba(0,0,0,0.7)] sm:text-lg">
+              {current?.title ?? "Tuning in…"}
+            </h2>
+            <p className="truncate text-xs text-white/60">
+              {current ? `${current.film} · ${current.year}` : "Desi SongLOON radio"}
+            </p>
 
-          <h2 className="truncate text-lg font-semibold text-amber-50 drop-shadow-[0_2px_10px_rgba(0,0,0,0.9)] sm:text-xl">
-            {current?.title ?? "Tuning in…"}
-          </h2>
+            <div className="mt-2 flex items-center gap-3">
+              <div className="relative h-1 flex-1 overflow-hidden rounded-full bg-white/20">
+                <div
+                  className="h-full rounded-full bg-white transition-[width] duration-1000 ease-linear"
+                  style={{ width: `${progress}%` }}
+                />
+              </div>
+              <span className="shrink-0 font-mono text-[11px] tabular-nums text-white/60">
+                {clock(elapsed)} / {current ? clock(current.durationSec) : "0:00"}
+              </span>
+            </div>
+          </div>
+
+          <button
+            onClick={tunedIn ? togglePlay : startListening}
+            className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-white/90 text-stone-900 shadow-lg transition hover:bg-white sm:h-14 sm:w-14"
+            aria-label={!tunedIn ? "Tune in" : playing ? "Pause" : "Play"}
+          >
+            {tunedIn && playing ? (
+              <svg viewBox="0 0 24 24" className="h-5 w-5 fill-current">
+                <rect x="6" y="4" width="4" height="16" rx="1" />
+                <rect x="14" y="4" width="4" height="16" rx="1" />
+              </svg>
+            ) : (
+              <svg viewBox="0 0 24 24" className="ml-0.5 h-5 w-5 fill-current">
+                <path d="M8 5.5v13l11-6.5z" />
+              </svg>
+            )}
+          </button>
+
+          <div className="hidden items-center gap-3 pr-1 sm:flex">
+            <svg viewBox="0 0 24 24" className="h-5 w-5 shrink-0 fill-white/80">
+              <path d="M4 9v6h4l5 4V5L8 9H4zm12.5 3a4.5 4.5 0 0 0-2.5-4v8a4.5 4.5 0 0 0 2.5-4z" />
+            </svg>
+            <input
+              type="range"
+              min={0}
+              max={100}
+              value={volume}
+              onChange={(e) => setVolume(Number(e.target.value))}
+              className="volume-slider w-24"
+              aria-label="Volume"
+            />
+          </div>
         </div>
 
-        <div className="mt-3 h-0.5 overflow-hidden rounded-full bg-white/10">
-          <div
-            className="h-full bg-amber-300 transition-[width] duration-1000 ease-linear"
-            style={{ width: `${progress}%` }}
-          />
-        </div>
-
-        {tunedIn && (
-          <input
-            type="range"
-            min={0}
-            max={100}
-            value={volume}
-            onChange={(e) => setVolume(Number(e.target.value))}
-            className="mt-3 w-full accent-amber-300"
-            aria-label="Volume"
-          />
-        )}
-
-        {error && <p className="mt-3 text-xs text-red-300">{error}</p>}
+        {error && <p className="mt-3 text-center text-xs text-red-300">{error}</p>}
       </div>
 
       {/* The player only supplies audio; it is parked offscreen rather than unmounted. */}
