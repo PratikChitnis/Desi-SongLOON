@@ -48,10 +48,7 @@ export default function Station({ channels }: { channels: ChannelInfo[] }) {
     [channels],
   );
 
-  const [state, setState] = useState<NowPlaying>(() => {
-    const ch = getChannel(channels[0].id);
-    return nowPlaying({ id: ch.id, name: ch.name, tagline: ch.tagline, tracks: ch.tracks });
-  });
+  const [state, setState] = useState<NowPlaying | null>(null);
 
   /** Whether the player has fired onReady yet. */
   const playerReady = useRef(false);
@@ -80,6 +77,14 @@ export default function Station({ channels }: { channels: ChannelInfo[] }) {
     },
     [channelId, getChannel],
   );
+
+  useEffect(() => {
+    const ch = getChannel(channels[0].id);
+    const station = { id: ch.id, name: ch.name, tagline: ch.tagline, tracks: ch.tracks };
+    const initial = nowPlaying(station);
+    setState(initial);
+    queue.current = shuffledQueue(initial.total, initial.index);
+  }, [getChannel, channels]);
 
   useEffect(() => {
     history.current = [];

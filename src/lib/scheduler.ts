@@ -53,8 +53,7 @@ export function nowPlaying(
     throw new Error(`Station ${station.id} has no tracks`);
   }
   const order = dailyOrder(station.tracks, station.id, atMs);
-  const entryRand = mulberry32(hash(`${station.id}:entry:${Math.floor((atMs - STATION_EPOCH_MS) / DAY_MS)}`));
-  const at = index === undefined ? Math.floor(entryRand() * order.length) : index % order.length;
+  const at = index === undefined ? Math.floor(Math.random() * order.length) : index % order.length;
 
   return { track: order[at], index: at, total: order.length };
 }
