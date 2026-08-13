@@ -5,7 +5,7 @@ export const STATION_EPOCH_MS = Date.UTC(2024, 0, 1);
 
 const DAY_MS = 86_400_000;
 
-function hash(seed: string): number {
+export function hash(seed: string): number {
   let h = 2166136261;
   for (let i = 0; i < seed.length; i++) {
     h ^= seed.charCodeAt(i);

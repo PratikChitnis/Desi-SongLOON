@@ -21,7 +21,14 @@ function shuffledQueue(total: number, first: number): number[] {
   return rest;
 }
 
-export default function Station({ tagline }: { tagline: string }) {
+export interface ChannelInfo {
+  id: string;
+  name: string;
+  tagline: string;
+}
+
+export default function Station({ channels }: { channels: ChannelInfo[] }) {
+  const [channelId, setChannelId] = useState(channels[0].id);
   const [state, setState] = useState<NowPlaying | null>(null);
   const [tunedIn, setTunedIn] = useState(false);
   const [playing, setPlaying] = useState(false);
@@ -33,28 +40,40 @@ export default function Station({ tagline }: { tagline: string }) {
   const failures = useRef(0);
   /** Remaining tracks for this visit, so nothing repeats until the list runs out. */
   const queue = useRef<number[]>([]);
+  /** Indices already played on this channel, so the back button can retrace them. */
+  const history = useRef<number[]>([]);
 
   /**
-   * Loads a track from the day's running order. Omitting `index` lets the
+   * Loads a track from the channel's running order. Omitting `index` lets the
    * server pick a random entry point; every track then plays from 0s.
    */
-  const load = useCallback(async (index: number | undefined, autoplay: boolean) => {
-    const query = index === undefined ? "" : `?index=${index}`;
-    const res = await fetch(`/api/now-playing${query}`, { cache: "no-store" });
-    if (!res.ok) {
-      setError("Could not reach the station. Retrying shortly.");
-      return;
-    }
-    const next: NowPlaying = await res.json();
-    if (index === undefined) queue.current = shuffledQueue(next.total, next.index);
-    setError(null);
-    setState(next);
-    setElapsed(0);
-    if (autoplay) handle.current?.play(next.track.youtubeId, 0);
-  }, []);
+  const load = useCallback(
+    async (index: number | undefined, autoplay: boolean) => {
+      const params = new URLSearchParams({ channel: channelId });
+      if (index !== undefined) params.set("index", String(index));
+      const res = await fetch(`/api/now-playing?${params}`, { cache: "no-store" });
+      if (!res.ok) {
+        setError("Could not reach the station. Retrying shortly.");
+        return;
+      }
+      const next: NowPlaying = await res.json();
+      if (index === undefined) queue.current = shuffledQueue(next.total, next.index);
+      setError(null);
+      setState(next);
+      setElapsed(0);
+      if (autoplay) handle.current?.play(next.track.youtubeId, 0);
+    },
+    [channelId],
+  );
 
+  // A fresh channel starts its own random entry point and shuffle.
   useEffect(() => {
-    void load(undefined, false);
+    history.current = [];
+    failures.current = 0;
+    void load(undefined, tunedIn);
+    // `tunedIn` only decides whether the first load autoplays; a change of it
+    // alone must not restart the track.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [load]);
 
   useEffect(() => {
@@ -77,13 +96,25 @@ export default function Station({ tagline }: { tagline: string }) {
 
   /** Advances to the next track of this visit's shuffle, reshuffling on exhaustion. */
   const next = useCallback(() => {
+    if (state) history.current.push(state.index);
     const upcoming = queue.current.shift();
     if (upcoming === undefined) {
       void load(undefined, true);
       return;
     }
     void load(upcoming, true);
-  }, [load]);
+  }, [load, state]);
+
+  /** Restarts the current track, or steps back through this visit's history. */
+  const previous = useCallback(() => {
+    if (elapsed > 3 || history.current.length === 0) {
+      if (state) void load(state.index, true);
+      return;
+    }
+    const back = history.current.pop();
+    if (state) queue.current.unshift(state.index);
+    if (back !== undefined) void load(back, true);
+  }, [elapsed, load, state]);
 
   /** A track that played to the end clears the consecutive-failure count. */
   const onEnded = useCallback(() => {
@@ -113,6 +144,7 @@ export default function Station({ tagline }: { tagline: string }) {
     else handle.current?.resume();
   };
 
+  const channel = channels.find((c) => c.id === channelId) ?? channels[0];
   const current = state?.track;
   const progress = current ? Math.min(100, (elapsed / current.durationSec) * 100) : 0;
 
@@ -122,8 +154,25 @@ export default function Station({ tagline }: { tagline: string }) {
         <h1 className="font-mono text-3xl font-black tracking-[0.2em] text-amber-300 drop-shadow-[0_2px_12px_rgba(0,0,0,0.6)] sm:text-5xl">
           DESI SONGLOON
         </h1>
-        <p className="mt-2 text-sm text-amber-100/70 sm:text-base">{tagline}</p>
+        <p className="mt-2 text-sm text-amber-100/70 sm:text-base">{channel.tagline}</p>
       </header>
+
+      <nav className="flex flex-wrap justify-center gap-2">
+        {channels.map((option) => (
+          <button
+            key={option.id}
+            onClick={() => setChannelId(option.id)}
+            className={`rounded-full border px-4 py-1.5 text-xs tracking-wide transition sm:text-sm ${
+              option.id === channelId
+                ? "border-white/70 bg-white/85 text-stone-900"
+                : "border-white/25 bg-white/10 text-white/80 hover:bg-white/20"
+            }`}
+            aria-pressed={option.id === channelId}
+          >
+            {option.name}
+          </button>
+        ))}
+      </nav>
 
       <div className="my-auto w-full max-w-3xl">
         <div className="glass-card flex items-center gap-4 rounded-[2rem] px-4 py-4 sm:gap-6 sm:px-6 sm:py-5">
@@ -164,6 +213,16 @@ export default function Station({ tagline }: { tagline: string }) {
           </div>
 
           <button
+            onClick={previous}
+            className="hidden shrink-0 text-white/80 transition hover:text-white sm:block"
+            aria-label="Previous song"
+          >
+            <svg viewBox="0 0 24 24" className="h-6 w-6 fill-current">
+              <path d="M7 5h2v14H7zM19 5v14l-9-7z" />
+            </svg>
+          </button>
+
+          <button
             onClick={tunedIn ? togglePlay : startListening}
             className="grid h-14 w-14 shrink-0 place-items-center rounded-full bg-white/90 text-stone-900 shadow-lg transition hover:bg-white sm:h-16 sm:w-16"
             aria-label={!tunedIn ? "Tune in" : playing ? "Pause" : "Play"}
@@ -178,6 +237,16 @@ export default function Station({ tagline }: { tagline: string }) {
                 <path d="M8 5.5v13l11-6.5z" />
               </svg>
             )}
+          </button>
+
+          <button
+            onClick={next}
+            className="hidden shrink-0 text-white/80 transition hover:text-white sm:block"
+            aria-label="Next song"
+          >
+            <svg viewBox="0 0 24 24" className="h-6 w-6 fill-current">
+              <path d="M15 5h2v14h-2zM5 5v14l9-7z" />
+            </svg>
           </button>
 
           <div className="hidden items-center gap-3 pr-1 sm:flex">
