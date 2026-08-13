@@ -228,8 +228,12 @@ export default function Station({ channels }: { channels: ChannelInfo[] }) {
 
   return (
     <div className="mx-auto flex min-h-screen w-full max-w-5xl flex-col items-center gap-8 px-4 py-10">
-      <header className="flex w-full items-center justify-between">
-        <span className="font-mono text-sm text-white/50 tabular-nums sm:text-base">{timeStr}</span>
+      <header className="flex w-full items-center justify-between relative">
+        <span
+          className="font-mono text-sm text-white/50 tabular-nums sm:text-base absolute left-4 top-1/2 -translate-y-1/2 bg-white/20 backdrop-blur-sm rounded-full px-3 py-1.5 shadow-sm"
+        >
+          {timeStr}
+        </span>
         <div className="text-center">
           <h1 className="font-mono text-3xl font-black tracking-[0.2em] text-amber-300 drop-shadow-[0_2px_12px_rgba(0,0,0,0.6)] sm:text-5xl">
             {site.title.toUpperCase()}
