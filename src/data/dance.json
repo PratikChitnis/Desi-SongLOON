@@ -18,18 +18,18 @@
       "durationSec": 253
     },
     {
-      "youtubeId": "dHzSmJGSnIc",
+      "youtubeId": "3h97bQsMBjc",
       "title": "Akhiyan Milaoon Kabhi",
       "film": "Raja",
       "year": 1995,
-      "durationSec": 336
+      "durationSec": 323
     },
     {
-      "youtubeId": "yIFMTfgJzY0",
+      "youtubeId": "zGbMOXFIYko",
       "title": "Aati Kya Khandala",
       "film": "Ghulam",
       "year": 1998,
-      "durationSec": 170
+      "durationSec": 295
     },
     {
       "youtubeId": "bWNkpJdkOj4",
@@ -46,11 +46,11 @@
       "durationSec": 406
     },
     {
-      "youtubeId": "gmXlGQAg400",
+      "youtubeId": "bKZTnnFU9HA",
       "title": "Koi Mil Gaya",
       "film": "Kuch Kuch Hota Hai",
       "year": 1998,
-      "durationSec": 485
+      "durationSec": 309
     },
     {
       "youtubeId": "DAy1I9ScdAA",
@@ -88,6 +88,13 @@
       "durationSec": 339
     },
     {
+      "youtubeId": "0VwgpYJ4q38",
+      "title": "Urvashi Urvashi",
+      "film": "Hum Se Hai Muqabala",
+      "year": 1994,
+      "durationSec": 266
+    },
+    {
       "youtubeId": "l75z7FrYRXI",
       "title": "Muqabala Muqabala",
       "film": "Hum Se Hai Muqabala",
@@ -107,6 +114,62 @@
       "film": "Haseena Maan Jaayegi",
       "year": 1999,
       "durationSec": 153
+    },
+    {
+      "youtubeId": "1m5iTWZFVzA",
+      "title": "Dil Se Re",
+      "film": "Dil Se",
+      "year": 1998,
+      "durationSec": 482
+    },
+    {
+      "youtubeId": "ctJI7pCbxAo",
+      "title": "Koi Kahe Kehta Rahe",
+      "film": "Dil Chahta Hai",
+      "year": 2001,
+      "durationSec": 326
+    },
+    {
+      "youtubeId": "IsPOtygII-Q",
+      "title": "Bholi Si Surat",
+      "film": "Dil To Pagal Hai",
+      "year": 1997,
+      "durationSec": 253
+    },
+    {
+      "youtubeId": "bKZTnnFU9HA",
+      "title": "Kuch Kuch Hota Hai Title Track",
+      "film": "Kuch Kuch Hota Hai",
+      "year": 1998,
+      "durationSec": 309
+    },
+    {
+      "youtubeId": "DAy1I9ScdAA",
+      "title": "Yeh Ladka Hai Deewana",
+      "film": "Kuch Kuch Hota Hai",
+      "year": 1998,
+      "durationSec": 390
+    },
+    {
+      "youtubeId": "HHHTVkfBIQ0",
+      "title": "Hum To Dil Chaahe Tumhara",
+      "film": "Dhadkan",
+      "year": 2000,
+      "durationSec": 274
+    },
+    {
+      "youtubeId": "0bAVd9jJE2Q",
+      "title": "Aashiq Banaya Aapne",
+      "film": "Aashiq Banaya Aapne",
+      "year": 2005,
+      "durationSec": 300
+    },
+    {
+      "youtubeId": "PlN6oP-Nlno",
+      "title": "Sona Kitna Sona Hai",
+      "film": "Hero No 1",
+      "year": 1997,
+      "durationSec": 279
     }
   ]
 }
