@@ -4,6 +4,16 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import YouTubePlayer, { type PlayerHandle } from "./YouTubePlayer";
 import type { NowPlaying } from "@/lib/types";
 
+/** Fisher-Yates over 0..total-1, minus `first`, which is played up front. */
+function shuffledQueue(total: number, first: number): number[] {
+  const rest = Array.from({ length: total }, (_, i) => i).filter((i) => i !== first);
+  for (let i = rest.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [rest[i], rest[j]] = [rest[j], rest[i]];
+  }
+  return rest;
+}
+
 export default function Station({ tagline }: { tagline: string }) {
   const [state, setState] = useState<NowPlaying | null>(null);
   const [tunedIn, setTunedIn] = useState(false);
@@ -14,10 +24,12 @@ export default function Station({ tagline }: { tagline: string }) {
 
   const handle = useRef<PlayerHandle | null>(null);
   const failures = useRef(0);
+  /** Remaining tracks for this visit, so nothing repeats until the list runs out. */
+  const queue = useRef<number[]>([]);
 
   /**
    * Loads a track from the day's running order. Omitting `index` lets the
-   * station clock pick the entry point; every track then plays from 0s.
+   * server pick a random entry point; every track then plays from 0s.
    */
   const load = useCallback(async (index: number | undefined, autoplay: boolean) => {
     const query = index === undefined ? "" : `?index=${index}`;
@@ -27,6 +39,7 @@ export default function Station({ tagline }: { tagline: string }) {
       return;
     }
     const next: NowPlaying = await res.json();
+    if (index === undefined) queue.current = shuffledQueue(next.total, next.index);
     setError(null);
     setState(next);
     setElapsed(0);
@@ -55,26 +68,36 @@ export default function Station({ tagline }: { tagline: string }) {
     [volume],
   );
 
+  /** Advances to the next track of this visit's shuffle, reshuffling on exhaustion. */
   const next = useCallback(() => {
-    if (!state) return;
+    const upcoming = queue.current.shift();
+    if (upcoming === undefined) {
+      void load(undefined, true);
+      return;
+    }
+    void load(upcoming, true);
+  }, [load]);
+
+  /** A track that played to the end clears the consecutive-failure count. */
+  const onEnded = useCallback(() => {
     failures.current = 0;
-    void load((state.index + 1) % state.total, true);
-  }, [state, load]);
+    next();
+  }, [next]);
 
   /** A pulled or region-blocked video must not stall the station. */
   const onError = useCallback(() => {
-    if (!state) return;
     failures.current += 1;
     if (failures.current > 3) {
       setError("Several tracks in a row are unavailable here. Try again later.");
       return;
     }
     setError("That track is unavailable — skipping ahead.");
-    void load((state.index + 1) % state.total, true);
-  }, [state, load]);
+    next();
+  }, [next]);
 
   const startListening = () => {
     setTunedIn(true);
+    failures.current = 0;
     if (state) handle.current?.play(state.track.youtubeId, 0);
   };
 
@@ -150,7 +173,7 @@ export default function Station({ tagline }: { tagline: string }) {
       <div className="pointer-events-none fixed -left-[9999px] top-0 h-[240px] w-[320px]">
         <YouTubePlayer
           onReady={onReady}
-          onEnded={next}
+          onEnded={onEnded}
           onError={onError}
           onPlayingChange={setPlaying}
         />

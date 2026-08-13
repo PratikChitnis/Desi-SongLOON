@@ -5,14 +5,12 @@ needs a playlist to be picked.
 
 ## How it works
 
-The station is a **clock, not a queue**. There is no background worker and no playback state on the
-server: `src/lib/scheduler.ts` derives the day's running order and how far the schedule has got from
-the current time alone, so the station is free to host on serverless and immune to restarts. The
-clock picks where a listener joins the order; playback then walks it sequentially, each song from
-its beginning.
+There is no background worker and no playback state on the server: `src/lib/scheduler.ts` derives
+the day's running order from the current time alone, so the station is free to host on serverless
+and immune to restarts. Each visit opens on a random track and then walks its own shuffled queue of
+the whole library, so no two visits play the same thing, and every song starts from its beginning.
 
-The running order is reshuffled deterministically once per UTC day, so the station doesn't sound
-identical every morning.
+The running order itself is also reshuffled deterministically once per UTC day.
 
 Audio comes from **official record-label uploads on YouTube**, embedded via the IFrame API. No audio
 is hosted or re-encoded here, which keeps the project on the right side of music licensing — the
@@ -21,9 +19,9 @@ small `PlayerHandle` interface so a licensed audio source can replace it later w
 station logic.
 
 The page itself is deliberately bare — a slowly drifting retro photograph and the name of the song
-currently on air. Backdrops live in `public/backdrops` and are selected from the same clock, so they
-change every four hours and match for everyone. The player is positioned offscreen and used for
-audio only.
+currently on air. Backdrops live in `public/backdrops`, are shuffled per visit (skipping whichever
+scene opened the previous visit) and cross-fade to the next one every 30 minutes. The player is
+positioned offscreen and used for audio only.
 
 ## Development
 

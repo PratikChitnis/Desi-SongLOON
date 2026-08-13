@@ -40,27 +40,9 @@ export function dailyOrder(tracks: Track[], stationId: string, atMs: number): Tr
 }
 
 /**
- * Which track the schedule has reached at `atMs`, by walking today's running
- * order. Used to pick the entry point for a listener tuning in; playback then
- * continues sequentially from the start of each track.
- */
-function scheduledIndex(order: Track[], atMs: number): number {
-  const totalSec = order.reduce((sum, t) => sum + t.durationSec, 0);
-  const dayStart = STATION_EPOCH_MS + Math.floor((atMs - STATION_EPOCH_MS) / DAY_MS) * DAY_MS;
-  let elapsed = Math.floor((atMs - dayStart) / 1000) % totalSec;
-
-  let index = 0;
-  while (elapsed >= order[index].durationSec) {
-    elapsed -= order[index].durationSec;
-    index = (index + 1) % order.length;
-  }
-  return index;
-}
-
-/**
- * Resolves a track from the day's running order. Without `index` the station
- * clock decides where a new listener joins; with one, the client is walking the
- * order itself so that every song plays from its beginning.
+ * Resolves a track from the day's running order. Without `index` the entry
+ * point is random, so no two visits open on the same song; with one, the client
+ * is walking its own shuffled queue.
  */
 export function nowPlaying(
   station: Station,
@@ -71,7 +53,7 @@ export function nowPlaying(
     throw new Error(`Station ${station.id} has no tracks`);
   }
   const order = dailyOrder(station.tracks, station.id, atMs);
-  const at = index === undefined ? scheduledIndex(order, atMs) : index % order.length;
+  const at = index === undefined ? Math.floor(Math.random() * order.length) : index % order.length;
 
   return { track: order[at], index: at, total: order.length };
 }

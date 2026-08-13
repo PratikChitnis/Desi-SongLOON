@@ -1,8 +1,8 @@
 /**
- * Retro backdrops rotate on the station clock, so every listener sees the same
- * scene at the same time and it changes a few times through the day.
+ * Retro backdrops are shuffled per visit, so a listener never opens on the same
+ * scene twice in a row, and rotate through that shuffled order every half hour.
  */
-export const BACKDROP_HOURS = 4;
+export const BACKDROP_MINUTES = 30;
 
 export interface Backdrop {
   id: string;
@@ -17,13 +17,15 @@ export const backdrops: Backdrop[] = [
   { id: "night-bazaar", name: "Night Bazaar", src: "/backdrops/night-bazaar.jpg" },
 ];
 
-export function currentBackdrop(atMs: number = Date.now()): Backdrop {
-  const block = Math.floor(atMs / (BACKDROP_HOURS * 3600_000));
-  return backdrops[block % backdrops.length];
-}
-
-/** Milliseconds until the backdrop rotates. */
-export function msUntilNextBackdrop(atMs: number = Date.now()): number {
-  const period = BACKDROP_HOURS * 3600_000;
-  return period - (atMs % period);
+/** Fisher-Yates copy of the scenes, optionally never starting on `avoid`. */
+export function shuffleBackdrops(avoid?: string): Backdrop[] {
+  const order = [...backdrops];
+  for (let i = order.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [order[i], order[j]] = [order[j], order[i]];
+  }
+  if (avoid && order.length > 1 && order[0].id === avoid) {
+    [order[0], order[1]] = [order[1], order[0]];
+  }
+  return order;
 }

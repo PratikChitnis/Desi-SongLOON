@@ -3,32 +3,41 @@
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import {
+  BACKDROP_MINUTES,
   backdrops,
-  currentBackdrop,
-  msUntilNextBackdrop,
+  shuffleBackdrops,
   type Backdrop as BackdropTheme,
 } from "@/lib/backdrops";
 
+const LAST_SCENE_KEY = "songloon:last-backdrop";
+
 /**
- * Full-bleed photographic scene behind the player. The image is derived from the
- * clock (not random) so it matches for every listener, and swaps itself when
- * the current block ends without needing a reload.
+ * Full-bleed photographic scene behind the player. The order is shuffled on the
+ * client for every visit — skipping whichever scene opened the previous visit —
+ * and steps to the next scene every half hour without needing a reload.
  */
 export default function Backdrop({ children }: { children: React.ReactNode }) {
-  const [theme, setTheme] = useState<BackdropTheme>(() => currentBackdrop());
+  // Chosen after mount: a server-rendered pick would be identical every visit.
+  const [theme, setTheme] = useState<BackdropTheme | null>(null);
 
   useEffect(() => {
-    let timer: ReturnType<typeof setTimeout>;
-    // Re-read on mount in case the server rendered just before a rotation.
-    setTheme(currentBackdrop());
-    const schedule = () => {
-      timer = setTimeout(() => {
-        setTheme(currentBackdrop());
-        schedule();
-      }, msUntilNextBackdrop() + 1000);
-    };
-    schedule();
-    return () => clearTimeout(timer);
+    const previous = window.localStorage.getItem(LAST_SCENE_KEY) ?? undefined;
+    const order = shuffleBackdrops(previous);
+    window.localStorage.setItem(LAST_SCENE_KEY, order[0].id);
+
+    let at = 0;
+    setTheme(order[0]);
+
+    const timer = setInterval(
+      () => {
+        at = (at + 1) % order.length;
+        setTheme(order[at]);
+        window.localStorage.setItem(LAST_SCENE_KEY, order[at].id);
+      },
+      BACKDROP_MINUTES * 60_000,
+    );
+
+    return () => clearInterval(timer);
   }, []);
 
   return (
@@ -38,14 +47,14 @@ export default function Backdrop({ children }: { children: React.ReactNode }) {
         <div
           key={scene.id}
           className={`backdrop-scene absolute inset-0 -z-20 transition-opacity duration-[2500ms] ${
-            scene.id === theme.id ? "opacity-100" : "opacity-0"
+            scene.id === theme?.id ? "opacity-100" : "opacity-0"
           }`}
         >
           <Image
             src={scene.src}
             alt=""
             fill
-            priority={scene.id === theme.id}
+            priority
             sizes="100vw"
             className="object-cover blur-[2px] brightness-[0.55] saturate-[1.1]"
           />
