@@ -8,6 +8,7 @@ interface YTPlayer {
   pauseVideo(): void;
   setVolume(volume: number): void;
   getCurrentTime(): number;
+  seekTo(seconds: number, allowSeekAhead: boolean): void;
   destroy(): void;
 }
 
@@ -57,6 +58,7 @@ export interface PlayerHandle {
   pause(): void;
   resume(): void;
   setVolume(volume: number): void;
+  seekTo(seconds: number): void;
 }
 
 interface Props {
@@ -89,6 +91,7 @@ export default function YouTubePlayer({ onReady, onEnded, onError, onPlayingChan
               pause: () => player?.pauseVideo(),
               resume: () => player?.playVideo(),
               setVolume: (volume) => player?.setVolume(volume),
+              seekTo: (seconds) => player?.seekTo(seconds, true),
             }),
           onStateChange: (event) => {
             if (event.data === YT.PlayerState.ENDED) callbacks.current.onEnded();

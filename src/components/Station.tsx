@@ -239,10 +239,23 @@ export default function Station({ channels }: { channels: ChannelInfo[] }) {
             </p>
 
             <div className="mt-3 flex items-center gap-3">
-              <div className="relative h-1 flex-1 overflow-hidden rounded-full bg-white/20">
+              <div
+                className="group relative h-2 flex-1 cursor-pointer rounded-full bg-white/20"
+                onClick={(e) => {
+                  if (!current) return;
+                  const rect = e.currentTarget.getBoundingClientRect();
+                  const pct = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+                  const seekTo = Math.floor(pct * current.durationSec);
+                  handle.current?.seekTo(seekTo);
+                  setElapsed(seekTo);
+                }}
+              >
                 <div
                   className="h-full rounded-full bg-white transition-[width] duration-1000 ease-linear"
                   style={{ width: `${progress}%` }}
+                />
+                <div className="absolute -top-1 left-0 h-4 w-1 -translate-x-1/2 rounded-full bg-white opacity-0 shadow transition-opacity group-hover:opacity-100"
+                  style={{ left: `${progress}%` }}
                 />
               </div>
               <span className="shrink-0 font-mono text-xs tabular-nums text-white/70">
