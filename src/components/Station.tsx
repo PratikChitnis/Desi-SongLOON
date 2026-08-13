@@ -345,11 +345,16 @@ export default function Station({ channels }: { channels: ChannelInfo[] }) {
         />
       </div>
 
-      <footer className="mt-auto pb-6 text-center text-xs text-white/40">
-        Contact for Support -{" "}
-        <a href={`mailto:${site.contactEmail}`} className="underline hover:text-white/70 transition-colors duration-150">
-          {site.contactEmail}
-        </a>
+      <footer className="mt-auto pb-6 text-center text-xs text-white/40 space-y-1">
+        <p>
+          All music is the property of their respective owners. No copyright infringement intended.
+        </p>
+        <p>
+          To request removal of any content, contact{" "}
+          <a href={`mailto:${site.contactEmail}`} className="underline hover:text-white/70 transition-colors duration-150">
+            {site.contactEmail}
+          </a>
+        </p>
       </footer>
     </div>
   );
