@@ -60,6 +60,18 @@ export default function Station({ channels }: { channels: ChannelInfo[] }) {
   /** Guard against rapid duplicate onEnded fires. */
   const advancing = useRef(false);
 
+  const [timeStr, setTimeStr] = useState("");
+
+  useEffect(() => {
+    const tick = () => {
+      const now = new Date();
+      setTimeStr(now.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", hour12: true }));
+    };
+    tick();
+    const timer = setInterval(tick, 1000);
+    return () => clearInterval(timer);
+  }, []);
+
   const getChannel = useCallback(
     (id: string) => channelsRef.current.find((c) => c.id === id) ?? channelsRef.current[0],
     [],
@@ -216,11 +228,15 @@ export default function Station({ channels }: { channels: ChannelInfo[] }) {
 
   return (
     <div className="mx-auto flex min-h-screen w-full max-w-5xl flex-col items-center gap-8 px-4 py-10">
-      <header className="text-center">
-        <h1 className="font-mono text-3xl font-black tracking-[0.2em] text-amber-300 drop-shadow-[0_2px_12px_rgba(0,0,0,0.6)] sm:text-5xl">
-          {site.title.toUpperCase()}
-        </h1>
-        <p className="mt-2 text-sm text-amber-100/70 sm:text-base">{channel.tagline}</p>
+      <header className="flex w-full items-center justify-between">
+        <span className="font-mono text-sm text-white/50 tabular-nums sm:text-base">{timeStr}</span>
+        <div className="text-center">
+          <h1 className="font-mono text-3xl font-black tracking-[0.2em] text-amber-300 drop-shadow-[0_2px_12px_rgba(0,0,0,0.6)] sm:text-5xl">
+            {site.title.toUpperCase()}
+          </h1>
+          <p className="mt-2 text-sm text-amber-100/70 sm:text-base">{channel.tagline}</p>
+        </div>
+        <span className="w-[72px] sm:w-[96px]" />
       </header>
 
       <div className="my-auto w-full max-w-3xl">
