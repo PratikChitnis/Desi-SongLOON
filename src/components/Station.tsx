@@ -87,6 +87,8 @@ export default function Station({ channels }: { channels: ChannelInfo[] }) {
         } else {
           pendingPlay.current = { videoId: next.track.youtubeId, start: 0 };
         }
+      } else if (playerReady.current) {
+        handle.current?.cue(next.track.youtubeId);
       }
     },
     [getChannel, setState],
@@ -116,6 +118,8 @@ export default function Station({ channels }: { channels: ChannelInfo[] }) {
       } else {
         pendingPlay.current = { videoId: initial.track.youtubeId, start: 0 };
       }
+    } else if (playerReady.current) {
+      handle.current?.cue(initial.track.youtubeId);
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [channelId]);
@@ -139,6 +143,9 @@ export default function Station({ channels }: { channels: ChannelInfo[] }) {
       if (pendingPlay.current) {
         h.play(pendingPlay.current.videoId, pendingPlay.current.start);
         pendingPlay.current = null;
+      } else {
+        const s = stateRef.current;
+        if (s) h.cue(s.track.youtubeId);
       }
     },
     [],
@@ -190,7 +197,7 @@ export default function Station({ channels }: { channels: ChannelInfo[] }) {
     const s = stateRef.current;
     if (s) {
       if (playerReady.current) {
-        handle.current?.play(s.track.youtubeId, 0);
+        handle.current?.playInstant();
       } else {
         pendingPlay.current = { videoId: s.track.youtubeId, start: 0 };
       }

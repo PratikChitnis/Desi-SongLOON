@@ -4,6 +4,7 @@ import { useEffect, useRef } from "react";
 
 interface YTPlayer {
   loadVideoById(options: { videoId: string; startSeconds?: number }): void;
+  cueVideoById(options: { videoId: string; startSeconds?: number }): void;
   playVideo(): void;
   pauseVideo(): void;
   setVolume(volume: number): void;
@@ -55,6 +56,8 @@ function loadApi(): Promise<YTNamespace> {
 
 export interface PlayerHandle {
   play(videoId: string, startSeconds: number): void;
+  cue(videoId: string): void;
+  playInstant(): void;
   pause(): void;
   resume(): void;
   setVolume(volume: number): void;
@@ -86,6 +89,12 @@ export default function YouTubePlayer({ onReady, onEnded, onError, onPlayingChan
             callbacks.current.onReady({
               play: (videoId, startSeconds) => {
                 player?.loadVideoById({ videoId, startSeconds });
+                player?.playVideo();
+              },
+              cue: (videoId) => {
+                player?.cueVideoById({ videoId });
+              },
+              playInstant: () => {
                 player?.playVideo();
               },
               pause: () => player?.pauseVideo(),
