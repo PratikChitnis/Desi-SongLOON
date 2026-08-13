@@ -262,7 +262,9 @@ export default function Station({ channels }: { channels: ChannelInfo[] }) {
               {current?.title}
             </h2>
             <p className="mt-0.5 truncate text-xs text-white/60 sm:text-sm">
-              {current ? `${current.film} · ${current.year}` : site.title}
+              {current
+                ? [current.film || null, current.year || null].filter(Boolean).join(" · ") || site.title
+                : site.title}
             </p>
 
             <div className="mt-3 flex items-center gap-3">
