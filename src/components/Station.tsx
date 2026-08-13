@@ -230,7 +230,7 @@ export default function Station({ channels }: { channels: ChannelInfo[] }) {
     <div className="mx-auto flex min-h-screen w-full max-w-5xl flex-col items-center gap-8 px-4 py-10">
       <header className="relative flex w-full items-center justify-center">
         <span
-          className="absolute left-0 top-0 rounded-full bg-white/20 px-3 py-1.5 font-mono text-sm text-white/50 shadow-sm tabular-nums backdrop-blur-sm sm:text-base"
+          className="fixed left-3 top-3 rounded-full bg-white/20 px-3 py-1.5 font-mono text-sm text-white/50 shadow-sm tabular-nums backdrop-blur-sm sm:text-base"
         >
           {timeStr}
         </span>
