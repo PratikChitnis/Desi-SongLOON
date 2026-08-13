@@ -4,7 +4,8 @@ import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
 import VolumeControl from "./VolumeControl";
 import YouTubePlayer, { type PlayerHandle } from "./YouTubePlayer";
-import type { NowPlaying } from "@/lib/types";
+import { nowPlaying } from "@/lib/scheduler";
+import type { NowPlaying, Track } from "@/lib/types";
 
 /** Seconds as m:ss for the now-playing readout. */
 function clock(seconds: number): string {
@@ -26,11 +27,11 @@ export interface ChannelInfo {
   id: string;
   name: string;
   tagline: string;
+  tracks: Track[];
 }
 
 export default function Station({ channels }: { channels: ChannelInfo[] }) {
   const [channelId, setChannelId] = useState(channels[0].id);
-  const [state, setState] = useState<NowPlaying | null>(null);
   const [tunedIn, setTunedIn] = useState(false);
   const [playing, setPlaying] = useState(false);
   const [elapsed, setElapsed] = useState(0);
@@ -39,43 +40,54 @@ export default function Station({ channels }: { channels: ChannelInfo[] }) {
   const handle = useRef<PlayerHandle | null>(null);
   const failures = useRef(0);
   const volume = useRef(70);
-  /** Remaining tracks for this visit, so nothing repeats until the list runs out. */
   const queue = useRef<number[]>([]);
-  /** Indices already played on this channel, so the back button can retrace them. */
   const history = useRef<number[]>([]);
 
-  /**
-   * Loads a track from the channel's running order. Omitting `index` lets the
-   * server pick a random entry point; every track then plays from 0s.
-   */
+  const getChannel = useCallback(
+    (id: string) => channels.find((c) => c.id === id) ?? channels[0],
+    [channels],
+  );
+
+  const [state, setState] = useState<NowPlaying>(() => {
+    const ch = getChannel(channels[0].id);
+    return nowPlaying({ id: ch.id, name: ch.name, tagline: ch.tagline, tracks: ch.tracks });
+  });
+
+  /** Whether the player has fired onReady yet. */
+  const playerReady = useRef(false);
+  /** Queued play command, executed once the player fires onReady. */
+  const pendingPlay = useRef<{ videoId: string; start: number } | null>(null);
+
   const load = useCallback(
-    async (index: number | undefined, autoplay: boolean) => {
-      const params = new URLSearchParams({ channel: channelId });
-      if (index !== undefined) params.set("index", String(index));
-      const res = await fetch(`/api/now-playing?${params}`, { cache: "no-store" });
-      if (!res.ok) {
-        setError("Could not reach the station. Retrying shortly.");
-        return;
-      }
-      const next: NowPlaying = await res.json();
+    (index: number | undefined, autoplay: boolean) => {
+      const ch = getChannel(channelId);
+      const station = { id: ch.id, name: ch.name, tagline: ch.tagline, tracks: ch.tracks };
+      const next = nowPlaying(station, index);
       if (index === undefined) queue.current = shuffledQueue(next.total, next.index);
       setError(null);
       setState(next);
       setElapsed(0);
-      if (autoplay) handle.current?.play(next.track.youtubeId, 0);
+      if (autoplay) {
+        if (playerReady.current) {
+          handle.current?.play(next.track.youtubeId, 0);
+        } else {
+          pendingPlay.current = { videoId: next.track.youtubeId, start: 0 };
+        }
+      }
     },
-    [channelId],
+    [channelId, getChannel],
   );
 
-  // A fresh channel starts its own random entry point and shuffle.
   useEffect(() => {
     history.current = [];
     failures.current = 0;
-    void load(undefined, tunedIn);
-    // `tunedIn` only decides whether the first load autoplays; a change of it
-    // alone must not restart the track.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [load]);
+    const ch = getChannel(channelId);
+    const station = { id: ch.id, name: ch.name, tagline: ch.tagline, tracks: ch.tracks };
+    const initial = nowPlaying(station);
+    setState(initial);
+    queue.current = shuffledQueue(initial.total, initial.index);
+    setElapsed(0);
+  }, [channelId, getChannel]);
 
   useEffect(() => {
     if (!playing) return;
@@ -88,40 +100,44 @@ export default function Station({ channels }: { channels: ChannelInfo[] }) {
     handle.current?.setVolume(next);
   }, []);
 
-  const onReady = useCallback((h: PlayerHandle) => {
-    handle.current = h;
-    h.setVolume(volume.current);
-  }, []);
+  const onReady = useCallback(
+    (h: PlayerHandle) => {
+      handle.current = h;
+      h.setVolume(volume.current);
+      playerReady.current = true;
+      if (pendingPlay.current) {
+        h.play(pendingPlay.current.videoId, pendingPlay.current.start);
+        pendingPlay.current = null;
+      }
+    },
+    [],
+  );
 
-  /** Advances to the next track of this visit's shuffle, reshuffling on exhaustion. */
   const next = useCallback(() => {
     if (state) history.current.push(state.index);
     const upcoming = queue.current.shift();
     if (upcoming === undefined) {
-      void load(undefined, true);
+      load(undefined, true);
       return;
     }
-    void load(upcoming, true);
+    load(upcoming, true);
   }, [load, state]);
 
-  /** Restarts the current track, or steps back through this visit's history. */
   const previous = useCallback(() => {
     if (elapsed > 3 || history.current.length === 0) {
-      if (state) void load(state.index, true);
+      if (state) load(state.index, true);
       return;
     }
     const back = history.current.pop();
     if (state) queue.current.unshift(state.index);
-    if (back !== undefined) void load(back, true);
+    if (back !== undefined) load(back, true);
   }, [elapsed, load, state]);
 
-  /** A track that played to the end clears the consecutive-failure count. */
   const onEnded = useCallback(() => {
     failures.current = 0;
     next();
   }, [next]);
 
-  /** A pulled or region-blocked video must not stall the station. */
   const onError = useCallback(() => {
     failures.current += 1;
     if (failures.current > 3) {
@@ -135,7 +151,13 @@ export default function Station({ channels }: { channels: ChannelInfo[] }) {
   const startListening = () => {
     setTunedIn(true);
     failures.current = 0;
-    if (state) handle.current?.play(state.track.youtubeId, 0);
+    if (state) {
+      if (playerReady.current) {
+        handle.current?.play(state.track.youtubeId, 0);
+      } else {
+        pendingPlay.current = { videoId: state.track.youtubeId, start: 0 };
+      }
+    }
   };
 
   const togglePlay = () => {
@@ -143,7 +165,7 @@ export default function Station({ channels }: { channels: ChannelInfo[] }) {
     else handle.current?.resume();
   };
 
-  const channel = channels.find((c) => c.id === channelId) ?? channels[0];
+  const channel = getChannel(channelId);
   const current = state?.track;
   const progress = current ? Math.min(100, (elapsed / current.durationSec) * 100) : 0;
 
@@ -162,7 +184,7 @@ export default function Station({ channels }: { channels: ChannelInfo[] }) {
             <button
               key={option.id}
               onClick={() => setChannelId(option.id)}
-              className={`rounded-full border px-4 py-1.5 text-xs tracking-wide transition sm:text-sm ${
+              className={`rounded-full border px-4 py-1.5 text-xs tracking-wide transition-all duration-150 active:scale-95 sm:text-sm ${
                 option.id === channelId
                   ? "border-white/70 bg-white/85 text-stone-900"
                   : "border-white/25 bg-white/10 text-white/80 hover:bg-white/20"
@@ -192,7 +214,7 @@ export default function Station({ channels }: { channels: ChannelInfo[] }) {
 
           <div className="min-w-0 flex-1">
             <h2 className="truncate text-lg font-semibold text-white drop-shadow-[0_2px_10px_rgba(0,0,0,0.7)] sm:text-2xl">
-              {current?.title ?? "Tuning in…"}
+              {current?.title}
             </h2>
             <p className="mt-0.5 truncate text-xs text-white/60 sm:text-sm">
               {current ? `${current.film} · ${current.year}` : "Desi SongLOON radio"}
@@ -213,7 +235,7 @@ export default function Station({ channels }: { channels: ChannelInfo[] }) {
 
           <button
             onClick={previous}
-            className="hidden shrink-0 text-white/80 transition hover:text-white sm:block"
+            className="hidden shrink-0 rounded-full p-2 text-white/80 transition-all duration-150 hover:text-white active:scale-90 sm:block"
             aria-label="Previous song"
           >
             <svg viewBox="0 0 24 24" className="h-6 w-6 fill-current">
@@ -223,7 +245,7 @@ export default function Station({ channels }: { channels: ChannelInfo[] }) {
 
           <button
             onClick={tunedIn ? togglePlay : startListening}
-            className="grid h-14 w-14 shrink-0 place-items-center rounded-full bg-white/90 text-stone-900 shadow-lg transition hover:bg-white sm:h-16 sm:w-16"
+            className="grid h-14 w-14 shrink-0 place-items-center rounded-full bg-white/90 text-stone-900 shadow-lg transition-all duration-150 hover:bg-white active:scale-90 sm:h-16 sm:w-16"
             aria-label={!tunedIn ? "Tune in" : playing ? "Pause" : "Play"}
           >
             {tunedIn && playing ? (
@@ -240,7 +262,7 @@ export default function Station({ channels }: { channels: ChannelInfo[] }) {
 
           <button
             onClick={next}
-            className="hidden shrink-0 text-white/80 transition hover:text-white sm:block"
+            className="hidden shrink-0 rounded-full p-2 text-white/80 transition-all duration-150 hover:text-white active:scale-90 sm:block"
             aria-label="Next song"
           >
             <svg viewBox="0 0 24 24" className="h-6 w-6 fill-current">
@@ -254,7 +276,6 @@ export default function Station({ channels }: { channels: ChannelInfo[] }) {
         {error && <p className="mt-3 text-center text-xs text-red-300">{error}</p>}
       </div>
 
-      {/* The player only supplies audio; it is parked offscreen rather than unmounted. */}
       <div className="pointer-events-none fixed -left-[9999px] top-0 h-[240px] w-[320px]">
         <YouTubePlayer
           onReady={onReady}
