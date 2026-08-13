@@ -35,7 +35,7 @@ async function buildChannel(ch: ChannelConfig): Promise<Station> {
   }
 
   const tracks: Track[] = ytResults
-    .filter((v) => v.durationSec > 60) // skip shorts / clips
+    .filter((v) => v.durationSec >= 120 && v.durationSec <= 600) // 2–10 min only: skip shorts, full movies, compilations
     .map((v) => {
       const sp = spLookup.get(normalise(v.title));
       return {
@@ -56,19 +56,38 @@ function normalise(s: string): string {
     .toLowerCase()
     .replace(/\(.*?\)/g, "")   // remove (official video) etc.
     .replace(/\[.*?\]/g, "")   // remove [hd] etc.
+    .replace(/official\s*(video|audio|music\s*video)/g, "")
+    .replace(/full\s*audio/g, "")
+    .replace(/[\u0900-\u097F]+/g, "") // remove Hindi/Devanagari chars
     .replace(/[^a-z0-9\s]/g, "")
+    .replace(/\btoh?\b/g, "to") // toh/to → to (common spelling variation)
+    .replace(/\s+/g, " ")
     .trim();
 }
 
 /**
- * Best-effort: if the YouTube title contains a pipe, the part after it is
- * often the film name (e.g. "Tujhe Dekha To — Yash Chopra Film").
+ * Best-effort: extract film name from YouTube title patterns like:
+ *   "Song Name | Film Name"
+ *   "Song Name - Film Name"
+ *   "Song Name - Film Name (Official Video)"
+ *   "Song Name | Film Name | Label"
  */
 function extractFilmFromTitle(title: string): string {
+  // Try pipe first (most common official format)
   const pipe = title.indexOf("|");
-  if (pipe !== -1) return title.slice(pipe + 1).trim();
+  if (pipe !== -1) {
+    const after = title.slice(pipe + 1).trim();
+    // If there's another pipe, take only the first segment
+    const nextPipe = after.indexOf("|");
+    return (nextPipe !== -1 ? after.slice(0, nextPipe) : after).trim();
+  }
+  // Try dash
   const dash = title.indexOf(" - ");
-  if (dash !== -1) return title.slice(dash + 3).trim();
+  if (dash !== -1) {
+    const after = title.slice(dash + 3).trim();
+    // Remove trailing parenthetical like (Official Video)
+    return after.replace(/\s*\(.*?\)\s*$/, "").trim();
+  }
   return "";
 }
 
