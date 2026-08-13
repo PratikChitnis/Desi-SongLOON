@@ -117,7 +117,7 @@ export default function Station({ tagline }: { tagline: string }) {
   const progress = current ? Math.min(100, (elapsed / current.durationSec) * 100) : 0;
 
   return (
-    <div className="mx-auto flex min-h-screen w-full max-w-3xl flex-col items-center gap-8 px-4 py-10">
+    <div className="mx-auto flex min-h-screen w-full max-w-5xl flex-col items-center gap-8 px-4 py-10">
       <header className="text-center">
         <h1 className="font-mono text-3xl font-black tracking-[0.2em] text-amber-300 drop-shadow-[0_2px_12px_rgba(0,0,0,0.6)] sm:text-5xl">
           DESI SONGLOON
@@ -125,15 +125,15 @@ export default function Station({ tagline }: { tagline: string }) {
         <p className="mt-2 text-sm text-amber-100/70 sm:text-base">{tagline}</p>
       </header>
 
-      <div className="my-auto w-full max-w-2xl">
-        <div className="glass-card flex items-center gap-4 rounded-[2rem] px-4 py-3 sm:gap-6 sm:px-5">
-          <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-full ring-1 ring-white/25 sm:h-[4.5rem] sm:w-[4.5rem]">
+      <div className="my-auto w-full max-w-4xl">
+        <div className="glass-card flex items-center gap-5 rounded-[2.5rem] px-5 py-5 sm:gap-8 sm:px-8 sm:py-6">
+          <div className="relative h-20 w-20 shrink-0 overflow-hidden rounded-full ring-1 ring-white/25 sm:h-28 sm:w-28">
             {current ? (
               <Image
                 src={`https://i.ytimg.com/vi/${current.youtubeId}/mqdefault.jpg`}
                 alt=""
                 fill
-                sizes="72px"
+                sizes="112px"
                 unoptimized
                 className="scale-[1.35] object-cover"
               />
@@ -143,21 +143,21 @@ export default function Station({ tagline }: { tagline: string }) {
           </div>
 
           <div className="min-w-0 flex-1">
-            <h2 className="truncate text-base font-semibold text-white drop-shadow-[0_2px_10px_rgba(0,0,0,0.7)] sm:text-lg">
+            <h2 className="truncate text-xl font-semibold text-white drop-shadow-[0_2px_10px_rgba(0,0,0,0.7)] sm:text-3xl">
               {current?.title ?? "Tuning in…"}
             </h2>
-            <p className="truncate text-xs text-white/60">
+            <p className="mt-1 truncate text-sm text-white/60 sm:text-base">
               {current ? `${current.film} · ${current.year}` : "Desi SongLOON radio"}
             </p>
 
-            <div className="mt-2 flex items-center gap-3">
-              <div className="relative h-1 flex-1 overflow-hidden rounded-full bg-white/20">
+            <div className="mt-4 flex items-center gap-4">
+              <div className="relative h-1.5 flex-1 overflow-hidden rounded-full bg-white/20">
                 <div
                   className="h-full rounded-full bg-white transition-[width] duration-1000 ease-linear"
                   style={{ width: `${progress}%` }}
                 />
               </div>
-              <span className="shrink-0 font-mono text-[11px] tabular-nums text-white/60">
+              <span className="shrink-0 font-mono text-sm tabular-nums text-white/70">
                 {clock(elapsed)} / {current ? clock(current.durationSec) : "0:00"}
               </span>
             </div>
@@ -165,23 +165,23 @@ export default function Station({ tagline }: { tagline: string }) {
 
           <button
             onClick={tunedIn ? togglePlay : startListening}
-            className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-white/90 text-stone-900 shadow-lg transition hover:bg-white sm:h-14 sm:w-14"
+            className="grid h-16 w-16 shrink-0 place-items-center rounded-full bg-white/90 text-stone-900 shadow-lg transition hover:bg-white sm:h-20 sm:w-20"
             aria-label={!tunedIn ? "Tune in" : playing ? "Pause" : "Play"}
           >
             {tunedIn && playing ? (
-              <svg viewBox="0 0 24 24" className="h-5 w-5 fill-current">
+              <svg viewBox="0 0 24 24" className="h-7 w-7 fill-current sm:h-8 sm:w-8">
                 <rect x="6" y="4" width="4" height="16" rx="1" />
                 <rect x="14" y="4" width="4" height="16" rx="1" />
               </svg>
             ) : (
-              <svg viewBox="0 0 24 24" className="ml-0.5 h-5 w-5 fill-current">
+              <svg viewBox="0 0 24 24" className="ml-1 h-7 w-7 fill-current sm:h-8 sm:w-8">
                 <path d="M8 5.5v13l11-6.5z" />
               </svg>
             )}
           </button>
 
           <div className="hidden items-center gap-3 pr-1 sm:flex">
-            <svg viewBox="0 0 24 24" className="h-5 w-5 shrink-0 fill-white/80">
+            <svg viewBox="0 0 24 24" className="h-6 w-6 shrink-0 fill-white/80">
               <path d="M4 9v6h4l5 4V5L8 9H4zm12.5 3a4.5 4.5 0 0 0-2.5-4v8a4.5 4.5 0 0 0 2.5-4z" />
             </svg>
             <input
@@ -190,7 +190,7 @@ export default function Station({ tagline }: { tagline: string }) {
               max={100}
               value={volume}
               onChange={(e) => setVolume(Number(e.target.value))}
-              className="volume-slider w-24"
+              className="volume-slider w-28"
               aria-label="Volume"
             />
           </div>
