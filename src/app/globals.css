@@ -20,8 +20,11 @@ body {
   box-shadow:
     0 24px 60px rgba(0, 0, 0, 0.45),
     inset 0 1px 0 rgba(255, 255, 255, 0.28);
-  backdrop-filter: blur(18px) saturate(1.4);
-  -webkit-backdrop-filter: blur(18px) saturate(1.4);
+  backdrop-filter: blur(12px) saturate(1.3);
+  -webkit-backdrop-filter: blur(12px) saturate(1.3);
+  /* Its own compositing layer, so the card is not repainted with the backdrop. */
+  transform: translateZ(0);
+  contain: paint;
 }
 
 .volume-slider {
@@ -54,19 +57,25 @@ body {
   cursor: pointer;
 }
 
-/* A slow ken-burns drift keeps the photo alive without pulling focus. */
-.backdrop-scene img {
-  animation: backdrop-drift 60s ease-in-out infinite alternate;
+/* A slow ken-burns drift keeps the photo alive without pulling focus. Only
+   transform and opacity are animated, so it stays on the compositor. */
+.backdrop-scene {
+  will-change: opacity;
 }
 
+.backdrop-scene img {
+  will-change: transform;
+  animation: backdrop-drift 90s ease-in-out infinite alternate;
+}
+
+/* Static: animating the scanlines repainted the whole viewport every frame. */
 .backdrop-grain {
   background-image: repeating-linear-gradient(
     0deg,
     rgba(0, 0, 0, 0.22) 0 1px,
     transparent 1px 3px
   );
-  mix-blend-mode: overlay;
-  animation: backdrop-scan 9s linear infinite;
+  opacity: 0.6;
 }
 
 @keyframes backdrop-drift {
@@ -78,18 +87,8 @@ body {
   }
 }
 
-@keyframes backdrop-scan {
-  from {
-    background-position: 0 0;
-  }
-  to {
-    background-position: 0 120px;
-  }
-}
-
 @media (prefers-reduced-motion: reduce) {
-  .backdrop-scene img,
-  .backdrop-grain {
+  .backdrop-scene img {
     animation: none;
   }
 }

@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
+import VolumeControl from "./VolumeControl";
 import YouTubePlayer, { type PlayerHandle } from "./YouTubePlayer";
 import type { NowPlaying } from "@/lib/types";
 
@@ -32,12 +33,12 @@ export default function Station({ channels }: { channels: ChannelInfo[] }) {
   const [state, setState] = useState<NowPlaying | null>(null);
   const [tunedIn, setTunedIn] = useState(false);
   const [playing, setPlaying] = useState(false);
-  const [volume, setVolume] = useState(70);
   const [elapsed, setElapsed] = useState(0);
   const [error, setError] = useState<string | null>(null);
 
   const handle = useRef<PlayerHandle | null>(null);
   const failures = useRef(0);
+  const volume = useRef(70);
   /** Remaining tracks for this visit, so nothing repeats until the list runs out. */
   const queue = useRef<number[]>([]);
   /** Indices already played on this channel, so the back button can retrace them. */
@@ -82,17 +83,15 @@ export default function Station({ channels }: { channels: ChannelInfo[] }) {
     return () => clearInterval(timer);
   }, [playing]);
 
-  useEffect(() => {
-    handle.current?.setVolume(volume);
-  }, [volume]);
+  const setVolume = useCallback((next: number) => {
+    volume.current = next;
+    handle.current?.setVolume(next);
+  }, []);
 
-  const onReady = useCallback(
-    (h: PlayerHandle) => {
-      handle.current = h;
-      h.setVolume(volume);
-    },
-    [volume],
-  );
+  const onReady = useCallback((h: PlayerHandle) => {
+    handle.current = h;
+    h.setVolume(volume.current);
+  }, []);
 
   /** Advances to the next track of this visit's shuffle, reshuffling on exhaustion. */
   const next = useCallback(() => {
@@ -249,20 +248,7 @@ export default function Station({ channels }: { channels: ChannelInfo[] }) {
             </svg>
           </button>
 
-          <div className="hidden items-center gap-3 pr-1 sm:flex">
-            <svg viewBox="0 0 24 24" className="h-5 w-5 shrink-0 fill-white/80">
-              <path d="M4 9v6h4l5 4V5L8 9H4zm12.5 3a4.5 4.5 0 0 0-2.5-4v8a4.5 4.5 0 0 0 2.5-4z" />
-            </svg>
-            <input
-              type="range"
-              min={0}
-              max={100}
-              value={volume}
-              onChange={(e) => setVolume(Number(e.target.value))}
-              className="volume-slider w-24"
-              aria-label="Volume"
-            />
-          </div>
+          <VolumeControl initial={volume.current} onChange={setVolume} />
         </div>
 
         {error && <p className="mt-3 text-center text-xs text-red-300">{error}</p>}

@@ -50,14 +50,9 @@ export default function Backdrop({ children }: { children: React.ReactNode }) {
             scene.id === theme?.id ? "opacity-100" : "opacity-0"
           }`}
         >
-          <Image
-            src={scene.src}
-            alt=""
-            fill
-            priority
-            sizes="100vw"
-            className="object-cover blur-[2px] brightness-[0.55] saturate-[1.1]"
-          />
+          {/* Blur and dimming are baked into the files: a live CSS filter over a
+              moving layer forces a full-screen re-raster on every frame. */}
+          <Image src={scene.src} alt="" fill priority sizes="100vw" className="object-cover" />
         </div>
       ))}
 
