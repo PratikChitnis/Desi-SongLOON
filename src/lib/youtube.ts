@@ -2,6 +2,21 @@ import { cached, DAY_MS } from "./cache";
 
 const BASE = "https://www.googleapis.com/youtube/v3";
 
+/** Decode HTML entities that YouTube returns in titles (e.g. &#39; → '). */
+function decodeHtml(s: string): string {
+  return s
+    .replace(/&#39;/g, "'")
+    .replace(/&#34;/g, '"')
+    .replace(/&#38;/g, "&")
+    .replace(/&#60;/g, "<")
+    .replace(/&#62;/g, ">")
+    .replace(/&amp;/g, "&")
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
+    .replace(/&quot;/g, '"')
+    .replace(/&#(\d+);/g, (_, code) => String.fromCharCode(Number(code)));
+}
+
 interface YouTubeVideo {
   id: string;
   title: string;
@@ -84,8 +99,8 @@ export async function searchYouTube(
 
     return json.items.map((item) => ({
       id: item.id.videoId,
-      title: item.snippet.title,
-      channelTitle: item.snippet.channelTitle,
+      title: decodeHtml(item.snippet.title),
+      channelTitle: decodeHtml(item.snippet.channelTitle),
       durationSec: durations.get(item.id.videoId) ?? 0,
     }));
   });
