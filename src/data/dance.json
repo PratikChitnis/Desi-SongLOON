@@ -1,175 +1,154 @@
-{
-  "id": "dance",
-  "name": "90s Dance Floor",
-  "tagline": "Shaadi-season bangers and disco nights",
-  "tracks": [
-    {
-      "youtubeId": "hcCvSmjHwGY",
-      "title": "Ole Ole",
-      "film": "Yeh Dillagi",
-      "year": 1994,
-      "durationSec": 250
-    },
-    {
-      "youtubeId": "fVhfrX29Rl4",
-      "title": "Ruk Ruk Ruk",
-      "film": "Vijaypath",
-      "year": 1994,
-      "durationSec": 253
-    },
-    {
-      "youtubeId": "3h97bQsMBjc",
-      "title": "Akhiyan Milaoon Kabhi",
-      "film": "Raja",
-      "year": 1995,
-      "durationSec": 323
-    },
-    {
-      "youtubeId": "zGbMOXFIYko",
-      "title": "Aati Kya Khandala",
-      "film": "Ghulam",
-      "year": 1998,
-      "durationSec": 295
-    },
-    {
-      "youtubeId": "bWNkpJdkOj4",
-      "title": "Dholna",
-      "film": "Dil To Pagal Hai",
-      "year": 1997,
-      "durationSec": 313
-    },
-    {
-      "youtubeId": "dGZb1kv5zW0",
-      "title": "Le Gayi Le Gayi",
-      "film": "Dil To Pagal Hai",
-      "year": 1997,
-      "durationSec": 406
-    },
-    {
-      "youtubeId": "bKZTnnFU9HA",
-      "title": "Koi Mil Gaya",
-      "film": "Kuch Kuch Hota Hai",
-      "year": 1998,
-      "durationSec": 309
-    },
-    {
-      "youtubeId": "DAy1I9ScdAA",
-      "title": "Yeh Ladka Hai Deewana",
-      "film": "Kuch Kuch Hota Hai",
-      "year": 1998,
-      "durationSec": 390
-    },
-    {
-      "youtubeId": "-bNwqXvMuB8",
-      "title": "Mehndi Laga Ke Rakhna",
-      "film": "Dilwale Dulhania Le Jayenge",
-      "year": 1995,
-      "durationSec": 281
-    },
-    {
-      "youtubeId": "-LESbtPT8uw",
-      "title": "Dil Dhadakne Do",
-      "film": "Kaho Naa Pyaar Hai",
-      "year": 2000,
-      "durationSec": 361
-    },
-    {
-      "youtubeId": "aGbPyM6lzBs",
-      "title": "Ek Pal Ka Jeena",
-      "film": "Kaho Naa Pyaar Hai",
-      "year": 2000,
-      "durationSec": 332
-    },
-    {
-      "youtubeId": "qe_klgHMoDY",
-      "title": "It's The Time To Disco",
-      "film": "Kal Ho Naa Ho",
-      "year": 2003,
-      "durationSec": 339
-    },
-    {
-      "youtubeId": "0VwgpYJ4q38",
-      "title": "Urvashi Urvashi",
-      "film": "Hum Se Hai Muqabala",
-      "year": 1994,
-      "durationSec": 266
-    },
-    {
-      "youtubeId": "l75z7FrYRXI",
-      "title": "Muqabala Muqabala",
-      "film": "Hum Se Hai Muqabala",
-      "year": 1994,
-      "durationSec": 183
-    },
-    {
-      "youtubeId": "qNnvL0ztJhA",
-      "title": "Radha Kaise Na Jale",
-      "film": "Lagaan",
-      "year": 2001,
-      "durationSec": 335
-    },
-    {
-      "youtubeId": "NrqWpUffJL8",
-      "title": "What Is Mobile Number",
-      "film": "Haseena Maan Jaayegi",
-      "year": 1999,
-      "durationSec": 153
-    },
-    {
-      "youtubeId": "1m5iTWZFVzA",
-      "title": "Dil Se Re",
-      "film": "Dil Se",
-      "year": 1998,
-      "durationSec": 482
-    },
-    {
-      "youtubeId": "ctJI7pCbxAo",
-      "title": "Koi Kahe Kehta Rahe",
-      "film": "Dil Chahta Hai",
-      "year": 2001,
-      "durationSec": 326
-    },
-    {
-      "youtubeId": "IsPOtygII-Q",
-      "title": "Bholi Si Surat",
-      "film": "Dil To Pagal Hai",
-      "year": 1997,
-      "durationSec": 253
-    },
-    {
-      "youtubeId": "bKZTnnFU9HA",
-      "title": "Kuch Kuch Hota Hai Title Track",
-      "film": "Kuch Kuch Hota Hai",
-      "year": 1998,
-      "durationSec": 309
-    },
-    {
-      "youtubeId": "DAy1I9ScdAA",
-      "title": "Yeh Ladka Hai Deewana",
-      "film": "Kuch Kuch Hota Hai",
-      "year": 1998,
-      "durationSec": 390
-    },
-    {
-      "youtubeId": "HHHTVkfBIQ0",
-      "title": "Hum To Dil Chaahe Tumhara",
-      "film": "Dhadkan",
-      "year": 2000,
-      "durationSec": 274
-    },
-    {
-      "youtubeId": "0bAVd9jJE2Q",
-      "title": "Aashiq Banaya Aapne",
-      "film": "Aashiq Banaya Aapne",
-      "year": 2005,
-      "durationSec": 300
-    },
-    {
-      "youtubeId": "PlN6oP-Nlno",
-      "title": "Sona Kitna Sona Hai",
-      "film": "Hero No 1",
-      "year": 1997,
-      "durationSec": 279
-    }
-  ]
+﻿{
+    "id":  "dance",
+    "name":  "90s Dance Floor",
+    "tagline":  "Shaadi-season bangers and disco nights",
+    "tracks":  [
+                   {
+                       "youtubeId":  "hcCvSmjHwGY",
+                       "title":  "Ole Ole",
+                       "film":  "Yeh Dillagi",
+                       "year":  1994,
+                       "durationSec":  250
+                   },
+                   {
+                       "youtubeId":  "fVhfrX29Rl4",
+                       "title":  "Ruk Ruk Ruk",
+                       "film":  "Vijaypath",
+                       "year":  1994,
+                       "durationSec":  253
+                   },
+                   {
+                       "youtubeId":  "dHzSmJGSnIc",
+                       "title":  "Akhiyan Milaoon Kabhi",
+                       "film":  "Raja",
+                       "year":  1995,
+                       "durationSec":  336
+                   },
+                   {
+                       "youtubeId":  "yIFMTfgJzY0",
+                       "title":  "Aati Kya Khandala",
+                       "film":  "Ghulam",
+                       "year":  1998,
+                       "durationSec":  170
+                   },
+                   {
+                       "youtubeId":  "bWNkpJdkOj4",
+                       "title":  "Dholna",
+                       "film":  "Dil To Pagal Hai",
+                       "year":  1997,
+                       "durationSec":  313
+                   },
+                   {
+                       "youtubeId":  "dGZb1kv5zW0",
+                       "title":  "Le Gayi Le Gayi",
+                       "film":  "Dil To Pagal Hai",
+                       "year":  1997,
+                       "durationSec":  406
+                   },
+                   {
+                       "youtubeId":  "gmXlGQAg400",
+                       "title":  "Koi Mil Gaya",
+                       "film":  "Kuch Kuch Hota Hai",
+                       "year":  1998,
+                       "durationSec":  485
+                   },
+                   {
+                       "youtubeId":  "DAy1I9ScdAA",
+                       "title":  "Yeh Ladka Hai Deewana",
+                       "film":  "Kuch Kuch Hota Hai",
+                       "year":  1998,
+                       "durationSec":  390
+                   },
+                   {
+                       "youtubeId":  "-bNwqXvMuB8",
+                       "title":  "Mehndi Laga Ke Rakhna",
+                       "film":  "Dilwale Dulhania Le Jayenge",
+                       "year":  1995,
+                       "durationSec":  281
+                   },
+                   {
+                       "youtubeId":  "-LESbtPT8uw",
+                       "title":  "Dil Dhadakne Do",
+                       "film":  "Kaho Naa Pyaar Hai",
+                       "year":  2000,
+                       "durationSec":  361
+                   },
+                   {
+                       "youtubeId":  "aGbPyM6lzBs",
+                       "title":  "Ek Pal Ka Jeena",
+                       "film":  "Kaho Naa Pyaar Hai",
+                       "year":  2000,
+                       "durationSec":  332
+                   },
+                   {
+                       "youtubeId":  "qe_klgHMoDY",
+                       "title":  "It\u0027s The Time To Disco",
+                       "film":  "Kal Ho Naa Ho",
+                       "year":  2003,
+                       "durationSec":  339
+                   },
+                   {
+                       "youtubeId":  "l75z7FrYRXI",
+                       "title":  "Muqabala Muqabala",
+                       "film":  "Hum Se Hai Muqabala",
+                       "year":  1994,
+                       "durationSec":  183
+                   },
+                   {
+                       "youtubeId":  "qNnvL0ztJhA",
+                       "title":  "Radha Kaise Na Jale",
+                       "film":  "Lagaan",
+                       "year":  2001,
+                       "durationSec":  335
+                   },
+                   {
+                       "youtubeId":  "NrqWpUffJL8",
+                       "title":  "What Is Mobile Number",
+                       "film":  "Haseena Maan Jaayegi",
+                       "year":  1999,
+                       "durationSec":  153
+                   },
+                   {
+                       "youtubeId":  "1m5iTWZFVzA",
+                       "title":  "Dil Se Re",
+                       "film":  "Dil Se",
+                       "year":  1998,
+                       "durationSec":  482
+                   },
+                   {
+                       "youtubeId":  "ctJI7pCbxAo",
+                       "title":  "Koi Kahe Kehta Rahe",
+                       "film":  "Dil Chahta Hai",
+                       "year":  2001,
+                       "durationSec":  326
+                   },
+                   {
+                       "youtubeId":  "IsPOtygII-Q",
+                       "title":  "Bholi Si Surat",
+                       "film":  "Dil To Pagal Hai",
+                       "year":  1997,
+                       "durationSec":  253
+                   },
+                   {
+                       "youtubeId":  "HHHTVkfBIQ0",
+                       "title":  "Hum To Dil Chaahe Tumhara",
+                       "film":  "Dhadkan",
+                       "year":  2000,
+                       "durationSec":  274
+                   },
+                   {
+                       "youtubeId":  "0bAVd9jJE2Q",
+                       "title":  "Aashiq Banaya Aapne",
+                       "film":  "Aashiq Banaya Aapne",
+                       "year":  2005,
+                       "durationSec":  300
+                   },
+                   {
+                       "youtubeId":  "PlN6oP-Nlno",
+                       "title":  "Sona Kitna Sona Hai",
+                       "film":  "Hero No 1",
+                       "year":  1997,
+                       "durationSec":  279
+                   }
+               ]
 }

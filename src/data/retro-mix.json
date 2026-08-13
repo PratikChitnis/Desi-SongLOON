@@ -1,182 +1,84 @@
-{
-  "id": "retro-mix",
-  "name": "Retro Mix",
-  "tagline": "Everything from the era, shuffled",
-  "tracks": [
-    {
-      "youtubeId": "sWqjZpBtcxc",
-      "title": "Ae Mere Humsafar",
-      "film": "Baazigar",
-      "year": 1993,
-      "durationSec": 314
-    },
-    {
-      "youtubeId": "1tVL11ULjYY",
-      "title": "Humma Humma",
-      "film": "Bombay",
-      "year": 1995,
-      "durationSec": 196
-    },
-    {
-      "youtubeId": "DwkTheE0noA",
-      "title": "Rangeela Re",
-      "film": "Rangeela",
-      "year": 1995,
-      "durationSec": 294
-    },
-    {
-      "youtubeId": "W1GNGlaFKYw",
-      "title": "Tanha Tanha",
-      "film": "Rangeela",
-      "year": 1995,
-      "durationSec": 351
-    },
-    {
-      "youtubeId": "Z8AXrq1HlEk",
-      "title": "Yaaron Dosti",
-      "film": "Pehchaan",
-      "year": 1998,
-      "durationSec": 258
-    },
-    {
-      "youtubeId": "PlN6oP-Nlno",
-      "title": "Sona Kitna Sona Hai",
-      "film": "Hero No 1",
-      "year": 1997,
-      "durationSec": 279
-    },
-    {
-      "youtubeId": "WkfcHsPKwds",
-      "title": "Meri Mehbooba",
-      "film": "Pardes",
-      "year": 1997,
-      "durationSec": 344
-    },
-    {
-      "youtubeId": "5SvIuD6wJRI",
-      "title": "Do Dil Mil Rahe Hain",
-      "film": "Pardes",
-      "year": 1997,
-      "durationSec": 292
-    },
-    {
-      "youtubeId": "_IcVb6hFhPs",
-      "title": "Ghar Se Nikalte Hi",
-      "film": "Papa Kehte Hain",
-      "year": 1996,
-      "durationSec": 424
-    },
-    {
-      "youtubeId": "h6xpqJT74BU",
-      "title": "Aankhon Mein Base Ho Tum",
-      "film": "Takkar",
-      "year": 1995,
-      "durationSec": 320
-    },
-    {
-      "youtubeId": "x_elT6zkqN0",
-      "title": "O O Jaane Jaana",
-      "film": "Pyaar Kiya To Darna Kya",
-      "year": 1998,
-      "durationSec": 257
-    },
-    {
-      "youtubeId": "IsPOtygII-Q",
-      "title": "Bholi Si Surat",
-      "film": "Dil To Pagal Hai",
-      "year": 1997,
-      "durationSec": 253
-    },
-    {
-      "youtubeId": "6B_4AKG-pDo",
-      "title": "Aa Ab Laut Chalen",
-      "film": "Aa Ab Laut Chalen",
-      "year": 1999,
-      "durationSec": 319
-    },
-    {
-      "youtubeId": "c4uYjMpE1l8",
-      "title": "Piya Haji Ali",
-      "film": "Fiza",
-      "year": 2000,
-      "durationSec": 328
-    },
-    {
-      "youtubeId": "FIaUYKLg5S4",
-      "title": "Kholo Kholo",
-      "film": "Taare Zameen Par",
-      "year": 2007,
-      "durationSec": 395
-    },
-    {
-      "youtubeId": "RiUMVPpk0Fo",
-      "title": "Duniya Haseeno Ka Mela",
-      "film": "Gupt",
-      "year": 1997,
-      "durationSec": 366
-    },
-    {
-      "youtubeId": "s1LozokQjIg",
-      "title": "Mere Khwabon Mein Jo Aaye",
-      "film": "Dilwale Dulhania Le Jayenge",
-      "year": 1995,
-      "durationSec": 238
-    },
-    {
-      "youtubeId": "iSUK1QoK9-E",
-      "title": "Pehla Nasha",
-      "film": "Jo Jeeta Wohi Sikandar",
-      "year": 1992,
-      "durationSec": 303
-    },
-    {
-      "youtubeId": "HsQYlZEtKX4",
-      "title": "Sandese Aate Hain",
-      "film": "Border",
-      "year": 1997,
-      "durationSec": 545
-    },
-    {
-      "youtubeId": "-bNwqXvMuB8",
-      "title": "Mehndi Laga Ke Rakhna",
-      "film": "Dilwale Dulhania Le Jayenge",
-      "year": 1995,
-      "durationSec": 281
-    },
-    {
-      "youtubeId": "_IcVb6hFhPs",
-      "title": "Ghar Se Nikalte Hi",
-      "film": "Papa Kehte Hain",
-      "year": 1996,
-      "durationSec": 424
-    },
-    {
-      "youtubeId": "jBpRItrod-Q",
-      "title": "Ruk Ja O Dil Deewane",
-      "film": "Dilwale Dulhania Le Jayenge",
-      "year": 1995,
-      "durationSec": 237
-    },
-    {
-      "youtubeId": "bWNkpJdkOj4",
-      "title": "Dholna",
-      "film": "Dil To Pagal Hai",
-      "year": 1997,
-      "durationSec": 313
-    },
-    {
-      "youtubeId": "n_oP9Onj0r0",
-      "title": "Jaadu Teri Nazar",
-      "film": "Darr",
-      "year": 1993,
-      "durationSec": 158
-    },
-    {
-      "youtubeId": "UMqVqW_171Y",
-      "title": "Chaand Taare",
-      "film": "Yes Boss",
-      "year": 1997,
-      "durationSec": 291
-    }
-  ]
+﻿{
+    "id":  "retro-mix",
+    "name":  "Retro Mix",
+    "tagline":  "Everything from the era, shuffled",
+    "tracks":  [
+                   {
+                       "youtubeId":  "1tVL11ULjYY",
+                       "title":  "Humma Humma",
+                       "film":  "Bombay",
+                       "year":  1995,
+                       "durationSec":  196
+                   },
+                   {
+                       "youtubeId":  "ZchWVw2PhA4",
+                       "title":  "Rangeela Re",
+                       "film":  "Rangeela",
+                       "year":  1995,
+                       "durationSec":  420
+                   },
+                   {
+                       "youtubeId":  "W1GNGlaFKYw",
+                       "title":  "Tanha Tanha",
+                       "film":  "Rangeela",
+                       "year":  1995,
+                       "durationSec":  351
+                   },
+                   {
+                       "youtubeId":  "OT1GQ4hijJ0",
+                       "title":  "Yaaron Dosti",
+                       "film":  "Pehchaan",
+                       "year":  1998,
+                       "durationSec":  364
+                   },
+                   {
+                       "youtubeId":  "_IcVb6hFhPs",
+                       "title":  "Ghar Se Nikalte Hi",
+                       "film":  "Papa Kehte Hain",
+                       "year":  1996,
+                       "durationSec":  424
+                   },
+                   {
+                       "youtubeId":  "h6xpqJT74BU",
+                       "title":  "Aankhon Mein Base Ho Tum",
+                       "film":  "Takkar",
+                       "year":  1995,
+                       "durationSec":  320
+                   },
+                   {
+                       "youtubeId":  "x_elT6zkqN0",
+                       "title":  "O O Jaane Jaana",
+                       "film":  "Pyaar Kiya To Darna Kya",
+                       "year":  1998,
+                       "durationSec":  257
+                   },
+                   {
+                       "youtubeId":  "6B_4AKG-pDo",
+                       "title":  "Aa Ab Laut Chalen",
+                       "film":  "Aa Ab Laut Chalen",
+                       "year":  1999,
+                       "durationSec":  319
+                   },
+                   {
+                       "youtubeId":  "c4uYjMpE1l8",
+                       "title":  "Piya Haji Ali",
+                       "film":  "Fiza",
+                       "year":  2000,
+                       "durationSec":  328
+                   },
+                   {
+                       "youtubeId":  "RiUMVPpk0Fo",
+                       "title":  "Duniya Haseeno Ka Mela",
+                       "film":  "Gupt",
+                       "year":  1997,
+                       "durationSec":  366
+                   },
+                   {
+                       "youtubeId":  "s1LozokQjIg",
+                       "title":  "Mere Khwabon Mein Jo Aaye",
+                       "film":  "Dilwale Dulhania Le Jayenge",
+                       "year":  1995,
+                       "durationSec":  238
+                   }
+               ]
 }

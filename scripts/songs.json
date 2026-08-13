@@ -298,21 +298,6 @@
           "year": 1997
         },
         {
-          "title": "Kuch Kuch Hota Hai Title Track",
-          "film": "Kuch Kuch Hota Hai",
-          "year": 1998
-        },
-        {
-          "title": "Yeh Ladka Hai Deewana",
-          "film": "Kuch Kuch Hota Hai",
-          "year": 1998
-        },
-        {
-          "title": "Main Koi Aisa Geet Gaoon",
-          "film": "Yes Boss",
-          "year": 1997
-        },
-        {
           "title": "Hum To Dil Chaahe Tumhara",
           "film": "Dhadkan",
           "year": 2000
@@ -386,7 +371,7 @@
         },
         {
           "title": "Yaad Piya Ki Aane Lagi",
-          "film": "Falguni Pathak",
+          "film": "Yaad Piya Ki Aane Lagi",
           "year": 1999
         },
         {
@@ -450,26 +435,6 @@
           "year": 1992
         },
         {
-          "title": "Tu Pyar Hai Kisi Aur Ka",
-          "film": "Dil Hai Ke Manta Nahin",
-          "year": 1991
-        },
-        {
-          "title": "Sochenge Tumhe Pyar",
-          "film": "Deewana",
-          "year": 1992
-        },
-        {
-          "title": "Ab Tere Bin Jee Lenge Hum",
-          "film": "Aashiqui",
-          "year": 1990
-        },
-        {
-          "title": "Tere Dar Par Sanam",
-          "film": "Phir Teri Kahani Yaad Aayee",
-          "year": 1993
-        },
-        {
           "title": "Dilbar Mere Kab Tak",
           "film": "Satte Pe Satta",
           "year": 1982
@@ -488,18 +453,8 @@
       "songs": [
         {
           "title": "Ae Mere Humsafar",
-          "film": "Baazigar",
-          "year": 1993
-        },
-        {
-          "title": "Kehna Hi Kya",
-          "film": "Bombay",
-          "year": 1995
-        },
-        {
-          "title": "Tu Hi Re",
-          "film": "Bombay",
-          "year": 1995
+          "film": "Qayamat Se Qayamat Tak",
+          "year": 1988
         },
         {
           "title": "Humma Humma",
@@ -522,21 +477,6 @@
           "year": 1998
         },
         {
-          "title": "Sona Kitna Sona Hai",
-          "film": "Hero No 1",
-          "year": 1997
-        },
-        {
-          "title": "Meri Mehbooba",
-          "film": "Pardes",
-          "year": 1997
-        },
-        {
-          "title": "Do Dil Mil Rahe Hain",
-          "film": "Pardes",
-          "year": 1997
-        },
-        {
           "title": "Ghar Se Nikalte Hi",
           "film": "Papa Kehte Hain",
           "year": 1996
@@ -552,29 +492,14 @@
           "year": 1998
         },
         {
-          "title": "Bholi Si Surat",
-          "film": "Dil To Pagal Hai",
-          "year": 1997
-        },
-        {
           "title": "Aa Ab Laut Chalen",
           "film": "Aa Ab Laut Chalen",
-          "year": 1999
-        },
-        {
-          "title": "Mujhe Rang De",
-          "film": "Thakshak",
           "year": 1999
         },
         {
           "title": "Piya Haji Ali",
           "film": "Fiza",
           "year": 2000
-        },
-        {
-          "title": "Kholo Kholo",
-          "film": "Taare Zameen Par",
-          "year": 2007
         },
         {
           "title": "Duniya Haseeno Ka Mela",
@@ -585,51 +510,6 @@
           "title": "Mere Khwabon Mein Jo Aaye",
           "film": "Dilwale Dulhania Le Jayenge",
           "year": 1995
-        },
-        {
-          "title": "Pehla Nasha",
-          "film": "Jo Jeeta Wohi Sikandar",
-          "year": 1992
-        },
-        {
-          "title": "Sandese Aate Hain",
-          "film": "Border",
-          "year": 1997
-        },
-        {
-          "title": "Mehndi Laga Ke Rakhna",
-          "film": "Dilwale Dulhania Le Jayenge",
-          "year": 1995
-        },
-        {
-          "title": "Ghar Se Nikalte Hi",
-          "film": "Papa Kehte Hain",
-          "year": 1996
-        },
-        {
-          "title": "Ruk Ja O Dil Deewane",
-          "film": "Dilwale Dulhania Le Jayenge",
-          "year": 1995
-        },
-        {
-          "title": "Dholna",
-          "film": "Dil To Pagal Hai",
-          "year": 1997
-        },
-        {
-          "title": "Jaadu Teri Nazar",
-          "film": "Darr",
-          "year": 1993
-        },
-        {
-          "title": "Chaand Taare",
-          "film": "Yes Boss",
-          "year": 1997
-        },
-        {
-          "title": "Main Koi Aisa Geet Gaoon",
-          "film": "Yes Boss",
-          "year": 1997
         }
       ]
     },
