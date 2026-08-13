@@ -7,9 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "typecheck": "tsc --noEmit",
-    "playlists:build": "node scripts/build-playlists.mjs",
-    "playlists:check": "node scripts/check-playlists.mjs"
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "next": "^15.5.23",

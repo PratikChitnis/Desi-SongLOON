@@ -47,3 +47,54 @@ export const metadata = {
   ogTitle: site.title,
   ogDescription: site.ogDescription,
 } as const;
+
+export const apis = {
+  youtube: {
+    apiKey: process.env.YOUTUBE_API_KEY ?? "",
+  },
+  spotify: {
+    clientId: process.env.SPOTIFY_CLIENT_ID ?? "",
+    clientSecret: process.env.SPOTIFY_CLIENT_SECRET ?? "",
+  },
+} as const;
+
+export interface ChannelConfig {
+  id: string;
+  name: string;
+  tagline: string;
+  /** YouTube search query to populate this channel. */
+  youtubeQuery: string;
+  /** Spotify search query for metadata enrichment. */
+  spotifyQuery: string;
+}
+
+export const channelDefs: ChannelConfig[] = [
+  {
+    id: "romantic",
+    name: "90s Romantic",
+    tagline: "Melodies from the golden age of Bollywood romance",
+    youtubeQuery: "90s Hindi romantic songs official playlist",
+    spotifyQuery: "90s bollywood romantic",
+  },
+  {
+    id: "dance",
+    name: "Dance Floor",
+    tagline: "Big beats from the 90s dance floor",
+    youtubeQuery: "90s Bollywood dance hits official",
+    spotifyQuery: "90s bollywood dance",
+  },
+  {
+    id: "soulful",
+    name: "Soulful",
+    tagline: "Slow, aching and unforgettable",
+    youtubeQuery: "90s Hindi sad songs official",
+    spotifyQuery: "90s bollywood sad",
+  },
+  {
+    id: "retro-mix",
+    name: "Retro Mix",
+    tagline: "Everything else the decade had on repeat",
+    youtubeQuery: "90s Hindi songs mix official",
+    spotifyQuery: "90s bollywood hits",
+  },
+];

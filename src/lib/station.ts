@@ -1,94 +1,95 @@
 import type { Station, Track } from "./types";
-import { hash } from "./scheduler";
-import romantic from "@/data/romantic.json";
-import dance from "@/data/dance.json";
-import soulful from "@/data/soulful.json";
-import retroMix from "@/data/retro-mix.json";
-import library01 from "@/data/library-01.json";
-import library02 from "@/data/library-02.json";
-import library03 from "@/data/library-03.json";
-import library04 from "@/data/library-04.json";
-import library05 from "@/data/library-05.json";
-import library06 from "@/data/library-06.json";
-import library07 from "@/data/library-07.json";
-import library08 from "@/data/library-08.json";
-import library09 from "@/data/library-09.json";
-
-interface Theme {
-  id: string;
-  name: string;
-  tagline: string;
-  seed: Station;
-}
-
-const themes: Theme[] = [
-  {
-    id: "romantic",
-    name: "Romantic",
-    tagline: "Melodies from the golden age of Bollywood romance",
-    seed: romantic as Station,
-  },
-  {
-    id: "dance",
-    name: "Dance Floor",
-    tagline: "Big beats from the 90s dance floor",
-    seed: dance as Station,
-  },
-  {
-    id: "soulful",
-    name: "Soulful",
-    tagline: "Slow, aching and unforgettable",
-    seed: soulful as Station,
-  },
-  {
-    id: "retro-mix",
-    name: "Retro Mix",
-    tagline: "Everything else the decade had on repeat",
-    seed: retroMix as Station,
-  },
-];
-
-/** Batches resolved after the themed lists; they carry no mood of their own. */
-const library = [
-  library01,
-  library02,
-  library03,
-  library04,
-  library05,
-  library06,
-  library07,
-  library08,
-  library09,
-] as Station[];
-
-const themed = new Set(themes.flatMap((t) => t.seed.tracks.map((track) => track.youtubeId)));
-
-const unthemed = Object.values(
-  library
-    .flatMap((p) => p.tracks)
-    .reduce<Record<string, Track>>((byId, track) => {
-      if (!themed.has(track.youtubeId)) byId[track.youtubeId] ??= track;
-      return byId;
-    }, {}),
-);
+import { searchYouTube } from "./youtube";
+import { searchSpotify } from "./spotify";
+import { apis, channelDefs, type ChannelConfig } from "./config";
 
 /**
- * The four themed channels. Each is seeded by its curated mood list; the rest
- * of the library is spread across them by a stable hash of the video id, so a
- * song always lands on the same channel but no channel is left tiny.
+ * Build a Station by searching YouTube for the channel's query and enriching
+ * results with Spotify metadata (film name, year).
+ *
+ * Falls back gracefully: if Spotify is unavailable, we use the YouTube title
+ * as the track title and leave film/year as unknown.
  */
-export const channels: Station[] = themes.map((theme, position) => ({
-  id: theme.id,
-  name: theme.name,
-  tagline: theme.tagline,
-  tracks: [
-    ...theme.seed.tracks,
-    ...unthemed.filter((track) => hash(track.youtubeId) % themes.length === position),
-  ],
-}));
+async function buildChannel(ch: ChannelConfig): Promise<Station> {
+  const ytResults = await searchYouTube(apis.youtube.apiKey, ch.youtubeQuery, 50);
 
-export const defaultChannel = channels[0];
+  let spTracks: Awaited<ReturnType<typeof searchSpotify>> = [];
+  if (apis.spotify.clientId && apis.spotify.clientSecret) {
+    try {
+      spTracks = await searchSpotify(
+        apis.spotify.clientId,
+        apis.spotify.clientSecret,
+        ch.spotifyQuery,
+        50,
+      );
+    } catch {
+      // Spotify is optional — continue with YouTube-only metadata
+    }
+  }
 
-export function channelById(id: string | null | undefined): Station {
-  return channels.find((channel) => channel.id === id) ?? defaultChannel;
+  // Build a lookup from Spotify: normalised title → album + year
+  const spLookup = new Map<string, { album: string; year: number }>();
+  for (const s of spTracks) {
+    const key = normalise(s.name);
+    spLookup.set(key, { album: s.album, year: s.year });
+  }
+
+  const tracks: Track[] = ytResults
+    .filter((v) => v.durationSec > 60) // skip shorts / clips
+    .map((v) => {
+      const sp = spLookup.get(normalise(v.title));
+      return {
+        youtubeId: v.id,
+        title: v.title,
+        film: sp?.album ?? extractFilmFromTitle(v.title),
+        year: sp?.year ?? 0,
+        durationSec: v.durationSec,
+      };
+    });
+
+  return { id: ch.id, name: ch.name, tagline: ch.tagline, tracks };
+}
+
+/** Lowercase and strip common suffixes for fuzzy matching. */
+function normalise(s: string): string {
+  return s
+    .toLowerCase()
+    .replace(/\(.*?\)/g, "")   // remove (official video) etc.
+    .replace(/\[.*?\]/g, "")   // remove [hd] etc.
+    .replace(/[^a-z0-9\s]/g, "")
+    .trim();
+}
+
+/**
+ * Best-effort: if the YouTube title contains a pipe, the part after it is
+ * often the film name (e.g. "Tujhe Dekha To — Yash Chopra Film").
+ */
+function extractFilmFromTitle(title: string): string {
+  const pipe = title.indexOf("|");
+  if (pipe !== -1) return title.slice(pipe + 1).trim();
+  const dash = title.indexOf(" - ");
+  if (dash !== -1) return title.slice(dash + 3).trim();
+  return "";
+}
+
+/**
+ * Fetch all channels in parallel.  Results are cached for 24 hours by the
+ * individual API wrappers, so subsequent calls within the same serverless
+ * invocation are free.
+ */
+export async function fetchAllChannels(): Promise<Station[]> {
+  return Promise.all(channelDefs.map(buildChannel));
+}
+
+/**
+ * Fallback: if the API keys are missing, return empty channels so the UI
+ * still renders (just with no tracks).
+ */
+export function emptyChannels(): Station[] {
+  return channelDefs.map((ch) => ({
+    id: ch.id,
+    name: ch.name,
+    tagline: ch.tagline,
+    tracks: [],
+  }));
 }
