@@ -105,6 +105,7 @@ export async function searchYouTube(
       url.searchParams.set("part", "snippet");
       url.searchParams.set("type", "video");
       url.searchParams.set("videoCategoryId", "10"); // Music
+      url.searchParams.set("videoDuration", "medium"); // 4-20 min — individual songs only
       url.searchParams.set("maxResults", String(Math.min(perPage, maxResults - allItems.length)));
       url.searchParams.set("fields", "nextPageToken,items(id(videoId),snippet(title,channelTitle))");
       if (pageToken) url.searchParams.set("pageToken", pageToken);
