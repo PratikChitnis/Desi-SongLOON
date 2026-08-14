@@ -11,7 +11,12 @@ import { apis, channelDefs, type ChannelConfig } from "./config";
  * as the track title and leave film/year as unknown.
  */
 async function buildChannel(ch: ChannelConfig): Promise<Station> {
-  const ytResults = await searchYouTube(apis.youtube.apiKey, ch.youtubeQuery, 300);
+  let ytResults: Awaited<ReturnType<typeof searchYouTube>> = [];
+  try {
+    ytResults = await searchYouTube(apis.youtube.apiKey, ch.youtubeQuery, 150);
+  } catch {
+    // YouTube quota exceeded or API error — continue with empty results
+  }
 
   let spTracks: Awaited<ReturnType<typeof searchSpotify>> = [];
   if (apis.spotify.clientId && apis.spotify.clientSecret) {
@@ -20,7 +25,7 @@ async function buildChannel(ch: ChannelConfig): Promise<Station> {
         apis.spotify.clientId,
         apis.spotify.clientSecret,
         ch.spotifyQuery,
-        300,
+        150,
       );
     } catch {
       // Spotify is optional — continue with YouTube-only metadata
