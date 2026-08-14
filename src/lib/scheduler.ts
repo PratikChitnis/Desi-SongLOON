@@ -28,16 +28,17 @@ function mulberry32(seed: number): () => number {
 /**
  * Deterministic per-day shuffle: everyone tuned in on the same UTC day hears
  * the same running order, but the order differs day to day.
+ * Returns indices into the original tracks array.
  */
-export function dailyOrder(tracks: Track[], stationId: string, atMs: number): Track[] {
+export function dailyOrder(tracks: Track[], stationId: string, atMs: number): number[] {
   const day = Math.floor((atMs - STATION_EPOCH_MS) / DAY_MS);
   const rand = mulberry32(hash(`${stationId}:${day}`));
-  const shuffled = [...tracks];
-  for (let i = shuffled.length - 1; i > 0; i--) {
+  const indices = tracks.map((_, i) => i);
+  for (let i = indices.length - 1; i > 0; i--) {
     const j = Math.floor(rand() * (i + 1));
-    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    [indices[i], indices[j]] = [indices[j], indices[i]];
   }
-  return shuffled;
+  return indices;
 }
 
 /**
@@ -56,5 +57,5 @@ export function nowPlaying(
   const order = dailyOrder(station.tracks, station.id, atMs);
   const at = index === undefined ? Math.floor(Math.random() * order.length) : index % order.length;
 
-  return { track: order[at], index: at, total: order.length };
+  return { track: station.tracks[order[at]], index: at, total: order.length, order };
 }

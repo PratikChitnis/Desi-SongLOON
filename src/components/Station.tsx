@@ -14,16 +14,6 @@ function clock(seconds: number): string {
   return `${Math.floor(safe / 60)}:${String(safe % 60).padStart(2, "0")}`;
 }
 
-/** Fisher-Yates over 0..total-1, minus `first`, which is played up front. */
-function shuffledQueue(total: number, first: number): number[] {
-  const rest = Array.from({ length: total }, (_, i) => i).filter((i) => i !== first);
-  for (let i = rest.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [rest[i], rest[j]] = [rest[j], rest[i]];
-  }
-  return rest;
-}
-
 export interface ChannelInfo {
   id: string;
   name: string;
@@ -94,7 +84,10 @@ export default function Station({ channels }: { channels: ChannelInfo[] }) {
         setState(null);
         return;
       }
-      if (index === undefined) queue.current = shuffledQueue(next.total, next.index);
+      // Build queue from daily order: all tracks after current position, wrapping around
+      if (index === undefined) {
+        queue.current = [...next.order.slice(next.index + 1), ...next.order.slice(0, next.index)];
+      }
       setError(null);
       setElapsed(0);
       advancing.current = false;
@@ -118,7 +111,7 @@ export default function Station({ channels }: { channels: ChannelInfo[] }) {
     const initial = nowPlaying(station);
     if (initial) {
       setState(initial);
-      queue.current = shuffledQueue(initial.total, initial.index);
+      queue.current = [...initial.order.slice(initial.index + 1), ...initial.order.slice(0, initial.index)];
     } else {
       setState(null);
       setError("No tracks available. Check your API keys.");
@@ -134,7 +127,7 @@ export default function Station({ channels }: { channels: ChannelInfo[] }) {
     const initial = nowPlaying(station);
     if (initial) {
       setState(initial);
-      queue.current = shuffledQueue(initial.total, initial.index);
+      queue.current = [...initial.order.slice(initial.index + 1), ...initial.order.slice(0, initial.index)];
       setElapsed(0);
       if (tunedInRef.current) {
         if (playerReady.current) {
@@ -184,7 +177,9 @@ export default function Station({ channels }: { channels: ChannelInfo[] }) {
     if (s) history.current.push(s.index);
     const upcoming = queue.current.shift();
     if (upcoming === undefined) {
-      load(undefined, true);
+      // Queue exhausted — continue from daily order (wrap around)
+      const nextIndex = (s ? s.index + 1 : 0) % s!.total;
+      load(nextIndex, true);
       return;
     }
     load(upcoming, true);

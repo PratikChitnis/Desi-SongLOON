@@ -20,4 +20,6 @@ export interface NowPlaying {
   index: number;
   /** Number of tracks in today's running order. */
   total: number;
+  /** The day's deterministic running order (indices into tracks array). */
+  order: number[];
 }
