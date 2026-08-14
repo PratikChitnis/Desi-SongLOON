@@ -52,6 +52,8 @@ async function buildChannel(ch: ChannelConfig): Promise<Station> {
       };
     });
 
+  console.log(`[${ch.id}] YouTube results: ${ytResults.length}, after filter: ${tracks.length}`);
+
   return { id: ch.id, name: ch.name, tagline: ch.tagline, tracks };
 }
 

@@ -27,21 +27,33 @@ interface YouTubeVideo {
 /**
  * Fetch the actual duration of a list of videos via the videos endpoint.
  * Each video ID costs 1 unit.  Batches up to 50 per call.
+ * Tries fallback key if primary returns 429.
  */
 async function fetchDurations(
   apiKey: string,
   ids: string[],
+  fallbackKey?: string,
 ): Promise<Map<string, number>> {
   const durations = new Map<string, number>();
+  let currentKey = apiKey;
+
   for (let i = 0; i < ids.length; i += 50) {
     const batch = ids.slice(i, i + 50);
     const url = new URL(`${BASE}/videos`);
-    url.searchParams.set("key", apiKey);
+    url.searchParams.set("key", currentKey);
     url.searchParams.set("id", batch.join(","));
     url.searchParams.set("part", "contentDetails");
     url.searchParams.set("fields", "items(id,contentDetails.duration)");
 
     const res = await fetch(url.toString());
+
+    // Try fallback key on 429
+    if (res.status === 429 && fallbackKey && currentKey !== fallbackKey) {
+      currentKey = fallbackKey;
+      i -= 50; // Retry this batch with fallback key
+      continue;
+    }
+
     if (!res.ok) continue;
     const json = (await res.json()) as {
       items: { id: string; contentDetails: { duration: string } }[];
@@ -126,7 +138,7 @@ export async function searchYouTube(
     }
 
     const ids = allItems.map((item) => item.id.videoId);
-    const durations = await fetchDurations(apiKey, ids);
+    const durations = await fetchDurations(currentKey, ids, fallbackKey);
 
     return allItems.map((item) => ({
       id: item.id.videoId,
