@@ -48,7 +48,8 @@ async function fetchDurations(
     };
 
     for (const item of json.items) {
-      durations.set(item.id, parseDuration(item.contentDetails.duration));
+      const duration = item.contentDetails?.duration;
+      durations.set(item.id, duration ? parseDuration(duration) : 0);
     }
   }
   return durations;
