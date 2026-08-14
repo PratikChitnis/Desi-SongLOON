@@ -99,12 +99,25 @@ function extractFilmFromTitle(title: string): string {
 }
 
 /**
- * Fetch all channels in parallel.  Results are cached for 24 hours by the
- * individual API wrappers, so subsequent calls within the same serverless
- * invocation are free.
+ * Fetch all channels sequentially, deduplicating songs across channels.
+ * Earlier channels in the list get priority for shared songs.
  */
 export async function fetchAllChannels(): Promise<Station[]> {
-  return Promise.all(channelDefs.map(buildChannel));
+  const usedIds = new Set<string>();
+  const stations: Station[] = [];
+
+  for (const ch of channelDefs) {
+    const station = await buildChannel(ch);
+    // Remove songs already used by previous channels
+    station.tracks = station.tracks.filter((t) => {
+      if (usedIds.has(t.youtubeId)) return false;
+      usedIds.add(t.youtubeId);
+      return true;
+    });
+    stations.push(station);
+  }
+
+  return stations;
 }
 
 /**
