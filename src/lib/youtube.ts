@@ -1,4 +1,4 @@
-import { cached, DAY_MS } from "./cache";
+import { cached, clearCache, DAY_MS } from "./cache";
 
 const BASE = "https://www.googleapis.com/youtube/v3";
 
@@ -84,6 +84,7 @@ export async function searchYouTube(
     let pageToken: string | undefined;
     const perPage = Math.min(maxResults, 50);
     let currentKey = apiKey;
+    let switchedKey = false;
 
     while (allItems.length < maxResults) {
       const url = new URL(`${BASE}/search`);
@@ -99,8 +100,10 @@ export async function searchYouTube(
       const res = await fetch(url.toString());
 
       // If primary key is rate-limited, try fallback
-      if (res.status === 429 && fallbackKey && currentKey !== fallbackKey) {
+      if (res.status === 429 && fallbackKey && currentKey !== fallbackKey && !switchedKey) {
         currentKey = fallbackKey;
+        switchedKey = true;
+        clearCache(); // Clear stale cache from failed key
         continue; // Retry with fallback key
       }
 

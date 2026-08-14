@@ -20,5 +20,10 @@ export async function cached<T>(key: string, ttlMs: number, fetcher: () => Promi
   return data;
 }
 
+/** Clear all cached data (e.g. when switching API keys). */
+export function clearCache(): void {
+  store.clear();
+}
+
 /** 24 hours in ms — the default TTL used throughout the app. */
 export const DAY_MS = 24 * 60 * 60 * 1000;

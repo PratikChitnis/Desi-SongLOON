@@ -227,6 +227,7 @@ export default function Station({ channels }: { channels: ChannelInfo[] }) {
   const startListening = () => {
     setTunedIn(true);
     tunedInRef.current = true;
+    setPlaying(true);
     failures.current = 0;
     const s = stateRef.current;
     if (s) {
@@ -239,8 +240,13 @@ export default function Station({ channels }: { channels: ChannelInfo[] }) {
   };
 
   const togglePlay = () => {
-    if (playing) handle.current?.pause();
-    else handle.current?.resume();
+    if (playing) {
+      handle.current?.pause();
+      setPlaying(false);
+    } else {
+      handle.current?.resume();
+      setPlaying(true);
+    }
   };
 
   const channel = getChannel(channelId);
