@@ -49,9 +49,9 @@ export function nowPlaying(
   station: Station,
   index?: number,
   atMs: number = Date.now(),
-): NowPlaying {
+): NowPlaying | null {
   if (station.tracks.length === 0) {
-    throw new Error(`Station ${station.id} has no tracks`);
+    return null;
   }
   const order = dailyOrder(station.tracks, station.id, atMs);
   const at = index === undefined ? Math.floor(Math.random() * order.length) : index % order.length;

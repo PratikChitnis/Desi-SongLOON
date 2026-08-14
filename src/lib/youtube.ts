@@ -63,9 +63,9 @@ function parseDuration(iso: string): number {
 
 /**
  * Search YouTube for videos matching `query`, returning up to `maxResults`
- * results.  Filters to VEVO / official-looking channels and known Hindi labels.
+ * results.  Paginates automatically (50 results per page).
  *
- * Unit cost: 100 per call (search.list).
+ * Unit cost: 100 per page (search.list).
  */
 export async function searchYouTube(
   apiKey: string,
@@ -73,31 +73,48 @@ export async function searchYouTube(
   maxResults = 50,
 ): Promise<YouTubeVideo[]> {
   return cached(`yt:${query}:${maxResults}`, DAY_MS, async () => {
-    const url = new URL(`${BASE}/search`);
-    url.searchParams.set("key", apiKey);
-    url.searchParams.set("q", query);
-    url.searchParams.set("part", "snippet");
-    url.searchParams.set("type", "video");
-    url.searchParams.set("videoCategoryId", "10"); // Music
-    url.searchParams.set("maxResults", String(maxResults));
-    url.searchParams.set("fields", "items(id(videoId),snippet(title,channelTitle))");
+    const allItems: {
+      id: { videoId: string };
+      snippet: { title: string; channelTitle: string };
+    }[] = [];
 
-    const res = await fetch(url.toString());
-    if (!res.ok) {
-      const body = await res.text();
-      throw new Error(`YouTube search failed (${res.status}): ${body}`);
+    let pageToken: string | undefined;
+    const perPage = Math.min(maxResults, 50);
+
+    while (allItems.length < maxResults) {
+      const url = new URL(`${BASE}/search`);
+      url.searchParams.set("key", apiKey);
+      url.searchParams.set("q", query);
+      url.searchParams.set("part", "snippet");
+      url.searchParams.set("type", "video");
+      url.searchParams.set("videoCategoryId", "10"); // Music
+      url.searchParams.set("maxResults", String(Math.min(perPage, maxResults - allItems.length)));
+      url.searchParams.set("fields", "nextPageToken,items(id(videoId),snippet(title,channelTitle))");
+      if (pageToken) url.searchParams.set("pageToken", pageToken);
+
+      const res = await fetch(url.toString());
+      if (!res.ok) {
+        const body = await res.text();
+        throw new Error(`YouTube search failed (${res.status}): ${body}`);
+      }
+      const json = (await res.json()) as {
+        nextPageToken?: string;
+        items: {
+          id: { videoId: string };
+          snippet: { title: string; channelTitle: string };
+        }[];
+      };
+
+      allItems.push(...json.items);
+
+      if (!json.nextPageToken || json.items.length === 0) break;
+      pageToken = json.nextPageToken;
     }
-    const json = (await res.json()) as {
-      items: {
-        id: { videoId: string };
-        snippet: { title: string; channelTitle: string };
-      }[];
-    };
 
-    const ids = json.items.map((item) => item.id.videoId);
+    const ids = allItems.map((item) => item.id.videoId);
     const durations = await fetchDurations(apiKey, ids);
 
-    return json.items.map((item) => ({
+    return allItems.map((item) => ({
       id: item.id.videoId,
       title: decodeHtml(item.snippet.title),
       channelTitle: decodeHtml(item.snippet.channelTitle),
