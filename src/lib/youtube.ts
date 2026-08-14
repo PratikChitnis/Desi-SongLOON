@@ -65,6 +65,7 @@ function parseDuration(iso: string): number {
 /**
  * Search YouTube for videos matching `query`, returning up to `maxResults`
  * results.  Paginates automatically (50 results per page).
+ * Tries fallbackKey if primary key returns 429 (quota exceeded).
  *
  * Unit cost: 100 per page (search.list).
  */
@@ -72,6 +73,7 @@ export async function searchYouTube(
   apiKey: string,
   query: string,
   maxResults = 50,
+  fallbackKey?: string,
 ): Promise<YouTubeVideo[]> {
   return cached(`yt:${query}:${maxResults}`, DAY_MS, async () => {
     const allItems: {
@@ -81,10 +83,11 @@ export async function searchYouTube(
 
     let pageToken: string | undefined;
     const perPage = Math.min(maxResults, 50);
+    let currentKey = apiKey;
 
     while (allItems.length < maxResults) {
       const url = new URL(`${BASE}/search`);
-      url.searchParams.set("key", apiKey);
+      url.searchParams.set("key", currentKey);
       url.searchParams.set("q", query);
       url.searchParams.set("part", "snippet");
       url.searchParams.set("type", "video");
@@ -94,6 +97,13 @@ export async function searchYouTube(
       if (pageToken) url.searchParams.set("pageToken", pageToken);
 
       const res = await fetch(url.toString());
+
+      // If primary key is rate-limited, try fallback
+      if (res.status === 429 && fallbackKey && currentKey !== fallbackKey) {
+        currentKey = fallbackKey;
+        continue; // Retry with fallback key
+      }
+
       if (!res.ok) {
         const body = await res.text();
         throw new Error(`YouTube search failed (${res.status}): ${body}`);

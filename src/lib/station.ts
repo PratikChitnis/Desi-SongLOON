@@ -13,7 +13,7 @@ import { apis, channelDefs, type ChannelConfig } from "./config";
 async function buildChannel(ch: ChannelConfig): Promise<Station> {
   let ytResults: Awaited<ReturnType<typeof searchYouTube>> = [];
   try {
-    ytResults = await searchYouTube(apis.youtube.apiKey, ch.youtubeQuery, 100);
+    ytResults = await searchYouTube(apis.youtube.apiKey, ch.youtubeQuery, 100, apis.youtube.fallbackKey);
   } catch {
     // YouTube quota exceeded or API error — continue with empty results
   }

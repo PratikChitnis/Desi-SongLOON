@@ -51,6 +51,7 @@ export const metadata = {
 export const apis = {
   youtube: {
     apiKey: process.env.YOUTUBE_API_KEY ?? "",
+    fallbackKey: process.env.YOUTUBE_API_KEY_FALLBACK ?? "",
   },
   spotify: {
     clientId: process.env.SPOTIFY_CLIENT_ID ?? "",
