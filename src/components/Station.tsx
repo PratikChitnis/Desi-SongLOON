@@ -177,13 +177,24 @@ export default function Station({ channels }: { channels: ChannelInfo[] }) {
     if (s) history.current.push(s.index);
     const upcoming = queue.current.shift();
     if (upcoming === undefined) {
-      // Queue exhausted — continue from daily order (wrap around)
-      const nextIndex = (s ? s.index + 1 : 0) % s!.total;
-      load(nextIndex, true);
+      // Queue exhausted — wrap around in daily order without rebuilding queue
+      const nextIdx = (s ? s.index + 1 : 0) % s!.total;
+      const ch = getChannel(channelRef.current);
+      const track = ch.tracks[s!.order[nextIdx]];
+      const newState: NowPlaying = { track, index: nextIdx, total: s!.total, order: s!.order };
+      setError(null);
+      setElapsed(0);
+      advancing.current = false;
+      setState(newState);
+      if (playerReady.current) {
+        handle.current?.play(track.youtubeId, 0);
+      } else {
+        pendingPlay.current = { videoId: track.youtubeId, start: 0 };
+      }
       return;
     }
     load(upcoming, true);
-  }, [load]);
+  }, [load, getChannel, setState]);
 
   const previous = useCallback(() => {
     const s = stateRef.current;
