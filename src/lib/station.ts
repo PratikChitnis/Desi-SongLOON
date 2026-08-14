@@ -40,7 +40,7 @@ async function buildChannel(ch: ChannelConfig): Promise<Station> {
   }
 
   const tracks: Track[] = ytResults
-    .filter((v) => v.durationSec >= 120 && v.durationSec <= 600) // 2–10 min only: skip shorts, full movies, compilations
+    .filter((v) => v.durationSec >= 60 && v.durationSec <= 900) // 1–15 min: skip shorts, ads, compilations
     .map((v) => {
       const sp = spLookup.get(normalise(v.title));
       return {
