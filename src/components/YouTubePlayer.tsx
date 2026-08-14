@@ -103,8 +103,14 @@ export default function YouTubePlayer({ onReady, onEnded, onError, onPlayingChan
               seekTo: (seconds) => player?.seekTo(seconds, true),
             }),
           onStateChange: (event) => {
-            if (event.data === YT.PlayerState.ENDED) callbacks.current.onEnded();
-            callbacks.current.onPlayingChange(event.data === YT.PlayerState.PLAYING);
+            if (event.data === YT.PlayerState.ENDED) {
+              callbacks.current.onEnded();
+            } else if (event.data === YT.PlayerState.PLAYING) {
+              callbacks.current.onPlayingChange(true);
+            } else if (event.data === YT.PlayerState.PAUSED) {
+              callbacks.current.onPlayingChange(false);
+            }
+            // Ignore BUFFERING, CUED, UNSTARTED — don't override play/pause state
           },
           onError: () => callbacks.current.onError(),
         },
