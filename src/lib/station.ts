@@ -52,14 +52,7 @@ async function buildChannel(ch: ChannelConfig): Promise<Station> {
       };
     });
 
-  console.log(`[${ch.id}] YouTube results: ${ytResults.length}, after filter: ${tracks.length}`);
-
-  // Debug: show duration distribution
-  const withDuration = ytResults.filter((v) => v.durationSec > 0).length;
-  const under60 = ytResults.filter((v) => v.durationSec > 0 && v.durationSec < 60).length;
-  const over900 = ytResults.filter((v) => v.durationSec > 900).length;
-  const noDuration = ytResults.filter((v) => v.durationSec === 0).length;
-  console.log(`  → withDuration: ${withDuration}, noDuration: ${noDuration}, <60s: ${under60}, >15min: ${over900}`);
+  console.log(`[${ch.id}] Tracks loaded: ${tracks.length}`);
 
   return { id: ch.id, name: ch.name, tagline: ch.tagline, tracks };
 }
