@@ -89,6 +89,11 @@ export default function Station({ channels }: { channels: ChannelInfo[] }) {
       const ch = getChannel(channelRef.current);
       const station = { id: ch.id, name: ch.name, tagline: ch.tagline, tracks: ch.tracks };
       const next = nowPlaying(station, index);
+      if (!next) {
+        setError("No tracks available for this channel.");
+        setState(null);
+        return;
+      }
       if (index === undefined) queue.current = shuffledQueue(next.total, next.index);
       setError(null);
       setElapsed(0);
@@ -111,8 +116,13 @@ export default function Station({ channels }: { channels: ChannelInfo[] }) {
     const ch = getChannel(channels[0].id);
     const station = { id: ch.id, name: ch.name, tagline: ch.tagline, tracks: ch.tracks };
     const initial = nowPlaying(station);
-    setState(initial);
-    queue.current = shuffledQueue(initial.total, initial.index);
+    if (initial) {
+      setState(initial);
+      queue.current = shuffledQueue(initial.total, initial.index);
+    } else {
+      setState(null);
+      setError("No tracks available. Check your API keys.");
+    }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -122,17 +132,22 @@ export default function Station({ channels }: { channels: ChannelInfo[] }) {
     const ch = getChannel(channelId);
     const station = { id: ch.id, name: ch.name, tagline: ch.tagline, tracks: ch.tracks };
     const initial = nowPlaying(station);
-    setState(initial);
-    queue.current = shuffledQueue(initial.total, initial.index);
-    setElapsed(0);
-    if (tunedInRef.current) {
-      if (playerReady.current) {
-        handle.current?.play(initial.track.youtubeId, 0);
-      } else {
-        pendingPlay.current = { videoId: initial.track.youtubeId, start: 0 };
+    if (initial) {
+      setState(initial);
+      queue.current = shuffledQueue(initial.total, initial.index);
+      setElapsed(0);
+      if (tunedInRef.current) {
+        if (playerReady.current) {
+          handle.current?.play(initial.track.youtubeId, 0);
+        } else {
+          pendingPlay.current = { videoId: initial.track.youtubeId, start: 0 };
+        }
+      } else if (playerReady.current) {
+        handle.current?.cue(initial.track.youtubeId);
       }
-    } else if (playerReady.current) {
-      handle.current?.cue(initial.track.youtubeId);
+    } else {
+      setState(null);
+      setError("No tracks available for this channel.");
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [channelId]);
