@@ -173,6 +173,7 @@ export default function Station({ channels }: { channels: ChannelInfo[] }) {
 
   const [timeStr, setTimeStr] = useState("");
   const [showAbout, setShowAbout] = useState(false);
+  const [mobileVol, setMobileVol] = useState(player.defaultVolume);
 
   useEffect(() => {
     const tick = () => {
@@ -260,6 +261,7 @@ export default function Station({ channels }: { channels: ChannelInfo[] }) {
 
   const setVolume = useCallback((next: number) => {
     volume.current = next;
+    setMobileVol(next);
     handle.current?.setVolume(next);
   }, []);
 
@@ -376,7 +378,7 @@ export default function Station({ channels }: { channels: ChannelInfo[] }) {
   }, [state]);
 
   return (
-    <div className="mx-auto flex min-h-screen w-full max-w-5xl flex-col items-center gap-4 px-4 py-6 sm:gap-8 sm:py-10">
+    <div className="mx-auto flex min-h-screen w-full max-w-5xl flex-col items-center gap-3 px-4 py-3 sm:gap-8 sm:py-10">
       <header className="relative flex w-full items-center justify-center">
         <div className="fixed left-3 top-3 flex items-center gap-2">
         <span
@@ -433,7 +435,7 @@ export default function Station({ channels }: { channels: ChannelInfo[] }) {
           <span className="font-medium text-white/80">WhatsApp</span>
         </a>
         </div>
-        <div className="text-center">
+        <div className="pt-14 text-center sm:pt-0">
           <h1 className="font-mono text-3xl font-black tracking-[0.2em] text-amber-300 drop-shadow-[0_2px_12px_rgba(0,0,0,0.6)] sm:text-5xl">
             {site.title.toUpperCase()}
           </h1>
@@ -443,7 +445,7 @@ export default function Station({ channels }: { channels: ChannelInfo[] }) {
         </div>
       </header>
 
-      <div className="my-2 w-full max-w-3xl sm:my-auto">
+      <div className="my-1 w-full max-w-3xl sm:my-auto">
         <div className={`neon-border rounded-[2rem] ${playing ? "is-playing" : ""}`}>
         <div className="glass-card rounded-[2rem] px-4 py-4 sm:px-6 sm:py-5">
           <div className="flex items-center gap-4 sm:gap-6">
@@ -541,7 +543,7 @@ export default function Station({ channels }: { channels: ChannelInfo[] }) {
           <VolumeControl initial={volume.current} onChange={setVolume} />
           </div>
 
-          <div className="mt-3 flex items-center justify-center gap-3 sm:hidden">
+          <div className="mt-3 flex items-center justify-center gap-2 sm:hidden">
             <button
               onClick={previous}
               className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-white/10 text-white/80 transition-all duration-150 active:scale-90"
@@ -560,6 +562,7 @@ export default function Station({ channels }: { channels: ChannelInfo[] }) {
                 <path className="fill-white/80" d="M4 9v6h4l5 4V5L8 9H4zm12 3h6v2h-6z" />
               </svg>
             </button>
+            <span className="w-7 text-center text-[10px] tabular-nums text-white/50">{mobileVol}</span>
             <button
               onClick={() => changeVolume(10)}
               className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-white/10 text-white/80 transition-all duration-150 active:scale-90"
@@ -585,7 +588,7 @@ export default function Station({ channels }: { channels: ChannelInfo[] }) {
         {error && <p className="mt-3 text-center text-xs text-red-300">{error}</p>}
 
         {upNext.length > 0 && (
-          <div className="mt-5">
+          <div className="mt-3 sm:mt-5">
             <p className="mb-2 flex items-center gap-2 px-1 font-mono text-[11px] uppercase tracking-[0.25em] text-amber-200/70">
               <span className="h-px w-4 bg-amber-200/40" />
               Up next
@@ -620,7 +623,7 @@ export default function Station({ channels }: { channels: ChannelInfo[] }) {
         />
       </div>
 
-      <footer className="mt-auto pb-6 text-center text-xs text-white/40 space-y-1">
+      <footer className="mt-4 pb-4 text-center text-xs text-white/40 space-y-1 sm:mt-auto sm:pb-6">
         <p>
           All music is the property of their respective owners. No copyright infringement intended.
         </p>
