@@ -379,63 +379,120 @@ export default function Station({ channels }: { channels: ChannelInfo[] }) {
 
   return (
     <div className="mx-auto flex min-h-screen w-full max-w-5xl flex-col items-center gap-3 px-4 py-3 sm:gap-8 sm:py-10">
-      <header className="relative flex w-full items-center justify-center">
-        <div className="fixed left-3 top-3 flex items-center gap-2">
-        <span
-          className="rounded-full bg-white/20 px-3 py-1.5 font-mono text-sm text-white/50 shadow-sm tabular-nums backdrop-blur-sm sm:text-base"
-        >
-          {timeStr}
-        </span>
-        <button
-          onClick={() => setShowAbout(true)}
-          aria-label="About"
-          title="About Desi SongLOON"
-          className="flex items-center gap-1.5 rounded-full bg-white/20 px-3 py-1.5 text-sm text-white/80 shadow-sm backdrop-blur-sm transition-all duration-150 hover:bg-white/40 active:scale-95 sm:text-base"
-        >
-          <span className="grid h-5 w-5 place-items-center rounded-full bg-amber-300 text-xs font-black leading-none text-stone-900 sm:h-6 sm:w-6">
-            !
+      <header className="relative w-full">
+        {/* Mobile: pills in normal flow, scroll with page */}
+        <div className="flex items-center justify-between px-2 pb-2 sm:hidden">
+          <div className="flex items-center gap-1.5">
+            <span className="shrink-0 rounded-full bg-white/20 px-2.5 py-1 font-mono text-xs text-white/50 shadow-sm tabular-nums backdrop-blur-sm">
+              {timeStr}
+            </span>
+            <button
+              onClick={() => setShowAbout(true)}
+              aria-label="About"
+              title="About Desi SongLOON"
+              className="flex shrink-0 items-center gap-1 rounded-full bg-white/20 px-2.5 py-1 text-xs text-white/80 shadow-sm backdrop-blur-sm transition-all duration-150 active:scale-95"
+            >
+              <span className="grid h-4 w-4 place-items-center rounded-full bg-amber-300 text-[10px] font-black leading-none text-stone-900">
+                !
+              </span>
+              About
+            </button>
+          </div>
+          <div className="flex items-center gap-1.5">
+            <a
+              href="https://www.instagram.com/itz_pratikkkkk?igsh=MWR4dXJkYjRyNmx5dQ%3D%3D&utm_source=qr"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Instagram"
+              title="Follow on Instagram"
+              className="flex shrink-0 items-center gap-1 rounded-full bg-white/20 px-2.5 py-1 text-xs shadow-sm backdrop-blur-sm transition-all duration-150 active:scale-95"
+            >
+              <svg viewBox="0 0 24 24" className="h-4 w-4">
+                <defs>
+                  <linearGradient id="insta-gradient-m" x1="0%" y1="100%" x2="100%" y2="0%">
+                    <stop offset="0%" stopColor="#feda75" />
+                    <stop offset="25%" stopColor="#fa7e1e" />
+                    <stop offset="50%" stopColor="#d62976" />
+                    <stop offset="75%" stopColor="#962fbf" />
+                    <stop offset="100%" stopColor="#4f5bd5" />
+                  </linearGradient>
+                </defs>
+                <path fill="url(#insta-gradient-m)" d="M12 2.2c3.2 0 3.6 0 4.9.1 1.2.1 1.8.2 2.2.4.6.2 1 .5 1.4.9.4.4.7.8.9 1.4.2.4.4 1 .4 2.2.1 1.3.1 1.7.1 4.9s0 3.6-.1 4.9c-.1 1.2-.2 1.8-.4 2.2-.2.6-.5 1-.9 1.4-.4.4-.8.7-1.4.9-.4.2-1 .4-2.2.4-1.3.1-1.7.1-4.9.1s-3.6 0-4.9-.1c-1.2-.1-1.8-.2-2.2-.4-.6-.2-1-.5-1.4-.9-.4-.4-.7-.8-.9-1.4-.2-.4-.4-1-.4-2.2C2.2 15.6 2.2 15.2 2.2 12s0-3.6.1-4.9c.1-1.2.2-1.8.4-2.2.2-.6.5-1 .9-1.4.4-.4.8-.7 1.4-.9.4-.2 1-.4 2.2-.4C8.4 2.2 8.8 2.2 12 2.2m0 3.6a6.2 6.2 0 1 0 0 12.4 6.2 6.2 0 0 0 0-12.4zm0 10.2a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm7.7-11.9a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z" />
+              </svg>
+              <span className="font-medium text-white/80">INSTA</span>
+            </a>
+            <a
+              href="https://wa.me/919834119278"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="WhatsApp"
+              title="Chat on WhatsApp"
+              className="flex shrink-0 items-center gap-1 rounded-full bg-white/20 px-2.5 py-1 text-xs shadow-sm backdrop-blur-sm transition-all duration-150 active:scale-95"
+            >
+              <svg viewBox="0 0 24 24" className="h-4 w-4">
+                <path fill="#25D366" d="M12 2a10 10 0 0 0-8.6 15L2 22l5.1-1.3A10 10 0 1 0 12 2zm5.8 14.2c-.2.7-1.3 1.3-1.9 1.4-.5.1-1.1.1-1.8-.1-.4-.1-1-.3-1.7-.6-3-1.3-4.9-4.3-5.1-4.5-.1-.2-1.2-1.6-1.2-3.1s.8-2.2 1-2.5c.3-.3.6-.4.8-.4h.6c.2 0 .4 0 .6.5.2.5.7 1.8.8 1.9.1.2.1.3 0 .5-.1.2-.1.3-.3.5l-.4.5c-.2.2-.3.3-.1.6.2.2.8 1.3 1.7 2.1 1.2 1.1 2.2 1.4 2.5 1.6.3.1.5.1.7-.1.2-.2.8-.9 1-1.2.2-.3.4-.3.7-.2.3.1 1.7.8 2 1 .3.2.5.2.6.4.1.1.1.7-.1 1.4z" />
+              </svg>
+              <span className="font-medium text-white/80">WhatsApp</span>
+            </a>
+          </div>
+        </div>
+
+        {/* Desktop: fixed pills — unchanged */}
+        <div className="fixed left-3 top-3 hidden items-center gap-2 sm:flex">
+          <span className="rounded-full bg-white/20 px-3 py-1.5 font-mono text-sm text-white/50 shadow-sm tabular-nums backdrop-blur-sm sm:text-base">
+            {timeStr}
           </span>
-          About
-        </button>
+          <button
+            onClick={() => setShowAbout(true)}
+            aria-label="About"
+            title="About Desi SongLOON"
+            className="flex items-center gap-1.5 rounded-full bg-white/20 px-3 py-1.5 text-sm text-white/80 shadow-sm backdrop-blur-sm transition-all duration-150 hover:bg-white/40 active:scale-95 sm:text-base"
+          >
+            <span className="grid h-5 w-5 place-items-center rounded-full bg-amber-300 text-xs font-black leading-none text-stone-900 sm:h-6 sm:w-6">
+              !
+            </span>
+            About
+          </button>
         </div>
-        <div className="fixed right-3 top-3 flex items-center gap-2">
-        <a
-          href="https://www.instagram.com/itz_pratikkkkk?igsh=MWR4dXJkYjRyNmx5dQ%3D%3D&utm_source=qr"
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="Instagram"
-          title="Follow on Instagram"
-          className="flex items-center gap-1.5 rounded-full bg-white/20 px-3 py-1.5 text-sm shadow-sm backdrop-blur-sm transition-all duration-150 hover:bg-white/40 active:scale-95 sm:text-base"
-        >
-          <svg viewBox="0 0 24 24" className="h-5 w-5 sm:h-6 sm:w-6">
-            <defs>
-              <linearGradient id="insta-gradient" x1="0%" y1="100%" x2="100%" y2="0%">
-                <stop offset="0%" stopColor="#feda75" />
-                <stop offset="25%" stopColor="#fa7e1e" />
-                <stop offset="50%" stopColor="#d62976" />
-                <stop offset="75%" stopColor="#962fbf" />
-                <stop offset="100%" stopColor="#4f5bd5" />
-              </linearGradient>
-            </defs>
-            <path fill="url(#insta-gradient)" d="M12 2.2c3.2 0 3.6 0 4.9.1 1.2.1 1.8.2 2.2.4.6.2 1 .5 1.4.9.4.4.7.8.9 1.4.2.4.4 1 .4 2.2.1 1.3.1 1.7.1 4.9s0 3.6-.1 4.9c-.1 1.2-.2 1.8-.4 2.2-.2.6-.5 1-.9 1.4-.4.4-.8.7-1.4.9-.4.2-1 .4-2.2.4-1.3.1-1.7.1-4.9.1s-3.6 0-4.9-.1c-1.2-.1-1.8-.2-2.2-.4-.6-.2-1-.5-1.4-.9-.4-.4-.7-.8-.9-1.4-.2-.4-.4-1-.4-2.2C2.2 15.6 2.2 15.2 2.2 12s0-3.6.1-4.9c.1-1.2.2-1.8.4-2.2.2-.6.5-1 .9-1.4.4-.4.8-.7 1.4-.9.4-.2 1-.4 2.2-.4C8.4 2.2 8.8 2.2 12 2.2m0 3.6a6.2 6.2 0 1 0 0 12.4 6.2 6.2 0 0 0 0-12.4zm0 10.2a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm7.7-11.9a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z" />
-          </svg>
-          <span className="font-medium text-white/80">INSTA</span>
-        </a>
-        <a
-          href="https://wa.me/919834119278"
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="WhatsApp"
-          title="Chat on WhatsApp"
-          className="flex items-center gap-1.5 rounded-full bg-white/20 px-3 py-1.5 text-sm shadow-sm backdrop-blur-sm transition-all duration-150 hover:bg-white/40 active:scale-95 sm:text-base"
-        >
-          <svg viewBox="0 0 24 24" className="h-5 w-5 sm:h-6 sm:w-6">
-            <path fill="#25D366" d="M12 2a10 10 0 0 0-8.6 15L2 22l5.1-1.3A10 10 0 1 0 12 2zm5.8 14.2c-.2.7-1.3 1.3-1.9 1.4-.5.1-1.1.1-1.8-.1-.4-.1-1-.3-1.7-.6-3-1.3-4.9-4.3-5.1-4.5-.1-.2-1.2-1.6-1.2-3.1s.8-2.2 1-2.5c.3-.3.6-.4.8-.4h.6c.2 0 .4 0 .6.5.2.5.7 1.8.8 1.9.1.2.1.3 0 .5-.1.2-.1.3-.3.5l-.4.5c-.2.2-.3.3-.1.6.2.2.8 1.3 1.7 2.1 1.2 1.1 2.2 1.4 2.5 1.6.3.1.5.1.7-.1.2-.2.8-.9 1-1.2.2-.3.4-.3.7-.2.3.1 1.7.8 2 1 .3.2.5.2.6.4.1.1.1.7-.1 1.4z" />
-          </svg>
-          <span className="font-medium text-white/80">WhatsApp</span>
-        </a>
+        <div className="fixed right-3 top-3 hidden items-center gap-2 sm:flex">
+          <a
+            href="https://www.instagram.com/itz_pratikkkkk?igsh=MWR4dXJkYjRyNmx5dQ%3D%3D&utm_source=qr"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Instagram"
+            title="Follow on Instagram"
+            className="flex items-center gap-1.5 rounded-full bg-white/20 px-3 py-1.5 text-sm shadow-sm backdrop-blur-sm transition-all duration-150 hover:bg-white/40 active:scale-95 sm:text-base"
+          >
+            <svg viewBox="0 0 24 24" className="h-5 w-5 sm:h-6 sm:w-6">
+              <defs>
+                <linearGradient id="insta-gradient" x1="0%" y1="100%" x2="100%" y2="0%">
+                  <stop offset="0%" stopColor="#feda75" />
+                  <stop offset="25%" stopColor="#fa7e1e" />
+                  <stop offset="50%" stopColor="#d62976" />
+                  <stop offset="75%" stopColor="#962fbf" />
+                  <stop offset="100%" stopColor="#4f5bd5" />
+                </linearGradient>
+              </defs>
+              <path fill="url(#insta-gradient)" d="M12 2.2c3.2 0 3.6 0 4.9.1 1.2.1 1.8.2 2.2.4.6.2 1 .5 1.4.9.4.4.7.8.9 1.4.2.4.4 1 .4 2.2.1 1.3.1 1.7.1 4.9s0 3.6-.1 4.9c-.1 1.2-.2 1.8-.4 2.2-.2.6-.5 1-.9 1.4-.4.4-.8.7-1.4.9-.4.2-1 .4-2.2.4-1.3.1-1.7.1-4.9.1s-3.6 0-4.9-.1c-1.2-.1-1.8-.2-2.2-.4-.6-.2-1-.5-1.4-.9-.4-.4-.7-.8-.9-1.4-.2-.4-.4-1-.4-2.2C2.2 15.6 2.2 15.2 2.2 12s0-3.6.1-4.9c.1-1.2.2-1.8.4-2.2.2-.6.5-1 .9-1.4.4-.4.8-.7 1.4-.9.4-.2 1-.4 2.2-.4C8.4 2.2 8.8 2.2 12 2.2m0 3.6a6.2 6.2 0 1 0 0 12.4 6.2 6.2 0 0 0 0-12.4zm0 10.2a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm7.7-11.9a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z" />
+            </svg>
+            <span className="font-medium text-white/80">INSTA</span>
+          </a>
+          <a
+            href="https://wa.me/919834119278"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="WhatsApp"
+            title="Chat on WhatsApp"
+            className="flex items-center gap-1.5 rounded-full bg-white/20 px-3 py-1.5 text-sm shadow-sm backdrop-blur-sm transition-all duration-150 hover:bg-white/40 active:scale-95 sm:text-base"
+          >
+            <svg viewBox="0 0 24 24" className="h-5 w-5 sm:h-6 sm:w-6">
+              <path fill="#25D366" d="M12 2a10 10 0 0 0-8.6 15L2 22l5.1-1.3A10 10 0 1 0 12 2zm5.8 14.2c-.2.7-1.3 1.3-1.9 1.4-.5.1-1.1.1-1.8-.1-.4-.1-1-.3-1.7-.6-3-1.3-4.9-4.3-5.1-4.5-.1-.2-1.2-1.6-1.2-3.1s.8-2.2 1-2.5c.3-.3.6-.4.8-.4h.6c.2 0 .4 0 .6.5.2.5.7 1.8.8 1.9.1.2.1.3 0 .5-.1.2-.1.3-.3.5l-.4.5c-.2.2-.3.3-.1.6.2.2.8 1.3 1.7 2.1 1.2 1.1 2.2 1.4 2.5 1.6.3.1.5.1.7-.1.2-.2.8-.9 1-1.2.2-.3.4-.3.7-.2.3.1 1.7.8 2 1 .3.2.5.2.6.4.1.1.1.7-.1 1.4z" />
+            </svg>
+            <span className="font-medium text-white/80">WhatsApp</span>
+          </a>
         </div>
-        <div className="pt-14 text-center sm:pt-0">
+
+        <div className="text-center sm:pt-0">
           <h1 className="font-mono text-3xl font-black tracking-[0.2em] text-amber-300 drop-shadow-[0_2px_12px_rgba(0,0,0,0.6)] sm:text-5xl">
             {site.title.toUpperCase()}
           </h1>
