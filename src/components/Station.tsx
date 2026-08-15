@@ -619,16 +619,16 @@ export default function Station({ channels }: { channels: ChannelInfo[] }) {
 
         {upNext.length > 0 && (
           <div className="mt-3 sm:mt-5">
-            <p className="mb-2 flex items-center gap-2 px-1 font-mono text-[11px] uppercase tracking-[0.25em] text-amber-200/70">
-              <span className="h-px w-4 bg-amber-200/40" />
+            <p className="mb-2 flex items-center gap-3 px-1 font-mono text-[11px] uppercase tracking-[0.25em] text-amber-200/70">
+              <span className="h-px flex-1 bg-amber-200/40" />
               Up next
+              <span className="h-px flex-1 bg-amber-200/40" />
             </p>
             <ol className="divide-y divide-white/10 rounded-2xl bg-black/25 backdrop-blur-sm">
               {upNext.map((t, i) => (
                 <li
                   key={`${t.youtubeId}-${i}`}
-                  className="upnext-item flex items-center gap-3 px-4 py-2.5"
-                  style={{ animationDelay: `${i * 70}ms` }}
+                  className="flex items-center gap-3 px-4 py-2.5"
                 >
                   <span className="w-5 shrink-0 text-right font-mono text-xs tabular-nums text-white/40">
                     {i + 1}
