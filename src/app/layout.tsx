@@ -14,12 +14,20 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(site.url),
   title: siteMeta.title,
   description: siteMeta.description,
   openGraph: {
     title: siteMeta.ogTitle,
     description: siteMeta.ogDescription,
     type: "website",
+    images: [{ url: "/api/now-playing/og", width: 1200, height: 630, alt: "Desi SongLOON" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: siteMeta.ogTitle,
+    description: siteMeta.ogDescription,
+    images: ["/api/now-playing/og"],
   },
 };
 

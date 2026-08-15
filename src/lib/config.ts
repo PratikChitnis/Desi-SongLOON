@@ -12,6 +12,8 @@ export const site = {
   description:
     "A round-the-clock radio station of 90s Hindi film music, synchronised for every listener.",
   ogDescription: "90s Bollywood radio, playing round the clock.",
+  /** Public origin — used for absolute og:image URLs. Override when deployed. */
+  url: process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000",
   contactEmail: "pratikppc12@gmail.com",
   lang: "en" as const,
 } as const;
@@ -34,13 +36,6 @@ export const scheduler = {
   epochMs: Date.UTC(2024, 0, 1),
 } as const;
 
-export const backdrops = {
-  /** Minutes between background image rotations. */
-  rotateMinutes: 30,
-  /** Cross-fade transition duration in milliseconds. */
-  crossFadeMs: 2500,
-} as const;
-
 export const metadata = {
   title: `${site.title} — ${site.tagline}`,
   description: site.description,
@@ -52,6 +47,8 @@ export const apis = {
   youtube: {
     apiKey: process.env.YOUTUBE_API_KEY ?? "",
     fallbackKey: process.env.YOUTUBE_API_KEY_FALLBACK ?? "",
+    /** The station's curated 90s playlist — played as one continuous channel. */
+    playlistId: process.env.YOUTUBE_PLAYLIST_ID ?? "",
   },
   spotify: {
     clientId: process.env.SPOTIFY_CLIENT_ID ?? "",
@@ -63,39 +60,15 @@ export interface ChannelConfig {
   id: string;
   name: string;
   tagline: string;
-  /** YouTube search query to populate this channel. */
-  youtubeQuery: string;
   /** Spotify search query for metadata enrichment. */
   spotifyQuery: string;
 }
 
 export const channelDefs: ChannelConfig[] = [
   {
-    id: "romantic",
-    name: "90s Romantic",
-    tagline: "Melodies from the golden age of Bollywood romance",
-    youtubeQuery: "90s Hindi romantic song official video",
-    spotifyQuery: "90s bollywood romantic",
-  },
-  {
-    id: "dance",
-    name: "Dance Floor",
-    tagline: "Big beats from the 90s dance floor",
-    youtubeQuery: "90s Bollywood dance song official video",
-    spotifyQuery: "90s bollywood dance",
-  },
-  {
-    id: "soulful",
-    name: "Soulful",
-    tagline: "Slow, aching and unforgettable",
-    youtubeQuery: "90s Hindi sad song official video",
-    spotifyQuery: "90s bollywood sad",
-  },
-  {
-    id: "retro-mix",
-    name: "Retro Mix",
-    tagline: "Everything else the decade had on repeat",
-    youtubeQuery: "90s Hindi hit song official video",
+    id: "desi",
+    name: site.title,
+    tagline: site.tagline,
     spotifyQuery: "90s bollywood hits",
   },
 ];

@@ -75,6 +75,9 @@ export default function YouTubePlayer({ onReady, onEnded, onError, onPlayingChan
   const containerRef = useRef<HTMLDivElement>(null);
   const callbacks = useRef({ onReady, onEnded, onError, onPlayingChange });
   callbacks.current = { onReady, onEnded, onError, onPlayingChange };
+  /** True only when the user asked to pause. A video-switch PAUSED event is
+   *  ignored, so the play/pause button stays accurate while a song plays. */
+  const userPaused = useRef(false);
 
   useEffect(() => {
     let player: YTPlayer | undefined;
@@ -88,6 +91,7 @@ export default function YouTubePlayer({ onReady, onEnded, onError, onPlayingChan
           onReady: () =>
             callbacks.current.onReady({
               play: (videoId, startSeconds) => {
+                userPaused.current = false;
                 player?.loadVideoById({ videoId, startSeconds });
                 player?.playVideo();
               },
@@ -95,20 +99,33 @@ export default function YouTubePlayer({ onReady, onEnded, onError, onPlayingChan
                 player?.cueVideoById({ videoId });
               },
               playInstant: () => {
+                userPaused.current = false;
                 player?.playVideo();
               },
-              pause: () => player?.pauseVideo(),
-              resume: () => player?.playVideo(),
+              pause: () => {
+                userPaused.current = true;
+                player?.pauseVideo();
+              },
+              resume: () => {
+                userPaused.current = false;
+                player?.playVideo();
+              },
               setVolume: (volume) => player?.setVolume(volume),
               seekTo: (seconds) => player?.seekTo(seconds, true),
             }),
           onStateChange: (event) => {
             if (event.data === YT.PlayerState.ENDED) {
+              userPaused.current = false;
               callbacks.current.onEnded();
             } else if (event.data === YT.PlayerState.PLAYING) {
+              userPaused.current = false;
               callbacks.current.onPlayingChange(true);
             } else if (event.data === YT.PlayerState.PAUSED) {
-              callbacks.current.onPlayingChange(false);
+              // Only a user-initiated pause should flip the button. YouTube
+              // also fires PAUSED while switching to the next video.
+              if (userPaused.current) {
+                callbacks.current.onPlayingChange(false);
+              }
             }
             // Ignore BUFFERING, CUED, UNSTARTED — don't override play/pause state
           },

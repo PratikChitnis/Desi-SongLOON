@@ -32,6 +32,17 @@ yarn-error.log*
 
 # env files (can opt-in for committing if needed)
 .env*
+!.env.example
+
+# local server logs
+/server.log
+/server.err.log
+
+# oauth token for the playlist sync script
+scripts/.yt-token.json
+
+# visit-counter persistence (kept out of git so it isn't shared/overwritten)
+/data/visits.json
 
 # vercel
 .vercel

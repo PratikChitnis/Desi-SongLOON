@@ -75,6 +75,76 @@ function parseDuration(iso: string): number {
 }
 
 /**
+ * Read a public playlist's video IDs and titles via playlistItems.list.
+ * Paginates automatically (50 items per page, 1 unit per page).
+ */
+export async function fetchPlaylist(
+  apiKey: string,
+  playlistId: string,
+  fallbackKey?: string,
+): Promise<YouTubeVideo[]> {
+  return cached(`playlist:${playlistId}`, DAY_MS, async () => {
+    const allItems: { videoId: string; title: string }[] = [];
+
+    let pageToken: string | undefined;
+    let currentKey = apiKey;
+    let switchedKey = false;
+
+    do {
+      const url = new URL(`${BASE}/playlistItems`);
+      url.searchParams.set("key", currentKey);
+      url.searchParams.set("part", "snippet");
+      url.searchParams.set("playlistId", playlistId);
+      url.searchParams.set("maxResults", "50");
+      url.searchParams.set("fields", "nextPageToken,items(snippet(resourceId(videoId),title))");
+      if (pageToken) url.searchParams.set("pageToken", pageToken);
+
+      const res = await fetch(url.toString());
+
+      // If primary key is rate-limited, try fallback
+      if (res.status === 429 && fallbackKey && currentKey !== fallbackKey && !switchedKey) {
+        currentKey = fallbackKey;
+        switchedKey = true;
+        clearCache(); // Clear stale cache from failed key
+        continue; // Retry with fallback key
+      }
+
+      if (!res.ok) {
+        const body = await res.text();
+        throw new Error(`YouTube playlist fetch failed (${res.status}): ${body}`);
+      }
+      const json = (await res.json()) as {
+        nextPageToken?: string;
+        items: {
+          snippet: { resourceId: { videoId: string }; title: string };
+        }[];
+      };
+
+      for (const item of json.items) {
+        const videoId = item.snippet?.resourceId?.videoId;
+        const title = item.snippet?.title ?? "";
+        // Skip deleted/private placeholders — they can't be played.
+        if (!videoId || title === "Private video" || title === "Deleted video") continue;
+        allItems.push({ videoId, title: decodeHtml(title) });
+      }
+
+      if (!json.nextPageToken) break;
+      pageToken = json.nextPageToken;
+    } while (true);
+
+    const ids = allItems.map((item) => item.videoId);
+    const durations = await fetchDurations(currentKey, ids, fallbackKey);
+
+    return allItems.map((item) => ({
+      id: item.videoId,
+      title: item.title,
+      channelTitle: "",
+      durationSec: durations.get(item.videoId) ?? 0,
+    }));
+  });
+}
+
+/**
  * Search YouTube for videos matching `query`, returning up to `maxResults`
  * results.  Paginates automatically (50 results per page).
  * Tries fallbackKey if primary key returns 429 (quota exceeded).

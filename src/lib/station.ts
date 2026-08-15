@@ -1,21 +1,24 @@
 import type { Station, Track } from "./types";
-import { searchYouTube } from "./youtube";
+import { fetchPlaylist } from "./youtube";
 import { searchSpotify } from "./spotify";
 import { apis, channelDefs, type ChannelConfig } from "./config";
+import { isNon90s } from "./non90s";
 
 /**
- * Build a Station by searching YouTube for the channel's query and enriching
- * results with Spotify metadata (film name, year).
+ * Build a Station from the curated YouTube playlist, enriching titles with
+ * Spotify metadata (film name, year).
  *
  * Falls back gracefully: if Spotify is unavailable, we use the YouTube title
  * as the track title and leave film/year as unknown.
  */
 async function buildChannel(ch: ChannelConfig): Promise<Station> {
-  let ytResults: Awaited<ReturnType<typeof searchYouTube>> = [];
-  try {
-    ytResults = await searchYouTube(apis.youtube.apiKey, ch.youtubeQuery, 200, apis.youtube.fallbackKey);
-  } catch {
-    // YouTube quota exceeded or API error — continue with empty results
+  let ytResults: Awaited<ReturnType<typeof fetchPlaylist>> = [];
+  if (apis.youtube.playlistId) {
+    try {
+      ytResults = await fetchPlaylist(apis.youtube.apiKey, apis.youtube.playlistId, apis.youtube.fallbackKey);
+    } catch {
+      // YouTube quota exceeded or API error — continue with empty results
+    }
   }
 
   let spTracks: Awaited<ReturnType<typeof searchSpotify>> = [];
@@ -40,6 +43,7 @@ async function buildChannel(ch: ChannelConfig): Promise<Station> {
   }
 
   const tracks: Track[] = ytResults
+    .filter((v) => !isNon90s(v.title)) // only 90s Hindi — no regional/modern uploads
     .filter((v) => v.durationSec >= 60 && v.durationSec <= 900) // 1–15 min: skip shorts, ads, compilations
     .map((v) => {
       const sp = spLookup.get(normalise(v.title));
