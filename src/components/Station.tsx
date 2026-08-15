@@ -173,7 +173,6 @@ export default function Station({ channels }: { channels: ChannelInfo[] }) {
 
   const [timeStr, setTimeStr] = useState("");
   const [showAbout, setShowAbout] = useState(false);
-  const [mobileVol, setMobileVol] = useState(player.defaultVolume);
 
   useEffect(() => {
     const tick = () => {
@@ -261,15 +260,8 @@ export default function Station({ channels }: { channels: ChannelInfo[] }) {
 
   const setVolume = useCallback((next: number) => {
     volume.current = next;
-    setMobileVol(next);
     handle.current?.setVolume(next);
   }, []);
-
-  /** Nudge volume in fixed steps (used by the compact mobile buttons). */
-  const changeVolume = useCallback(
-    (delta: number) => setVolume(Math.max(0, Math.min(100, volume.current + delta))),
-    [setVolume],
-  );
 
   const onReady = useCallback(
     (h: PlayerHandle) => {
@@ -600,7 +592,7 @@ export default function Station({ channels }: { channels: ChannelInfo[] }) {
           <VolumeControl initial={volume.current} onChange={setVolume} />
           </div>
 
-          <div className="mt-3 flex items-center justify-center gap-2 sm:hidden">
+          <div className="mt-3 flex items-center justify-center gap-3 sm:hidden">
             <button
               onClick={previous}
               className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-white/10 text-white/80 transition-all duration-150 active:scale-90"
@@ -608,25 +600,6 @@ export default function Station({ channels }: { channels: ChannelInfo[] }) {
             >
               <svg viewBox="0 0 24 24" className="h-5 w-5 fill-current">
                 <path d="M7 5h2v14H7zM19 5v14l-9-7z" />
-              </svg>
-            </button>
-            <button
-              onClick={() => changeVolume(-10)}
-              className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-white/10 text-white/80 transition-all duration-150 active:scale-90"
-              aria-label="Decrease volume"
-            >
-              <svg viewBox="0 0 24 24" className="h-5 w-5">
-                <path className="fill-white/80" d="M4 9v6h4l5 4V5L8 9H4zm12 3h6v2h-6z" />
-              </svg>
-            </button>
-            <span className="w-7 text-center text-[10px] tabular-nums text-white/50">{mobileVol}</span>
-            <button
-              onClick={() => changeVolume(10)}
-              className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-white/10 text-white/80 transition-all duration-150 active:scale-90"
-              aria-label="Increase volume"
-            >
-              <svg viewBox="0 0 24 24" className="h-5 w-5">
-                <path className="fill-white/80" d="M4 9v6h4l5 4V5L8 9H4zm11 3h2v-2h2v2h2v2h-2v2h-2v-2h-2z" />
               </svg>
             </button>
             <button
