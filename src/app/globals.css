@@ -89,6 +89,19 @@ body {
   .eq-bar {
     animation: none !important;
   }
+  .upnext-item {
+    animation: none !important;
+  }
+}
+
+/* Up-next list: entries slide in smoothly when the queue advances. */
+@keyframes upnext-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.upnext-item {
+  animation: upnext-in 0.4s ease-out both;
 }
 
 /* Animated equalizer bars on the now-playing card.  They only dance while the

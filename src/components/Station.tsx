@@ -131,11 +131,10 @@ function TotalVisits() {
 
   // Always rendered — "—" until the counter reports a real number.
   return (
-    <p className="mt-1 flex items-center justify-center gap-1.5 text-xs text-white/50 sm:text-sm">
-      <svg viewBox="0 0 24 24" className="h-3.5 w-3.5 fill-current opacity-70">
-        <path d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z" />
-      </svg>
-      <span className="tabular-nums">{total === null ? "—" : total.toLocaleString("en-US")}</span> total visits
+    <p className="mt-2 flex items-center justify-center">
+      <span className="rounded-full bg-white/20 px-3 py-1.5 text-xs text-white/50 shadow-sm backdrop-blur-sm sm:text-sm">
+        <span className="tabular-nums">{total === null ? "—" : total.toLocaleString("en-US")}</span> total visits
+      </span>
     </p>
   );
 }
@@ -593,7 +592,11 @@ export default function Station({ channels }: { channels: ChannelInfo[] }) {
             </p>
             <ol className="divide-y divide-white/10 rounded-2xl bg-black/25 backdrop-blur-sm">
               {upNext.map((t, i) => (
-                <li key={`${t.youtubeId}-${i}`} className="flex items-center gap-3 px-4 py-2.5">
+                <li
+                  key={`${t.youtubeId}-${i}`}
+                  className="upnext-item flex items-center gap-3 px-4 py-2.5"
+                  style={{ animationDelay: `${i * 70}ms` }}
+                >
                   <span className="w-5 shrink-0 text-right font-mono text-xs tabular-nums text-white/40">
                     {i + 1}
                   </span>
@@ -666,9 +669,10 @@ export default function Station({ channels }: { channels: ChannelInfo[] }) {
                 downloaded here.
               </p>
               <p>
-                The station runs on a server-less, stateless scheduler: every listener hears the
-                same running order for the day, yet each visit opens on a random track. Tune in,
-                sit back, and let the 90s play.
+                The station runs around the clock from its own cloud server: every listener hears
+                the same running order for the day, yet each visit opens on a random track. The
+                live listener count and total visits you see are real. Tune in, sit back, and let
+                the 90s play.
               </p>
             </div>
           </div>
