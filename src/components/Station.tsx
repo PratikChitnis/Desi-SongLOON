@@ -264,6 +264,12 @@ export default function Station({ channels }: { channels: ChannelInfo[] }) {
     handle.current?.setVolume(next);
   }, []);
 
+  /** Nudge volume in fixed steps (used by the compact mobile buttons). */
+  const changeVolume = useCallback(
+    (delta: number) => setVolume(Math.max(0, Math.min(100, volume.current + delta))),
+    [setVolume],
+  );
+
   const onReady = useCallback(
     (h: PlayerHandle) => {
       handle.current = h;
@@ -371,7 +377,7 @@ export default function Station({ channels }: { channels: ChannelInfo[] }) {
   }, [state]);
 
   return (
-    <div className="mx-auto flex min-h-screen w-full max-w-5xl flex-col items-center gap-8 px-4 py-10">
+    <div className="mx-auto flex min-h-screen w-full max-w-5xl flex-col items-center gap-4 px-4 py-6 sm:gap-8 sm:py-10">
       <header className="relative flex w-full items-center justify-center">
         <div className="fixed left-3 top-3 flex items-center gap-2">
         <span
@@ -438,10 +444,11 @@ export default function Station({ channels }: { channels: ChannelInfo[] }) {
         </div>
       </header>
 
-      <div className="my-auto w-full max-w-3xl">
+      <div className="my-2 w-full max-w-3xl sm:my-auto">
         <div className={`neon-border rounded-[2rem] ${playing ? "is-playing" : ""}`}>
-        <div className="glass-card flex items-center gap-4 rounded-[2rem] px-4 py-4 sm:gap-6 sm:px-6 sm:py-5">
-          <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-full ring-1 ring-white/25 sm:h-[5.5rem] sm:w-[5.5rem]">
+        <div className="glass-card rounded-[2rem] px-4 py-4 sm:px-6 sm:py-5">
+          <div className="flex items-center gap-4 sm:gap-6">
+            <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-full ring-1 ring-white/25 sm:h-[5.5rem] sm:w-[5.5rem]">
             {current ? (
               <Image
                 src={`https://i.ytimg.com/vi/${current.youtubeId}/mqdefault.jpg`}
@@ -533,6 +540,46 @@ export default function Station({ channels }: { channels: ChannelInfo[] }) {
           </button>
 
           <VolumeControl initial={volume.current} onChange={setVolume} />
+          </div>
+
+          <div className="mt-3 flex items-center justify-center gap-3 sm:hidden">
+            <button
+              onClick={previous}
+              className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-white/10 text-white/80 transition-all duration-150 active:scale-90"
+              aria-label="Previous song"
+            >
+              <svg viewBox="0 0 24 24" className="h-5 w-5 fill-current">
+                <path d="M7 5h2v14H7zM19 5v14l-9-7z" />
+              </svg>
+            </button>
+            <button
+              onClick={() => changeVolume(-10)}
+              className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-white/10 text-white/80 transition-all duration-150 active:scale-90"
+              aria-label="Decrease volume"
+            >
+              <svg viewBox="0 0 24 24" className="h-5 w-5">
+                <path className="fill-white/80" d="M4 9v6h4l5 4V5L8 9H4zm12 3h6v2h-6z" />
+              </svg>
+            </button>
+            <button
+              onClick={() => changeVolume(10)}
+              className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-white/10 text-white/80 transition-all duration-150 active:scale-90"
+              aria-label="Increase volume"
+            >
+              <svg viewBox="0 0 24 24" className="h-5 w-5">
+                <path className="fill-white/80" d="M4 9v6h4l5 4V5L8 9H4zm11 3h2v-2h2v2h2v2h-2v2h-2v-2h-2z" />
+              </svg>
+            </button>
+            <button
+              onClick={next}
+              className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-white/10 text-white/80 transition-all duration-150 active:scale-90"
+              aria-label="Next song"
+            >
+              <svg viewBox="0 0 24 24" className="h-5 w-5 fill-current">
+                <path d="M15 5h2v14h-2zM5 5v14l9-7z" />
+              </svg>
+            </button>
+          </div>
         </div>
         </div>
 
