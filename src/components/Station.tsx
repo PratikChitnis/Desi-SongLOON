@@ -621,7 +621,7 @@ export default function Station({ channels }: { channels: ChannelInfo[] }) {
           <div className="mt-3 sm:mt-5">
             <p className="mb-2 flex items-center gap-3 px-1 font-mono text-[11px] uppercase tracking-[0.25em] text-amber-200/70">
               <span className="h-px flex-1 bg-amber-200/40" />
-              Up next
+              Up next on menu
               <span className="h-px flex-1 bg-amber-200/40" />
             </p>
             <ol className="divide-y divide-white/10 rounded-2xl bg-black/25 backdrop-blur-sm">
