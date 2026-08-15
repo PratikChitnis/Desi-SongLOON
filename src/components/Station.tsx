@@ -261,6 +261,28 @@ export default function Station({ channels }: { channels: ChannelInfo[] }) {
         >
           {timeStr}
         </span>
+        <a
+          href="https://www.instagram.com/itz_pratikkkkk?igsh=MWR4dXJkYjRyNmx5dQ%3D%3D&utm_source=qr"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Instagram"
+          title="Follow on Instagram"
+          className="fixed right-3 top-3 flex items-center gap-1.5 rounded-full bg-white/20 px-3 py-1.5 shadow-sm backdrop-blur-sm transition-all duration-150 hover:bg-white/40 active:scale-95"
+        >
+          <svg viewBox="0 0 24 24" className="h-5 w-5">
+            <defs>
+              <linearGradient id="insta-gradient" x1="0%" y1="100%" x2="100%" y2="0%">
+                <stop offset="0%" stopColor="#feda75" />
+                <stop offset="25%" stopColor="#fa7e1e" />
+                <stop offset="50%" stopColor="#d62976" />
+                <stop offset="75%" stopColor="#962fbf" />
+                <stop offset="100%" stopColor="#4f5bd5" />
+              </linearGradient>
+            </defs>
+            <path fill="url(#insta-gradient)" d="M12 2.2c3.2 0 3.6 0 4.9.1 1.2.1 1.8.2 2.2.4.6.2 1 .5 1.4.9.4.4.7.8.9 1.4.2.4.4 1 .4 2.2.1 1.3.1 1.7.1 4.9s0 3.6-.1 4.9c-.1 1.2-.2 1.8-.4 2.2-.2.6-.5 1-.9 1.4-.4.4-.8.7-1.4.9-.4.2-1 .4-2.2.4-1.3.1-1.7.1-4.9.1s-3.6 0-4.9-.1c-1.2-.1-1.8-.2-2.2-.4-.6-.2-1-.5-1.4-.9-.4-.4-.7-.8-.9-1.4-.2-.4-.4-1-.4-2.2C2.2 15.6 2.2 15.2 2.2 12s0-3.6.1-4.9c.1-1.2.2-1.8.4-2.2.2-.6.5-1 .9-1.4.4-.4.8-.7 1.4-.9.4-.2 1-.4 2.2-.4C8.4 2.2 8.8 2.2 12 2.2m0 3.6a6.2 6.2 0 1 0 0 12.4 6.2 6.2 0 0 0 0-12.4zm0 10.2a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm7.7-11.9a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z" />
+          </svg>
+          <span className="text-sm font-medium text-white/80">Instagram</span>
+        </a>
         <div className="text-center">
           <h1 className="font-mono text-3xl font-black tracking-[0.2em] text-amber-300 drop-shadow-[0_2px_12px_rgba(0,0,0,0.6)] sm:text-5xl">
             {site.title.toUpperCase()}
@@ -287,6 +309,7 @@ export default function Station({ channels }: { channels: ChannelInfo[] }) {
           ))}
         </nav>
 
+        <div className={`neon-border rounded-[2rem] ${playing ? "is-playing" : ""}`}>
         <div className="glass-card flex items-center gap-4 rounded-[2rem] px-4 py-4 sm:gap-6 sm:px-6 sm:py-5">
           <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-full ring-1 ring-white/25 sm:h-[5.5rem] sm:w-[5.5rem]">
             {current ? (
@@ -377,6 +400,7 @@ export default function Station({ channels }: { channels: ChannelInfo[] }) {
           </button>
 
           <VolumeControl initial={volume.current} onChange={setVolume} />
+        </div>
         </div>
 
         {error && <p className="mt-3 text-center text-xs text-red-300">{error}</p>}

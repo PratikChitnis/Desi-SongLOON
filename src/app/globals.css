@@ -91,4 +91,62 @@ body {
   .backdrop-scene img {
     animation: none;
   }
+  .neon-border::after {
+    animation: none !important;
+    opacity: 0;
+  }
+}
+
+/* Neon spinning border around the now-playing card. */
+@property --neon-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+@keyframes neon-spin {
+  to { --neon-angle: 360deg; }
+}
+
+.neon-border {
+  position: relative;
+}
+
+/* A pure ring: the mask punches out the middle of the gradient, so only a
+   2px band along the card's edge is ever visible.  The card stays frosted. */
+.neon-border::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 2rem;
+  padding: 2px;
+  background: conic-gradient(
+    from var(--neon-angle),
+    #fbbf24,
+    #f59e0b,
+    #ef4444,
+    #ec4899,
+    #a855f7,
+    #3b82f6,
+    #06b6d4,
+    #fbbf24
+  );
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  animation: neon-spin 2s linear infinite;
+  animation-play-state: paused;
+  pointer-events: none;
+}
+
+.neon-border.is-playing::before {
+  opacity: 1;
+  animation-play-state: running;
 }
