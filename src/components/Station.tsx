@@ -258,6 +258,34 @@ export default function Station({ channels }: { channels: ChannelInfo[] }) {
     return () => clearInterval(timer);
   }, [playing]);
 
+  // Media Session API — keeps audio alive when the screen locks or the browser
+  // goes to the background on mobile.  Registers track metadata so the OS
+  // shows proper lock-screen / notification controls.
+  useEffect(() => {
+    const ms = navigator.mediaSession;
+    if (!ms) return;
+    if (state) {
+      ms.metadata = new MediaMetadata({
+        title: state.track.title,
+        artist: state.track.film || "Desi SongLOON",
+        album: "Desi SongLOON — 90s Bollywood",
+        artwork: [
+          { src: `https://i.ytimg.com/vi/${state.track.youtubeId}/mqdefault.jpg`, sizes: "320x180", type: "image/jpeg" },
+        ],
+      });
+    }
+    ms.setActionHandler("play", () => { startListening(); });
+    ms.setActionHandler("pause", () => { if (tunedInRef.current) togglePlay(); });
+    ms.setActionHandler("previoustrack", () => { previous(); });
+    ms.setActionHandler("nexttrack", () => { next(); });
+    return () => {
+      ms.setActionHandler("play", null);
+      ms.setActionHandler("pause", null);
+      ms.setActionHandler("previoustrack", null);
+      ms.setActionHandler("nexttrack", null);
+    };
+  }, [state, playing]);
+
   const setVolume = useCallback((next: number) => {
     volume.current = next;
     handle.current?.setVolume(next);
