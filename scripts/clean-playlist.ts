@@ -229,14 +229,31 @@ async function main() {
   const items = await readPlaylist(token);
   console.log(`Found ${items.length} videos.`);
 
-  // Phase 1: title-based filter (no extra API calls)
-  const titleFiltered = items.filter((v) => isNon90s(v.title));
+  // Phase 0: duplicates — keep the first occurrence, delete the rest
+  const seenIds = new Set<string>();
+  const duplicates: PlaylistItem[] = [];
+  for (const v of items) {
+    if (seenIds.has(v.videoId)) {
+      duplicates.push(v);
+    } else {
+      seenIds.add(v.videoId);
+    }
+  }
+  console.log(`\nDuplicate videos: ${duplicates.length}`);
+  for (const v of duplicates.slice(0, 15)) console.log(`  - ${v.title}`);
+  if (duplicates.length > 15) console.log(`  ... and ${duplicates.length - 15} more`);
+
+  // Phase 1: title-based filter (skip duplicates already flagged)
+  const dupIds = new Set(duplicates.map((v) => v.videoId));
+  const deduped = items.filter((v) => !dupIds.has(v.videoId));
+  const titleFiltered = deduped.filter((v) => isNon90s(v.title));
   console.log(`\nNon-90s by title: ${titleFiltered.length}`);
   for (const v of titleFiltered.slice(0, 10)) console.log(`  - ${v.title}`);
   if (titleFiltered.length > 10) console.log(`  ... and ${titleFiltered.length - 10} more`);
 
-  // Phase 2: duration filter
-  const remaining = items.filter((v) => !isNon90s(v.title));
+  // Phase 2: duration filter (skip duplicates and title-filtered)
+  const titleIds = new Set(titleFiltered.map((v) => v.videoId));
+  const remaining = deduped.filter((v) => !titleIds.has(v.videoId));
   const ids = remaining.map((v) => v.videoId);
   console.log(`\nFetching durations for ${ids.length} remaining videos...`);
   const durations = await getDurations(ids, token);
@@ -255,8 +272,9 @@ async function main() {
   }
   if (durationFiltered.length > 10) console.log(`  ... and ${durationFiltered.length - 10} more`);
 
-  const toDelete = [...titleFiltered, ...durationFiltered];
-  console.log(`\n${DRY_RUN ? "DRY RUN" : "DELETE"}: ${toDelete.length} videos will be removed from playlist.`);
+  const toDelete = [...duplicates, ...titleFiltered, ...durationFiltered];
+  console.log(`\n${DRY_RUN ? "DRY RUN" : "DELETE"}: ${toDelete.length} videos will be removed (${duplicates.length} dupes + ${titleFiltered.length} non-90s + ${durationFiltered.length} bad duration).`);
+  console.log(`After cleanup: ${items.length - toDelete.length} videos will remain.`);
 
   if (DRY_RUN || toDelete.length === 0) return;
 
