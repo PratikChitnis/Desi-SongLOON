@@ -116,16 +116,22 @@ function TotalVisits() {
   useEffect(() => {
     const session = getSessionId();
     let cancelled = false;
-    fetch(`/api/visits?session=${encodeURIComponent(session)}`)
-      .then((r) => (r.ok ? (r.json() as Promise<{ total: number }>) : null))
-      .then((data) => {
-        if (!cancelled && data) setTotal(data.total);
-      })
-      .catch(() => {
-        // leave hidden if the endpoint is unreachable
-      });
+    let timer: ReturnType<typeof setInterval> | null = null;
+
+    const fetchTotal = () => {
+      fetch(`/api/visits?session=${encodeURIComponent(session)}`)
+        .then((r) => (r.ok ? (r.json() as Promise<{ total: number }>) : null))
+        .then((data) => {
+          if (!cancelled && data) setTotal(data.total);
+        })
+        .catch(() => {});
+    };
+
+    fetchTotal();
+    timer = setInterval(fetchTotal, 60_000);
     return () => {
       cancelled = true;
+      if (timer) clearInterval(timer);
     };
   }, []);
 
