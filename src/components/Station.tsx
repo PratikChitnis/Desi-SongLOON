@@ -392,28 +392,6 @@ export default function Station({ channels }: { channels: ChannelInfo[] }) {
           </div>
           <div className="flex items-center gap-1.5">
             <a
-              href="https://www.instagram.com/itz_pratikkkkk?igsh=MWR4dXJkYjRyNmx5dQ%3D%3D&utm_source=qr"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Instagram"
-              title="Follow on Instagram"
-              className="flex shrink-0 items-center gap-1 rounded-full bg-white/20 px-2.5 py-1 text-xs shadow-sm backdrop-blur-sm transition-all duration-150 active:scale-95"
-            >
-              <svg viewBox="0 0 24 24" className="h-4 w-4">
-                <defs>
-                  <linearGradient id="insta-gradient-m" x1="0%" y1="100%" x2="100%" y2="0%">
-                    <stop offset="0%" stopColor="#feda75" />
-                    <stop offset="25%" stopColor="#fa7e1e" />
-                    <stop offset="50%" stopColor="#d62976" />
-                    <stop offset="75%" stopColor="#962fbf" />
-                    <stop offset="100%" stopColor="#4f5bd5" />
-                  </linearGradient>
-                </defs>
-                <path fill="url(#insta-gradient-m)" d="M12 2.2c3.2 0 3.6 0 4.9.1 1.2.1 1.8.2 2.2.4.6.2 1 .5 1.4.9.4.4.7.8.9 1.4.2.4.4 1 .4 2.2.1 1.3.1 1.7.1 4.9s0 3.6-.1 4.9c-.1 1.2-.2 1.8-.4 2.2-.2.6-.5 1-.9 1.4-.4.4-.8.7-1.4.9-.4.2-1 .4-2.2.4-1.3.1-1.7.1-4.9.1s-3.6 0-4.9-.1c-1.2-.1-1.8-.2-2.2-.4-.6-.2-1-.5-1.4-.9-.4-.4-.7-.8-.9-1.4-.2-.4-.4-1-.4-2.2C2.2 15.6 2.2 15.2 2.2 12s0-3.6.1-4.9c.1-1.2.2-1.8.4-2.2.2-.6.5-1 .9-1.4.4-.4.8-.7 1.4-.9.4-.2 1-.4 2.2-.4C8.4 2.2 8.8 2.2 12 2.2m0 3.6a6.2 6.2 0 1 0 0 12.4 6.2 6.2 0 0 0 0-12.4zm0 10.2a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm7.7-11.9a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z" />
-              </svg>
-              <span className="font-medium text-white/80">INSTA</span>
-            </a>
-            <a
               href="https://wa.me/919834119278"
               target="_blank"
               rel="noopener noreferrer"
@@ -447,28 +425,6 @@ export default function Station({ channels }: { channels: ChannelInfo[] }) {
           </button>
         </div>
         <div className="fixed right-3 top-3 hidden items-center gap-2 sm:flex">
-          <a
-            href="https://www.instagram.com/itz_pratikkkkk?igsh=MWR4dXJkYjRyNmx5dQ%3D%3D&utm_source=qr"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Instagram"
-            title="Follow on Instagram"
-            className="flex items-center gap-1.5 rounded-full bg-white/20 px-3 py-1.5 text-sm shadow-sm backdrop-blur-sm transition-all duration-150 hover:bg-white/40 active:scale-95 sm:text-base"
-          >
-            <svg viewBox="0 0 24 24" className="h-5 w-5 sm:h-6 sm:w-6">
-              <defs>
-                <linearGradient id="insta-gradient" x1="0%" y1="100%" x2="100%" y2="0%">
-                  <stop offset="0%" stopColor="#feda75" />
-                  <stop offset="25%" stopColor="#fa7e1e" />
-                  <stop offset="50%" stopColor="#d62976" />
-                  <stop offset="75%" stopColor="#962fbf" />
-                  <stop offset="100%" stopColor="#4f5bd5" />
-                </linearGradient>
-              </defs>
-              <path fill="url(#insta-gradient)" d="M12 2.2c3.2 0 3.6 0 4.9.1 1.2.1 1.8.2 2.2.4.6.2 1 .5 1.4.9.4.4.7.8.9 1.4.2.4.4 1 .4 2.2.1 1.3.1 1.7.1 4.9s0 3.6-.1 4.9c-.1 1.2-.2 1.8-.4 2.2-.2.6-.5 1-.9 1.4-.4.4-.8.7-1.4.9-.4.2-1 .4-2.2.4-1.3.1-1.7.1-4.9.1s-3.6 0-4.9-.1c-1.2-.1-1.8-.2-2.2-.4-.6-.2-1-.5-1.4-.9-.4-.4-.7-.8-.9-1.4-.2-.4-.4-1-.4-2.2C2.2 15.6 2.2 15.2 2.2 12s0-3.6.1-4.9c.1-1.2.2-1.8.4-2.2.2-.6.5-1 .9-1.4.4-.4.8-.7 1.4-.9.4-.2 1-.4 2.2-.4C8.4 2.2 8.8 2.2 12 2.2m0 3.6a6.2 6.2 0 1 0 0 12.4 6.2 6.2 0 0 0 0-12.4zm0 10.2a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm7.7-11.9a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z" />
-            </svg>
-            <span className="font-medium text-white/80">INSTA</span>
-          </a>
           <a
             href="https://wa.me/919834119278"
             target="_blank"
