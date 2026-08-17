@@ -164,6 +164,31 @@ export default function Station({ channels }: { channels: ChannelInfo[] }) {
   const stateRef = useRef<NowPlaying | null>(null);
   const tunedInRef = useRef(false);
 
+  // Silent audio keep-alive — prevents mobile browsers from suspending the tab
+  // when the screen locks.  A Web Audio oscillator playing silence at inaudible
+  // volume keeps the audio context active so the OS treats this as active media.
+  useEffect(() => {
+    if (!playing) return;
+    let ctx: AudioContext | null = null;
+    let node: GainNode | null = null;
+    let osc: OscillatorNode | null = null;
+    try {
+      ctx = new AudioContext();
+      node = ctx.createGain();
+      node.gain.value = 0; // silent
+      osc = ctx.createOscillator();
+      osc.connect(node);
+      node.connect(ctx.destination);
+      osc.start();
+      // Resume context if suspended (autoplay policy)
+      if (ctx.state === "suspended") ctx.resume();
+    } catch { /* Web Audio not supported — graceful degradation */ }
+    return () => {
+      try { osc?.stop(); } catch {}
+      try { ctx?.close(); } catch {}
+    };
+  }, [playing]);
+
   /** Whether the player has fired onReady yet. */
   const playerReady = useRef(false);
   /** Queued play command, executed once the player fires onReady. */
