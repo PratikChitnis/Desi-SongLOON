@@ -2,7 +2,6 @@ import type { Station, Track } from "./types";
 import { fetchPlaylist } from "./youtube";
 import { searchSpotify } from "./spotify";
 import { apis, channelDefs, type ChannelConfig } from "./config";
-import { isNon90s } from "./non90s";
 
 /**
  * Build a Station from the curated YouTube playlist, enriching titles with
@@ -43,8 +42,6 @@ async function buildChannel(ch: ChannelConfig): Promise<Station> {
   }
 
   const tracks: Track[] = ytResults
-    .filter((v) => !isNon90s(v.title)) // only 90s Hindi — no regional/modern uploads
-    .filter((v) => v.durationSec >= 60 && v.durationSec <= 900) // 1–15 min: skip shorts, ads, compilations
     .map((v) => {
       const sp = spLookup.get(normalise(v.title));
       return {
